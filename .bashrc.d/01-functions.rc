@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+
+## Shell functions and aliases
+
+# git
+export GIT_HOME_DIR=".git-home-$HOSTNAME"
+
+git-home() {
+    command git --git-dir="$GIT_HOME_DIR" --work-tree="$HOME" "$@"
+}
+
+git-home-init() {
+    echo '*' > "$HOME"/.gitignore
+    command git init --bare "$HOME"/"$GIT_HOME_DIR"
+}
+
+git() {
+    local args=( "$@" )
+    local first="${args[0]}"
+    local rest=( "${args[@]:1:${#args}}" )
+
+    if [[ $PWD = $HOME ]]; then
+	case "$first" in
+	    init)
+		git-home-init ;;
+	    *)
+		git-home "$first" "${rest[@]}"
+	esac	
+    else
+	command git "${args[@]}"
+    fi
+}
+
+git-get-commit() {
+    _usage() { echo "Usage: get-commit NUMBER"; }
+
+    local skip; skip="${1:-0}"
+
+    if [[ $skip =~ [0-9]+ ]]; then
+	git log --max-count=1 --skip="$skip" --no-patch --format=%h
+    else
+	_usage
+    fi
+}
+	
+# gpaste-client
+paste() { gpaste-client "$@"; }
+
+# which
+which() {
+    input=$1
+    type=$(type -t $input)
+    
+    case $type in
+	alias|function) command -V $input ;;
+	          file) command -v $input ;;
+	             *) command -vV $input
+    esac    
+}
+
+# ls
+{ unalias ls; unalias ll; } 2>/dev/null || :
+ls() { command ls --color=auto --sort=extension --group-directories-first -F $@; }
+la() { ls -Al $@; }
+ll() { ls -l $@; }
+
+# tmux
+tls() { tmux list-sessions $@; }
+tlw() { tmux list-windows $@; }
+tlp() { tmux list-panes $@; }
+
+# emacs
+emacs() { command emacsclient -a "" -nw $@; }
+
+# rpm-ostree
+ro() { rpm-ostree "$@"; }
+
+# dnf
+# dnf() {
+#     local toolbox="fedora-latest-dnf"
+#     _run() { toolbox run --container "$toolbox" $@; }
+#     _create-toolbox() {
+# 	local conf="/etc/dnf/dnf.conf"
+# 	local -a params=( "fastest_mirror=True" "max_parallel_downloads=20" )
+# 	toolbox create "$toolbox"
+# 	run command dnf install glibc-langpack-en -y
+# 	podman exec -d "$toolbox" bash -c "sudo echo ${params[0]} >> $conf"
+# 	podman exec -d "$toolbox" bash -c "sudo echo ${params[1]} >> $conf"
+#     }
+    
+#     if [[ -f /run/.containerenv ]]; then
+# 	sudo dnf $@
+#     elif podman ps -a | command grep -q "$toolbox"; then
+# 	_run sudo command dnf $@
+#     else
+# 	_create-toolbox >/dev/null 2>&1
+# 	_run sudo command dnf $@
+#     fi    
+# }
+
+# encapsulate positional parameter splitting. only works if ${args[0]} is a sub-command
+# also needs concurrency guarantees, I think!
+split-params() { args=( $@ ); first=${args[0]}; rest=( ${args[@]:1:${#args[@]}} ); }
+unset-split-params() { unset args first rest; }
+
+# simple debug function with some problems
+debug() {
+    local input=$@
+
+    tput bold
+    set -x
+    ${input}
+    set +x
+    tput sgr0
+}
+
+# flatpak
+flatpak() {
+    local args=( "$@" )
+    local first="${args[0]}"
+    local rest=( "${args[@]:1:${#args}}" )
+    
+    _flatpak() { command flatpak "$@"; }     
+    _grep() { command grep -i "$@"; }
+
+    if [[ "${rest[0]}" =~ --help|-h ]]; then
+	_flatpak "$first" "${rest[0]}"
+    else	
+	case "$first" in
+	    update|upgrade)
+		_flatpak list | cut -f2 | xargs -r flatpak --assumeyes "$first"
+		;;
+	    kill)
+		for proc_name in "${rest[@]}"; do
+		    _flatpak ps | _grep "$proc_name" | cut -f1 | xargs -rI {} flatpak "$first" {}
+		done
+		;;
+	    *)
+		_flatpak "$first" "${rest[@]}"
+	esac
+    fi
+}
+
+# date
+date() { 
+    if (( ${#@} == 0 )); then
+        command date +'%a %b %e %R %Z %Y';
+    else
+        command date "$@";
+    fi
+}
+
+# mpv
+mpv() { command flatpak run io.mpv.Mpv "$@"; }
+
+# ungoogled-chromium
+chromium() { flatpak run com.github.Eloston.UngoogledChromium "$@"; }
+
+# systemctl
+syscontrol() {
+    local verb service
+    verb="$1"
+    service="${2}.service"
+
+    _systemctl() { systemctl --user "$@"; }
+
+    case "$verb" in	
+	enable|disable)
+	    _systemctl "$verb" --now "$service" ;;
+	start|restart|reload)
+	    _systemctl reload-or-restart "$service" ;;
+	status)
+	    _systemctl status "$service" ;;
+	*)
+	    if ! _systemctl "$verb" "$service" 2>&- ; then
+		_systemctl "$verb"
+	    fi
+    esac
+}
+emacsctl() {
+    local verb service
+    verb="$1"
+    service="emacs"
+    
+    syscontrol "$verb" "$service"
+}
+
+syncthingctl() {
+    local verb service
+    verb="$1"
+    service="syncthing"
+
+    syscontrol "$verb" "$service"
+}
+

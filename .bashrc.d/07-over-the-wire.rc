@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+## Global variables
+export WECHALLUSER="ebeale"
+export WECHALLTOKEN="8AFC0-4D21A-9881A-37FF9-653C0-23B13"
+export OTW_SCHEMA="$HOME/Development/otw/otw.json"
+
+## Functions
+otw-ssh() {
+    # pulls given server and level password from json schema and
+    # uses it to login to the given server and level
+    local server="$1"; local level="$2"; local port="$3"
+    local user="$server$level"
+    local command="$4"
+    local schema=$OTW_SCHEMA
+
+    _usage() { echo "Usage: otw-ssh SERVER LEVEL PORT [COMMAND]"; }
+    
+    if [[ -n "$server" && -n "$level" && -n "$port" ]]; then
+	local password="$(jq .otw.servers.${server}.levels[${level}].password $schema)"
+	sshpass -p "${password//\"/}" ssh -p "$port" "${user}"@"${server}".labs.overthewire.org "$command"
+    else
+	_usage
+    fi
+}
+
+otw-backup-schema() {
+    local schema=$OTW_SCHEMA
+    local backup="${schema}-backup-$(command date -Is)"
+    cp $schema $backup
+}
+
+otw-update-pw() {
+    # updates the given server and level password
+    local server=$1; local level=$2; local password=$3
+    
+    _usage() { echo "Usage: otw-update-pw SERVER LEVEL PASSWORD"; }
+
+    if [[ -n $server && -n $level && -n $password ]]; then
+	local schema=$OTW_SCHEMA
+	local new_schema="$(jq ".otw.servers.${server}.levels[${level}].password |= \"${password}\"" $schema)"
+	
+	otw-backup-schema
+	echo "$new_schema" > "$schema"
+    else
+	_usage
+    fi
+}
+
+otw-online-games() {
+    # print an enumerated list of online wargames
+    local otw_url='https://overthewire.org/wargames/'
+    local sed_expr='/Online/,/Offline/p'
+    local grep_expr='^<li>.*>[A-Z][a-z]+'
+
+    curl() { command curl --silent "$*"; }
+    while read -r wargame; do
+	wargame="${wargame##*>}"
+	wargame="${wargame,${wargame:0:1}}"
+	echo "$wargame"
+    done < <(curl "$otw_url" | sed -n "$sed_expr" | command grep -E "$grep_expr")
+}
+
+## bandit specific
+otw-bandit-login() {
+    # logs into the given bandit level
+    local level="$1"; local command="$2"
+
+    _usage() { echo "Usage: otw-bandit-login LEVEL [COMMAND]"; }
+
+    if [[ $level =~ [0-9]{1,2} ]]; then
+	otw-ssh bandit "$level" 2220 "${command:-wechall}"
+    else
+	_usage
+    fi
+}
+
+otw-bandit-pw() {
+    # copies the given bandit password to gpaste
+    local level=$1; local schema=$OTW_SCHEMA
+
+    _usage() { echo "Usage: otw-bandit-pw LEVEL"; }
+
+    if [[ $level =~ [0-9]{1,2} ]]; then
+	password=$(jq .otw.servers.bandit.levels[${level}].password $schema)
+	gpaste-client <<< "${password//\"/}"
+    else
+	_usage
+    fi
+}
+
+bandit-clone () { 
+    local level="$1"
+    local repo="$(jq .otw.servers.bandit.levels[$level].notes.repo $OTW_SCHEMA)"
+    local dir="$2"
+    
+    if [[ $level =~ [0-9]{1,2} ]]; then
+        git clone "${repo//\"/}" "$dir"
+    fi
+}

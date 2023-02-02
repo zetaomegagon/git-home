@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+router-primary() {
+    ssh root@192.168.1.2
+}
+
+router-secondary() {
+    ssh root@192.168.1.3
+}
+
+firewall() {
+    ssh root@192.168.1.1
+}
+
+kodo() {
+    ssh alarm@localhost
+}
+
+podo() {
+    ssh alarm@localhost
+}

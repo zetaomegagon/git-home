@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -nw"
+export VISUAL="emacsclient -c -a emacs"
+

@@ -1,0 +1,7 @@
+[user]
+	email = elijahthomasbeale+github@gmail.com
+	name = Elijah Beale
+[init]
+	defaultBranch = main
+[alias]
+  tree = log --graph --oneline --all

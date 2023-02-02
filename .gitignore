@@ -1,0 +1,14 @@
+# Ignore
+*
+
+# Include
+!.bash_logout
+!.bash_profile
+!.bashrc
+!.bashrc.d
+!.emacs.d
+!.gitattributes
+!.gitconfig
+!.gitignore
+!.sbclrc
+!.tmux.conf
