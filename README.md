@@ -2,8 +2,8 @@
 Tracking various $HOME dir configurations with a git bare repo
 
 ## Branches
-- main  - aimed to be a generic config branch for any nix disto (biased toward Fedora and Gnome rn)
-- panda - my currentl laptop config. Most interesting stuff is in here
+- [main](https://github.com/zetaomegagon/git-home/tree/main)  - aimed to be a generic config branch for any nix disto (biased toward Fedora and Gnome rn)
+- [panda](https://github.com/zetaomegagon/git-home/tree/panda) - my current laptop config. Most interesting stuff is in here
 
 ## Git Wrappers
 - [Found here](https://github.com/zetaomegagon/git-home/blob/main/.bashrc.d/01-functions.rc#L5-L32)
