@@ -8,32 +8,31 @@ Tracking various $HOME dir configurations with a git bare repo
 ## Git Wrappers
 - [Found here](https://github.com/zetaomegagon/git-home/blob/main/.bashrc.d/01-functions.rc#L5-L32)
 - recommended that a git status prompt is used. Git comes with one disabled by the way.
-- don't turn off untracked file listing for `git status`; rather, use a .gitignore file as an include list
+- don't turn off untracked file listing for `git status`; rather, use a `.gitignore` file as an include list
 - or: `git add --force <whatever>`
 - using [git-crypt](https://github.com/AGWA/git-crypt) from Fedora repos. Both `.gnupg/**` and `.ssh/**` are encrypted
 
+## Syntax Sugar
+wrapper pointing git to bare `work-tree` and `git-dir`
 ```
 export GIT_HOME_DIR=".git-home-$HOSTNAME"
 
-# wrapper pointing git to bare work-tree and git-dir
 git-home() {
     command git --git-dir="$GIT_HOME_DIR" --work-tree="$HOME" "$@"
 }
+```
 
-# initializes --bare repo, additionally adds a .gitignore
-# that excludes everything by default. Selectively --force
-# add or create exceptions in .gitignore
+initializes --bare repo, additionally adds a `.gitignore` that excludes everything by default. Selectively `--force` add or create exceptions in `.gitignore`
+```
 git-home-init() {
     echo '*' > "$HOME"/.gitignore
     command git init --bare "$HOME"/"$GIT_HOME_DIR"
 }
+```
 
-# this git wrapper makes git just work like git. Most solutions
-# I've found forget use a clunky function or alias. This just
-# uses a simple conditional to check if in the work-dir
-#
-# additionally, no need to add a case for git-crypt. It actually
-# gets passed into git-home. So you can call it like 'git crypt ...'
+
+this git wrapper makes git just work like git. Most solutions I've found forget use a clunky function or alias. This just uses a simple conditional to check if in the work-dir. Additionally, no need to add a case for `git-crypt`. It actually gets passed into `git-home`. So you can call it like `git crypt ...`
+```
 git() {
     local args=( "$@" )
     local first="${args[0]}"
