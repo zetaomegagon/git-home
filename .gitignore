@@ -6,7 +6,9 @@
 !.bash_profile
 !.bashrc
 !.bashrc.d
+!.bashrc.d/**
 !.emacs.d
+!.emacs.d/init.el
 !.gitattributes
 !.gitconfig
 !.gitignore
