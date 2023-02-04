@@ -9,6 +9,7 @@
 !.bashrc.d/**
 !.emacs.d
 !.emacs.d/init.el
+!.emacs.d/bookmarks
 !.gitattributes
 !.gitconfig
 !.gitignore
