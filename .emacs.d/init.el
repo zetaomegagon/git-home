@@ -5,6 +5,8 @@
 ;; disable backup and autosave
 (setq backup-inhibited t)
 (setq auto-save-default nil)
+;; enable modus-vivendi theme
+(load-theme 'modus-vivendi t)
 ;; allow `C-x C-l`
 (put 'downcase-region 'disabled nil)
 ;; allow `C-x C-u
