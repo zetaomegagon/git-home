@@ -48,4 +48,6 @@
 (setq straight-use-package-by-default t)
 
 ;; packages
-(use-package pdf-tools)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install 'NO-QUERY-P t))
