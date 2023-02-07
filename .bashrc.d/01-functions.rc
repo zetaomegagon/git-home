@@ -3,7 +3,7 @@
 ## Shell functions and aliases
 
 # git
-export GIT_HOME_DIR=".git-home-$HOSTNAME"
+export GIT_HOME_DIR=".git-home-$USER-$HOSTNAME"
 
 git-home() {
     command git --git-dir="$GIT_HOME_DIR" --work-tree="$HOME" "$@"
