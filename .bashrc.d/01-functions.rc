@@ -17,7 +17,7 @@ git-home-init() {
 git() {
     local args=( "$@" )
     local first="${args[0]}"
-    local rest=( "${args[@]:1:${#args}}" )
+    local rest=( "${args[@]:1:${#args[@]}}" )
 
     if [[ $PWD = $HOME ]]; then
 	case "$first" in
