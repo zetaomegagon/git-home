@@ -72,7 +72,7 @@ tlp() { tmux list-panes $@; }
 # emacs
 emacs() {
     command emacsclient \
-	    --alternate-editor \
+	    --alternate-editor '' \
 	    --tty "$@"
 }
 
