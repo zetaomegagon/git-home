@@ -70,13 +70,17 @@ tlw() { tmux list-windows $@; }
 tlp() { tmux list-panes $@; }
 
 # emacs
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient --alternate-editor '' --tty"
+export VISUAL="emacsclient --alternate-editor emacs --reuse-frame"
+
 emacs() {
     command emacsclient \
 	    --alternate-editor '' \
 	    --tty "$@"
 }
 
-emacs-pgtk() {
+emacs-gtk() {
     command emacsclient \
 	    --alternate-editor \
 	    --tty \
