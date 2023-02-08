@@ -6,11 +6,17 @@ I currently don't have a way to (mostly) effortlessly backup various machine con
 
 ## Branches
 - [main](https://github.com/zetaomegagon/git-home/tree/main)  - aimed to be a generic config branch for any nix disto (currently biased toward Fedora and Gnome).
-- [panda](https://github.com/zetaomegagon/git-home/tree/panda) - my current laptop config. Currently most interesting stuff is in this branch.
+- [panda](https://github.com/zetaomegagon/git-home/tree/panda) - my current laptop config. Most changes are in this branch.
 
 ## Notes
-- Below code is [found here](https://github.com/zetaomegagon/git-home/blob/main/.bashrc.d/01-functions.rc#L5-L32).
+- Below code is [found here](https://github.com/zetaomegagon/git-home/blob/panda/.bashrc.d/01-functions.rc#L5-L32).
 - I recommended that a git status prompt is used. Git comes with one disabled. Checkout The Git Book. [[Bash](https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Bash)|[Zsh](https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-Zsh)|[PowerShell](https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Git-in-PowerShell)]
+- These are all the [environment variables](https://github.com/zetaomegagon/git-home/blob/panda/.bashrc.d/11-git-prompt-options.rc) I'm using with git's prompt. They are all documented in
+	- `/usr/share/doc/git/contrib/completion/git-prompt.sh`
+- Git also has various completions
+	- `/usr/share/doc/git/contrib/completion/git-completion.bash`
+	- `/usr/share/doc/git/contrib/completion/git-completion.tcsh`
+	- `/usr/share/doc/git/contrib/completion/git-completion.zsh`
 - I don't turn off untracked file listing for `git status`; rather, I use a `.gitignore` file as an include list so that I only see the status of untracked files I care about.
 - or: `git add --force <whatever>`; then later add to `.gitignore`
 - For sensetive files / directories, I'm using [git-crypt](https://github.com/AGWA/git-crypt) from the Fedora repos (but the package is supported in other distros too). Right now, I'm using `git-crypt` for `.gnupg/**` and `.ssh/**` directories.
