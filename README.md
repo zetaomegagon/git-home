@@ -29,21 +29,24 @@ git-home() {
 This initializes `--bare` repo, additionally adds a `.gitignore` that excludes everything by default. Selectively `--force` add or create exceptions in `.gitignore`
 ```
 git-home-init() {
-    # populate a the .gitignore file, excluting everything
+    # populate a .gitignore file and excluding everything
     echo '*' > "$HOME"/.gitignore
+    
     # initialize the bare repo in your home directory
     command git init --bare "$HOME"/"$GIT_HOME_DIR"
 }
 ```
 
 
-This git wrapper makes git just work like git. Most solutions I've found use a clunky function or alias, and this feels awkward to me. The function is using a simple conditional to check if in the `work-dir`, and to use `git-home` if so; otherwise call the git binary directly. Additionally, no need to add a case for `git-crypt`. It actually gets passed into `git-home` and acts like a git module (where you can call, for instance `git <module>` or `git-<module>). So you can call it like `git crypt <args>`
+This git wrapper makes git just work like git. Most solutions I've found use a clunky function or alias, and this feels awkward to me. The function is using a simple conditional to check if in the `work-dir`, and to use `git-home` if so; otherwise call the git binary directly. Additionally, no need to add a case for `git-crypt`. It actually gets passed into `git-home` and acts like a git module (where you can call, for instance `git <module>` or `git-<module>`). So you can call it like `git crypt <args>`
 ```
 git() {
     # separating git command from arguments
     local args=( "$@" )
+    
     # this is the git command, for instance 'push'
     local first="${args[0]}"
+    
     # the rest of the arguments, for instancs '-u origin panda'
     local rest=( "${args[@]:1:${#args[@]}}" )
 
@@ -62,13 +65,13 @@ git() {
 }
 ```
 ## Example
-Add the above functions to some file that you source. I use a file in `$HOME/.bashrc.d/`, but you can use `.bashrc` or `.profile` depending on your setup
+Add the above functions to some file that you source. I use a file in `$HOME/.bashrc.d/`, but you can use `.bashrc` or `.profile` depending on your setup, then ...
 ```
 ~$ cd
 ~$ source ~/.bashrc.d/01-functions.rc
 ~$ git-home-init
 ~$ ls -Al | grep -E "$GIT_HOME_DIR|.gitignore"
-~$ git status
+~$ sep(){ for i in {1..79}; do ((i < 79 )) && printf = || printf "\n"; done; }; sep; cat .gitignore; sep; git status; sep
 ~$ echo '!.gitignore' >> .gitignore
 ~$ git status
 ```
