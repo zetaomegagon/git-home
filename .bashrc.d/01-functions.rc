@@ -76,6 +76,14 @@ emacs() {
 	    --tty "$@"
 }
 
+emacs-pgtk() {
+    command emacsclient \
+	    --alternate-editor \
+	    --tty \
+	    --reuse-frame \
+	    --no-wait "$@"
+}
+
 # rpm-ostree
 ro() { rpm-ostree "$@"; }
 
