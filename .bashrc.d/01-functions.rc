@@ -70,7 +70,11 @@ tlw() { tmux list-windows $@; }
 tlp() { tmux list-panes $@; }
 
 # emacs
-emacs() { command emacsclient -a "" -nw $@; }
+emacs() {
+    command emacsclient \
+	    --alternate-editor \
+	    --tty "$@"
+}
 
 # rpm-ostree
 ro() { rpm-ostree "$@"; }
