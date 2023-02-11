@@ -1,7 +1,9 @@
 ;; load the welcome screen for encouragement
 (setq inhibit-startup-screen nil)
-;; disable menu bar
+;; disable menu, scroll, and tool bars
 (menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 ;; disable backup and autosave
 (setq backup-inhibited t)
 (setq auto-save-default nil)
