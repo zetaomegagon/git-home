@@ -53,3 +53,10 @@
   (pdf-tools-install 'NO-QUERY-P t))
 
 (use-package sly)
+(use-package zygospore
+  :config
+  (global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows))
+(use-package ace-window
+  :config
+  (global-set-key (kbd "C-x o") 'ace-window)
+  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
