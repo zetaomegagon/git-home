@@ -22,6 +22,8 @@
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
 (setq column-number-mode t)
+;; disable line numbers in pdf-tools minor mode
+(add-hook 'pdf-tools-enabled-hook (lambda () (display-line-numbers-mode -1)))
 ;; show 80 character indicator in programming modes enabled, but not scratch    
 (add-hook 'prog-mode-hook
 	  (lambda ()
