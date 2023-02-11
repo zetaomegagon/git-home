@@ -72,7 +72,7 @@ tlp() { tmux list-panes $@; }
 # emacs
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient --alternate-editor '' --tty"
-export VISUAL="emacsclient --alternate-editor emacs --reuse-frame"
+export VISUAL="emacsclient --alternate-editor emacs"
 
 emacs() {
     command emacsclient \
