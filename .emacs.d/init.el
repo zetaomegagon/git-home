@@ -13,8 +13,7 @@
 (put 'downcase-region 'disabled nil)
 ;; allow `C-x C-u
 (put 'upcase-region 'disabled nil)
-;; slime
-(load (expand-file-name "~/.quicklisp/slime-helper.el"))
+;; sly
 (setq inferior-lisp-program "sbcl --noinform --no-linedit")
 ;; set re-builder syntax
 (require 're-builder)
