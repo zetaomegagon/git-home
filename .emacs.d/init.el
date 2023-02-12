@@ -62,4 +62,13 @@
   :config
   (global-set-key (kbd "C-x o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
-(use-package helm)
+(use-package helm
+  :config
+  (global-set-key (kbd "M-x") #'helm-M-x)
+  (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+  (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (helm-mode 1))
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
