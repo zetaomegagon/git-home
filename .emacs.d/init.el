@@ -54,7 +54,6 @@
 (use-package pdf-tools
   :config
   (pdf-tools-install 'NO-QUERY-P t))
-
 (use-package sly)
 (use-package zygospore
   :config
@@ -63,3 +62,4 @@
   :config
   (global-set-key (kbd "C-x o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+(use-package helm)
