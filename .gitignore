@@ -5,9 +5,10 @@
 !.bash_logout
 !.bash_profile
 !.bashrc
-!.bashrc.d
+!.bashrc.d/
 !.bashrc.d/**
-!.emacs.d
+!.emacs.d/
+!.emacs.d/early-init.el
 !.emacs.d/init.el
 !.emacs.d/bookmarks
 !.gitattributes
