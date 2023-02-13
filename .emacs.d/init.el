@@ -18,8 +18,13 @@
 ;; set re-builder syntax
 (require 're-builder)
 (setq reb-re-syntax 'string)
-;; save buffer history
-(savehist-mode 1)
+;; save emacs state
+;; (setq desktop-path "$HOME/.emacs.d/desktop-save/"
+;;       desktop-restore-eager 3
+;;       desktop-auto-save-timeout 10
+;;       desktop-load-locked-desktop t
+;;       desktop-save-mode t
+;;       savehist-mode t)
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
 (setq column-number-mode t)
