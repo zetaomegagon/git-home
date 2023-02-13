@@ -18,6 +18,8 @@
 ;; set re-builder syntax
 (require 're-builder)
 (setq reb-re-syntax 'string)
+;; save buffer history
+(savehist-mode 1)
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
 (setq column-number-mode t)
