@@ -28,6 +28,7 @@ git() {
     if [[ $PWD = $HOME ]]; then
 	case "$first" in
 	    init)
+		cd || exit
 		git-home-init ;;
 	    *)
 		git-home "$first" "${rest[@]}"
