@@ -10,8 +10,14 @@ git-home() {
 }
 
 git-home-init() {
-    echo '*' > "$HOME"/.gitignore
-    command git init --bare "$HOME"/"$GIT_HOME_DIR"
+    local git_ignore init_branch git_home_dir
+    
+    init_branch="$HOSTNAME"
+    git_ignore="$HOME/.gitignore"
+    git_home_dir="$HOME/$GIT_HOME_DIR"
+    
+    echo '*' > "$gitignore"
+    command git init --bare --initial-branch="$init_branch" "$git_home_dir"
 }
 
 git() {
