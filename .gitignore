@@ -20,3 +20,4 @@
 !.gnupg/**
 !.ssh
 !.ssh/**
+!.inputrc
