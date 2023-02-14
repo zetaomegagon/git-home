@@ -34,10 +34,60 @@ if ! [[ -f /run/.containerenv ]]; then
 
     ## Night Light
     #- Source: https://wiki.archlinux.org/title/GNOME#Night_Light
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled 'true'
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-to 0.0
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-schedule-from 0.0
-    gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3500
+    nightlight() {
+	_set-nl-property() {
+	    local property value; property="$1" value="$2"	    
+	    gsettings set org.gnome.settings-daemon.plugins.color "$property" "$value"
+	}
+
+	_usage() {
+	    local funcname; funcname="$1"
+	    echo "${funcname}: [--enabled <true|false> | --from <0..23> | --to <0..23>] <color-temprature>"
+	}
+
+	while [ "$1" ]; do
+	    case "$1" in
+		--enabled)
+		    shift
+		    bool="$1"
+		    if [[ $bool =~ true|false ]]; then
+			_set-nl-property night-light-enabled "$bool"
+			shift
+		    else
+			_usage $FUNCNAME
+			break
+		    fi
+		    ;;
+		--from|--to)
+		    prep="${1/--/}"
+		    shift
+		    time="${1}.0"
+		    if [[ $1 =~ [0-9]{1,2} ]]; then
+			_set-nl-property night-light-schedule-${prep} "$time"
+			shift
+		    else
+			_usage $FUNCNAME
+			break
+		    fi
+		    ;;
+		[0-9]*)
+		    temp="$1"
+		    if [[ $1 =~ [0-9]{1,5} ]]; then
+			_set-nl-property night-light-temperature "$temp"
+			break
+		    else
+			_usage $FUNCNAME
+			break
+		    fi
+		    ;;
+		*)
+		    _usage $FUNCNAME
+		    break
+	    esac
+	done
+    }
+
+    nightlight --enabled true --from 0 --to 0 3000
 
     ## Display brightness
     #- Source: https://wiki.archlinux.org/title/Backlight#Using_DBus_with_GNOME
