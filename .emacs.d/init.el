@@ -19,20 +19,20 @@
 (require 're-builder)
 (setq reb-re-syntax 'string)
 ;; save emacs state
-; bind save state options
-(setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
-      desktop-restore-eager 3
-      desktop-auto-save-timeout 10
-      desktop-load-locked-desktop t
-      desktop-restore-forces-onscreen nil
-      savehist-mode t)
-; close emacsclient in a state preserving way
-(keymap-global-set "C-x C-M-c" 'save-buffers-kill-emacs)
-; load desktop file after first frame creation and enable autosave
 (add-hook 'server-after-make-frame-hook
-	  (lambda () (desktop-read) (setq desktop-save-mode t)))
-; disable state saving features on exit 
-(add-hook 'kill-emacs-hook (lambda () (setq desktop-save-mode nil)))
+	  (lambda ()
+	    "Read in desktop and set state management options"
+	    (desktop-read) (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
+					  desktop-restore-eager 3
+					  desktop-auto-save-timeout 10
+					  desktop-load-locked-desktop t
+					  desktop-restore-forces-onscreen nil
+					  savehist-mode t
+					  ; provides auto saves
+					  desktop-save-mode t)))
+
+
+;(add-hook 'kill-emacs-hook (lambda () (setq desktop-save-mode nil)))
 
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
