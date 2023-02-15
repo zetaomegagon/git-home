@@ -18,8 +18,22 @@
 ;; set re-builder syntax
 (require 're-builder)
 (setq reb-re-syntax 'string)
-;; save buffer history
-(savehist-mode 1)
+;; save emacs state
+(add-hook 'server-after-make-frame-hook
+	  (lambda ()
+	    "Read in desktop and set state management options"
+	    (desktop-read) (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
+					  desktop-restore-eager 3
+					  desktop-auto-save-timeout 10
+					  desktop-load-locked-desktop t
+					  desktop-restore-forces-onscreen nil
+					  savehist-mode t
+					  ; provides auto saves
+					  desktop-save-mode t)))
+
+
+;(add-hook 'kill-emacs-hook (lambda () (setq desktop-save-mode nil)))
+
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
 (setq column-number-mode t)
