@@ -2,6 +2,15 @@
 
 source $HOME/.bashrc.d/12-emacs.rc
 
-emacs-dead-p && emacsctl start
+if emacs-dead-p; then
+    emacsctl start
+fi
 
-command emacsclient --tty "$@"
+input="$@"
+
+if [[ -z "$input" ]]; then
+    command emacsclient --tty
+else
+    command emacsclient --tty "$input"
+fi
+
