@@ -22,17 +22,19 @@
 (add-hook 'server-after-make-frame-hook
 	  (lambda ()
 	    "Read in desktop and set state management options"
-	    (desktop-read) (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
-					  desktop-restore-eager 3
-					  desktop-auto-save-timeout 10
-					  desktop-load-locked-desktop t
-					  desktop-restore-forces-onscreen nil
-					  savehist-mode t
-					  ; provides auto saves
-					  desktop-save-mode t)))
+	    (desktop-read)
+	    (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
+		  desktop-restore-eager 4
+		  desktop-auto-save-timeout 10
+		  desktop-load-locked-desktop t
+		  desktop-restore-forces-onscreen nil
+		  savehist-mode t
+		  desktop-save-mode t)
+	    (add-hook 'kill-emacs-hook (lambda () (setq desktop-save-mode nil)))))
 
-
-;(add-hook 'kill-emacs-hook (lambda () (setq desktop-save-mode nil)))
+(keymap-global-unset "C-x C-c")
+(keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
+(keymap-global-set "C-M-x C-M-c" 'save-buffers-kill-terminal)
 
 ;; set line and column number modes on
 (global-display-line-numbers-mode)

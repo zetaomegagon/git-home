@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+source $HOME/.bashrc.d/01-functions.rc
+
+export ALTERNATE_EDITOR="$HOME/.bin/emacs-start-service"
+export EDITOR="$HOME/.bin/emacs"
+export VISUAL="$HOME/.bin/emacs-gtk"
+
+emacsctl() {
+    local verb service
+    verb="$1" service="emacs"
+    
+    syscontrol "$verb" "$service"
+}
+
+emacs-dead-p() {
+    emacsctl status | command grep -q "inactive (dead)"
+}
+
+emacs-running-p() {
+     emacsctl status | command grep -q "active (running)"
+}

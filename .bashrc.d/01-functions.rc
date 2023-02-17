@@ -76,24 +76,6 @@ tls() { tmux list-sessions $@; }
 tlw() { tmux list-windows $@; }
 tlp() { tmux list-panes $@; }
 
-# emacs
-export ALTERNATE_EDITOR='$(systemctl --user start emacs.service)'
-export EDITOR='emacsclient --alternate-editor="$(systemctl --user start emacs.service)" --tty'
-export VISUAL='emacsclient --alternate-editor="$(systemctl --user start emacs.service)" --create-frame'
-
-emacs() {
-    command emacsclient \
-	    --alternate-editor="$(emacsctl start)" \
-	    --tty "$@"
-}
-
-emacs-gtk() {
-    command emacsclient \
-	    --alternate-editor="$(emacsctl start)" \
-	    --create-frame \
-	    --no-wait "$@"
-}
-
 # date
 date() { 
     if (( ${#@} == 0 )); then
@@ -133,14 +115,6 @@ syscontrol() {
     esac
 }
 
-emacsctl() {
-    local verb service
-    verb="$1"
-    service="emacs"
-    
-    syscontrol "$verb" "$service"
-}
-
 syncthingctl() {
     local verb service
     verb="$1"
@@ -148,4 +122,3 @@ syncthingctl() {
 
     syscontrol "$verb" "$service"
 }
-

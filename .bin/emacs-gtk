@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source $HOME/.bashrc.d/12-emacs.rc
+
+emacs-dead-p && emacsctl start
+
+command emacsclient --create-frame "$@"

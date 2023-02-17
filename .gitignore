@@ -21,3 +21,5 @@
 !.ssh
 !.ssh/**
 !.inputrc
+!.bin/
+!.bin/**
