@@ -34,7 +34,7 @@ if ! [[ -f /run/.containerenv ]]; then
 
     ## Night Light
     #- Source: https://wiki.archlinux.org/title/GNOME#Night_Light
-    nightlight() {
+    gnome-nightlight() {
 	_set-nl-property() {
 	    local property value; property="$1" value="$2"	    
 	    gsettings set org.gnome.settings-daemon.plugins.color "$property" "$value"
@@ -87,12 +87,12 @@ if ! [[ -f /run/.containerenv ]]; then
 	done
 
 	# command line shortcut
-	nl() { nightlight "$@"; }
+	ntlt() { nightlight "$@"; }
 	export -f nl
     }
 
     
-    nightlight --enabled true --from 0 --to 0 3000
+    gnome-nightlight --enabled true --from 0 --to 0 3000
 
     ## Display brightness
     #- Source: https://wiki.archlinux.org/title/Backlight#Using_DBus_with_GNOME
