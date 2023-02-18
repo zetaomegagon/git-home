@@ -87,7 +87,7 @@ if ! [[ -f /run/.containerenv ]]; then
 	done
 
 	# command line shortcut
-	ntlt() { nightlight "$@"; }
+	ntlt() { gnome-nightlight "$@"; }
 	export -f ntlt
     }
 
