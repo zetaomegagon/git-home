@@ -189,31 +189,31 @@ if ! [[ -f /run/.containerenv ]]; then
     gsettings set org.gnome.shell.keybindings screenshot-window "['<Shift><Alt>p']"
     gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Control><Alt>r']"
 
-    ## Gnome Terminal
-    set-gnome-terminal-dimensions() {
-	# On startup, sets `gnome-terminal` height and width to that of the current display
-	local tprofiles tkeys cols rows
-	tprofiles=( $(gsettings get org.gnome.Terminal.ProfilesList list | tr -d [\[\]\']) )
-	tkeys=( $(gsettings list-keys org.gnome.Terminal.Legacy.Profile:/ | command grep -iE 'columns|rows') )
-	cols=$(( "$(tput cols)" + (238 - "$(tput cols)") ))
-	rows=$(( "$(tput lines)" + (53 - "$(tput lines)") ))
+    # ## Gnome Terminal
+    # set-gnome-terminal-dimensions() {
+    # 	# On startup, sets `gnome-terminal` height and width to that of the current display
+    # 	local tprofiles tkeys cols rows
+    # 	tprofiles=( $(gsettings get org.gnome.Terminal.ProfilesList list | tr -d [\[\]\']) )
+    # 	tkeys=( $(gsettings list-keys org.gnome.Terminal.Legacy.Profile:/ | command grep -iE 'columns|rows') )
+    # 	cols=$(( "$(tput cols)" + (238 - "$(tput cols)") ))
+    # 	rows=$(( "$(tput lines)" + (53 - "$(tput lines)") ))
 
-	_set-term-property() {
-	    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:"$1"/ "$2" "$3"
-	}
+    # 	_set-term-property() {
+    # 	    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:"$1"/ "$2" "$3"
+    # 	}
 
-	# iterate over all gnome-terminal profiles
-	for tprofile in "${tprofiles[@]}"; do
-	    # iterate over the column and row keys
-	    for tkey in "${tkeys[@]}"; do 
-		if [[ $tkey =~ .*columns.* ]]; then
-		    _set-term-property "$tprofile" "$tkey" "$cols"
-		else
-		    _set-term-property "$tprofile" "$tkey" "$rows"
-		fi
-	    done
-	done
-    }
+    # 	# iterate over all gnome-terminal profiles
+    # 	for tprofile in "${tprofiles[@]}"; do
+    # 	    # iterate over the column and row keys
+    # 	    for tkey in "${tkeys[@]}"; do 
+    # 		if [[ $tkey =~ .*columns.* ]]; then
+    # 		    _set-term-property "$tprofile" "$tkey" "$cols"
+    # 		else
+    # 		    _set-term-property "$tprofile" "$tkey" "$rows"
+    # 		fi
+    # 	    done
+    # 	done
+    # }
     
-    set-gnome-terminal-dimensions
+    # set-gnome-terminal-dimensions
 fi
