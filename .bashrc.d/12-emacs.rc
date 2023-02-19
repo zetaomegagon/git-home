@@ -4,7 +4,7 @@ source $HOME/.bashrc.d/01-functions.rc
 
 export ALTERNATE_EDITOR="$HOME/.bin/emacs-start-service"
 export EDITOR="$HOME/.bin/emacs"
-export VISUAL="$HOME/.bin/emacs-gtk"
+export VISUAL="$HOME/.bin/emacs"
 
 emacsctl() {
     local verb service
