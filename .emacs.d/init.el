@@ -19,18 +19,14 @@
 (require 're-builder)
 (setq reb-re-syntax 'string)
 ;; save emacs state
-(add-hook 'server-after-make-frame-hook
-	  (lambda ()
-	    "Read in desktop and set state management options"
-	    (desktop-read)
-	    (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
-		  desktop-restore-eager 4
-		  desktop-auto-save-timeout 10
-		  desktop-load-locked-desktop t
-		  desktop-restore-forces-onscreen nil
-		  savehist-mode t
-		  desktop-save-mode t)
-	    (add-hook 'kill-emacs-hook (lambda () (setq desktop-save-mode nil)))))
+(desktop-read)
+(setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
+      desktop-restore-eager 4
+      desktop-auto-save-timeout 10
+      desktop-load-locked-desktop t
+      desktop-restore-forces-onscreen nil
+      savehist-mode t
+      desktop-save-mode t)
 
 (keymap-global-unset "C-x C-c")
 (keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
