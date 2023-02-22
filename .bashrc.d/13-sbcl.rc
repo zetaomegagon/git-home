@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+export SBCL_HOME=/usr/local/lib/sbcl/
