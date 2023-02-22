@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+input="$@"
+
+ungoogled-chromium () {
+    local input="$@"
+    flatpak run com.github.Eloston.UngoogledChromium "$input"
+}
+
+ungoogled-chromium "$input"
+
+
