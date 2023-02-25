@@ -47,6 +47,8 @@
 (require 'treesit)
 
 ;; straight.el
+(setq straight-repository-branch "rr-fix-renamed-variable") ;; workaround for https://github.com/radian-software/straight.el/issues/1053
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -85,3 +87,17 @@
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+(use-package racket-mode)
+(use-package vterm
+  :config
+  ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
+  (setq vterm-always-compile-module t
+	vterm-kill-buffer-on-exit t
+	vterm-max-scrollback 10000)
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
+              (buffer-face-mode t))))
+(use-package multi-vterm
+  :config
+  (setq multi-vterm-dedicated-window-height-percent 50))
