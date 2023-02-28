@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Run stumpish from the modules directory
+
+input="$@"
+
+_stumpish() {
+    local input="$@"
+    local stumpish_path="$HOME/.stumpwm.d/modules/util/stumpish/"
+    
+    if [[ ${#input} -gt 0 ]]; then
+	"$stumpish_path/stumpish" "$input"
+    else
+	"$stumpish_path/stumpish"
+    fi
+}
+
+_stumpish "$input"
