@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# log current user out of all login sessions
+for session_id in $(loginctl | grep $USER | awk { print }); do
+    loginctl kill-session $session_id
+done
