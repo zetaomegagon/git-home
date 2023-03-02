@@ -47,7 +47,7 @@
 (require 'treesit)
 
 ;; straight.el
-(setq straight-repository-branch "rr-fix-renamed-variable") ;; workaround for https://github.com/radian-software/straight.el/issues/1053
+(setq straight-repository-branch "develop") ;; workaround for https://github.com/radian-software/straight.el/issues/1053
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -67,17 +67,22 @@
 (setq straight-use-package-by-default t)
 
 ;; packages
+(use-package racket-mode)
+(use-package sly)
+
 (use-package pdf-tools
   :config
   (pdf-tools-install 'NO-QUERY-P t))
-(use-package sly)
+
 (use-package zygospore
   :config
   (global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows))
+
 (use-package ace-window
   :config
   (global-set-key (kbd "C-x o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+
 (use-package helm
   :config
   (global-set-key (kbd "M-x") #'helm-M-x)
@@ -87,17 +92,31 @@
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
-(use-package racket-mode)
-(use-package vterm
+
+(use-package detached
+  :init
+  (detached-init)
+  :bind (;; Replace `async-shell-command' with `detached-shell-command'
+         ([remap async-shell-command] . detached-shell-command)
+         ;; Replace `compile' with `detached-compile'
+         ([remap compile] . detached-compile)
+         ([remap recompile] . detached-compile-recompile)
+         ;; Replace built in completion of sessions with `consult'
+         ([remap detached-open-session] . detached-consult-session))
+  :custom ((detached-show-output-on-attach t)
+           (detached-terminal-data-command system-type)))
+
+(use-package vterm					
+  :init
+  (setq vterm-always-compile-module t)
   :config
-  ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
-  (setq vterm-always-compile-module t
-	vterm-kill-buffer-on-exit t
-	vterm-max-scrollback 10000)
+  (setq vterm-kill-buffer-on-exit t
+	vterm-max-scrollback 10000)	
   (add-hook 'vterm-mode-hook
             (lambda ()
               (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
               (buffer-face-mode t))))
+
 (use-package multi-vterm
   :config
   (setq multi-vterm-dedicated-window-height-percent 50))
