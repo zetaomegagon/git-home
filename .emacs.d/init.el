@@ -37,6 +37,10 @@
 (setq column-number-mode t)
 ;; disable line numbers in pdf-tools minor mode
 (add-hook 'pdf-tools-enabled-hook (lambda () (display-line-numbers-mode -1)))
+;; disbale line numbers in shell sessions
+(add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'term-mode-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode -1)))
 ;; show 80 character indicator in programming modes enabled, but not scratch    
 (add-hook 'prog-mode-hook
 	  (lambda ()
@@ -69,6 +73,58 @@
 ;; packages
 (use-package racket-mode)
 (use-package sly)
+
+(use-package pdf-tools
+  :config
+  (pdf-tools-install 'NO-QUERY-P t))
+
+(use-package zygospore
+  :config
+  (global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows))
+
+(use-package ace-window
+  :config
+  (global-set-key (kbd "C-x o") 'ace-window)
+  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+
+(use-package helm
+  :config
+  (global-set-key (kbd "M-x") #'helm-M-x)
+  (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+  (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (helm-mode 1))
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package detached
+  :init
+  (detached-init)
+  :bind (;; Replace `async-shell-command' with `detached-shell-command'
+         ([remap async-shell-command] . detached-shell-command)
+         ;; Replace `compile' with `detached-compile'
+         ([remap compile] . detached-compile)
+         ([remap recompile] . detached-compile-recompile)
+         ;; Replace built in completion of sessions with `consult'
+         ([remap detached-open-session] . detached-consult-session))
+  :custom ((detached-show-output-on-attach t)
+           (detached-terminal-data-command system-type)))
+
+(use-package vterm					
+  :init
+  (setq vterm-always-compile-module t)
+  :config
+  (setq vterm-kill-buffer-on-exit t
+	vterm-max-scrollback 10000)	
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
+              (buffer-face-mode t))))
+
+(use-package multi-vterm
+  :config
+  (setq multi-vterm-dedicated-window-height-percent 50))
+
 
 (use-package pdf-tools
   :config
