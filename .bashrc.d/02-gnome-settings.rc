@@ -53,6 +53,7 @@ if ! [[ -f /run/.containerenv ]]; then
 		    if [[ $bool =~ true|false ]]; then
 			_set-nl-property night-light-enabled "$bool"
 			shift
+			[[ -z $1 ]] && break
 		    else
 			_usage $FUNCNAME
 			break
@@ -65,6 +66,7 @@ if ! [[ -f /run/.containerenv ]]; then
 		    if [[ $1 =~ [0-9]{1,2} ]]; then
 			_set-nl-property night-light-schedule-${prep} "$time"
 			shift
+			[[ -z $1 ]] && break
 		    else
 			_usage $FUNCNAME
 			break
@@ -75,6 +77,7 @@ if ! [[ -f /run/.containerenv ]]; then
 		    if [[ $1 =~ [0-9]{1,5} ]]; then
 			_set-nl-property night-light-temperature "$temp"
 			break
+			[[ -z $1 ]] && break
 		    else
 			_usage $FUNCNAME
 			break
