@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+_battery-status() {
+    printf "%s%%\n" "$(cat /sys/class/power_supply/BAT0/capacity)"
+}
+
+_battery-status
