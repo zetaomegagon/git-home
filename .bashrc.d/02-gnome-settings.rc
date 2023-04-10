@@ -187,10 +187,10 @@ if ! [[ -f /run/.containerenv ]]; then
     fi
 
     ## Screenshots
-    gsettings set org.gnome.shell.keybindings screenshot "['<Super>p']"
-    gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Shift><Super>p']"
-    gsettings set org.gnome.shell.keybindings screenshot-window "['<Shift><Alt>p']"
-    gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Control><Alt>r']"
+    # gsettings set org.gnome.shell.keybindings screenshot "['<Super>p']"
+    # gsettings set org.gnome.shell.keybindings show-screenshot-ui "['<Shift><Super>p']"
+    # gsettings set org.gnome.shell.keybindings screenshot-window "['<Shift><Alt>p']"
+    # gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Shift><Control><Alt>r']"
 
     # ## Gnome Terminal
     # set-gnome-terminal-dimensions() {
