@@ -101,3 +101,20 @@
 (use-package multi-vterm
   :config
   (setq multi-vterm-dedicated-window-height-percent 50))
+(use-package detached
+  :init
+  (detached-init)
+  :bind
+  (;; Replace `async-shell-command' with `detached-shell-command'
+   ([remap async-shell-command] . detached-shell-command)
+   ;; Replace `compile' with `detached-compile'
+   ([remap compile] . detached-compile)
+   ([remap recompile] . detached-compile-recompile)
+   ;; Replace built in completion of sessions with `consult'
+   ([remap detached-open-session] . detached-consult-session)
+   ;; Replace `vterm' with `detached-vterm-send-input'
+   ([remap vterm] . detached-vterm-send-input))
+  :custom
+  ((detached-show-output-on-attach t)
+   (detached-vterm-mode 1)
+   (detached-terminal-data-command system-type)))
