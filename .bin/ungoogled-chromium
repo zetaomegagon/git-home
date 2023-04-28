@@ -1,12 +1,70 @@
 #!/usr/bin/env bash
 
+##################################################################################
+# Launch instances of ungoogled-chromium separated by HOME directories		 #
+#										 #
+# ungoogled-chromium <home-dir-name|cloudshare|incognito> <args>		 #
+#										 #
+# must be called with a DIRECTORY name as the first argument, but will		 #
+# treat any first argument as a directory name so be careful. Upon launch	 #
+# proceeds with these steps:							 #
+#										 #
+# 1. checks if the directory is called 'temp', and sets the $home var based on	 #
+#    this									 #
+# 2. checks if the home directory exists, creating it if it doesn't		 #
+# 3a. based on the home directory name, calls ungoogled-chromium with a		 #
+#     home directory in either the PARENT directory, under a SUB directory, or	 #
+#     in /tmp with a unique name						 #
+# 3b. if 'incognito' is passed as the name, launches ungoogled-chromium with the #
+#     --incognito flag								 #
+##################################################################################
+
 input="$@"
 
-ungoogled-chromium () {
-    local input="$@"
-    flatpak run com.github.Eloston.UngoogledChromium "$input"
+ungoogled-chromium() {
+    local input=( $@ )
+    local sdir="${input[0]}"
+    local args=( ${input[@]:1:${#input[@]}} )
+    local pdir="$HOME/.ungoogled-chromium"
+    local tdir="ungoogled-chromium-${sdir}"
+    local home
+    local rand="$(openssl rand -hex 16)"
+    local flatpak='com.github.Eloston.UngoogledChromium'
+
+    _set-home() {
+	case "$sdir" in
+	    incognito|temp)
+		home="/tmp/${tdir}-${rand}" ;;
+	    *)
+		home="${pdir}/${sdir}"
+	esac
+    }
+
+    _populate-home() {
+	case "$sdir" in
+	    incognito)
+		mkdir -p "$home" ;;
+	    temp)
+		cp -a  "${pdir}/template-cloudshare" "$home" ;;
+	    *)
+		if [[ ! -d "$home" ]]; then
+		    cp -a ${pdir}/template-${sdir}/ "$home"
+		fi
+	esac
+    }
+
+    _run-chromium() {
+	_set-home
+	_populate-home
+	case "$sdir" in
+	    incognito)
+		env HOME="$home" flatpak run --filesystem=$HOME/Downloads "$flatpak" --incognito "${args[@]}" ;;
+	    *)
+		env HOME="$home" flatpak run --filesystem=$HOME/Downloads "$flatpak" "${args[@]}"
+	esac
+    }
+
+    _run-chromium
 }
 
 ungoogled-chromium "$input"
-
-
