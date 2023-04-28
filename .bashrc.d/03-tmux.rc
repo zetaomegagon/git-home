@@ -12,7 +12,7 @@ EOF
 fi
 
 # Start tmux on every shell login
-if [[ -x "$(command -v tmux)" && -n "${WAYLAND_DISPLAY}" && -z "${TMUX}" && "${INSIDE_EMACS}" != 'vterm' ]]; then
+if [[ -x "$(command -v tmux)" && -n "${WAYLAND_DISPLAY}" && -z "${TMUX}" ]]; then
     if ! tmux -2 attach; then
         session="$(openssl rand -hex 2)"
 	tmux new-session -d -s "$session"
