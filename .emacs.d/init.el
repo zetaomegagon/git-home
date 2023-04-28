@@ -15,6 +15,8 @@
 (put 'upcase-region 'disabled nil)
 ;; sly
 (setq inferior-lisp-program "sbcl --noinform --no-linedit")
+;; set warning buffer to only log errors
+(setq warning-minimum-level :error)
 ;; set re-builder syntax
 (require 're-builder)
 (setq reb-re-syntax 'string)
@@ -119,3 +121,4 @@
   ((detached-show-output-on-attach t)
    (detached-vterm-mode 1)
    (detached-terminal-data-command system-type)))
+(use-package magit)
