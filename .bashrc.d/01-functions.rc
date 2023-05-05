@@ -54,14 +54,16 @@ git-get-commit() {
 paste() { gpaste-client "$@"; }
 
 # which
+{ unalias which; unset -f which; } 2>&-
+
 which() {
     input=$1
     type=$(type -t $input)
     
     case $type in
 	alias|function) command -V $input ;;
-	          file) command -v $input ;;
-	             *) command -vV $input
+	file) command -v $input ;;
+	*) command -vV $input
     esac    
 }
 
