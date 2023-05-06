@@ -7,7 +7,7 @@ set -g base-index 1
 set -wg renumber-windows on	    
 set -wg base-index 1
 set -wg pane-base-index 1
-set -g display-panes-time 5000
+set -g display-panes-time 60000
 EOF
 fi
 
