@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
-source $HOME/.bashrc.d/12-emacs.rc
-
-if emacs-dead-p; then
-    emacsctl start
-fi
-
 input="$@"
 
-if [[ -z "$input" ]]; then
-    command emacsclient --tty
-else
-    command emacsclient --tty "$input"
-fi
+emacs-tty() {
+    source $HOME/.bashrc.d/12-emacs.rc
+    local finput="$@"
+    
+    emacs-dead-p && emacsctl start
 
+    if [[ -z "$finput" ]]; then
+	command emacsclient --tty
+    else
+	command emacsclient --tty "$finput"
+    fi    
+}
+
+emacs-tty "$input"
