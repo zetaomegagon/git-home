@@ -16,9 +16,9 @@
 !.gitignore
 !.sbclrc
 !.tmux.conf
-!.gnupg
+!.gnupg/
 !.gnupg/**
-!.ssh
+!.ssh/
 !.ssh/**
 !.inputrc
 !.bin/
