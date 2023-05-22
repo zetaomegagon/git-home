@@ -23,3 +23,6 @@
 !.inputrc
 !.bin/
 !.bin/**
+
+# Exclude
+.ssh/known_hosts.old
