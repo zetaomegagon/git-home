@@ -11,6 +11,7 @@
 !.emacs.d/early-init.el
 !.emacs.d/init.el
 !.emacs.d/bookmarks
+!.emacs.d/desktop-save
 !.gitattributes
 !.gitconfig
 !.gitignore
