@@ -20,6 +20,8 @@
 ;; set re-builder syntax
 (require 're-builder)
 (setq reb-re-syntax 'string)
+;; set dictionary-search dictionary server
+(setq dictionary-server "dict.org")
 ;; save emacs state
 (desktop-read)
 (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
@@ -71,7 +73,7 @@
 ;; packages
 (use-package pdf-tools
   :config
-  (pdf-tools-install 'NO-QUERY-P t))
+  (pdf-tools-install t nil nil t))
 (use-package sly)
 (use-package zygospore
   :config
@@ -95,7 +97,7 @@
   ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
   (setq vterm-always-compile-module t
 	vterm-kill-buffer-on-exit t
-	vterm-max-scrollback 10000)
+	vterm-max-scrollback 100000)
   :config
   (add-hook 'vterm-mode-hook
             (lambda ()
@@ -122,3 +124,4 @@
    (detached-vterm-mode 1)
    (detached-terminal-data-command system-type)))
 (use-package magit)
+
