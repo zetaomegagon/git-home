@@ -5,8 +5,8 @@
 ;; Put backup files neatly away
 ;;
 ;; https://overflow.smnz.de/exchange/emacs/questions/33/put-all-backups-into-one-backup-folder
-(let ((backup-dir "$HOME/.emacs.d/backups/")
-      (auto-saves-dir "$HOME/.emacs.d/autosaves/"))
+(let ((backup-dir "~/.emacs.d/backups/")
+      (auto-saves-dir "~/.emacs.d/autosaves/"))
   (dolist (dir (list backup-dir auto-saves-dir))
     (when (not (file-directory-p dir))
       (make-directory dir t)))
