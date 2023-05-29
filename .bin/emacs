@@ -1,18 +1,27 @@
 #!/usr/bin/env bash
 
-input="$@"
+declare -a input=( $@ )
 
-emacs-tty() {
+emacs() {
     source $HOME/.bashrc.d/12-emacs.rc
-    local finput="$@"
+
+    local -a params
+    local -a finput=( $@ )
     
     emacs-dead-p && emacsctl start
 
-    if [[ -z "$finput" ]]; then
-	command emacsclient --tty
+    if [[ $TERM == dumb ]]; then
+        params+=" --reuse-frame"
     else
-	command emacsclient --tty "$finput"
-    fi    
+        params+=" --tty"
+    fi
+
+    if [[ -z $finput ]]; then
+	command emacsclient ${params[@]}
+    else
+	command emacsclient ${params[@]} ${finput[@]}
+    fi
 }
 
-emacs-tty "$input"
+emacs "${input[@]}"
+
