@@ -1,12 +1,27 @@
-;; load the welcome screen for encouragement
-(setq inhibit-startup-screen nil)
 ;; disable menu, scroll, and tool bars
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-;; disable backup and autosave
-(setq backup-inhibited t)
-(setq auto-save-default nil)
+;; Put backup files neatly away
+;;
+;; https://overflow.smnz.de/exchange/emacs/questions/33/put-all-backups-into-one-backup-folder
+(let ((backup-dir "$HOME/.emacs.d/backups/")
+      (auto-saves-dir "$HOME/.emacs.d/autosaves/"))
+  (dolist (dir (list backup-dir auto-saves-dir))
+    (when (not (file-directory-p dir))
+      (make-directory dir t)))
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+        tramp-backup-directory-alist `((".*" . ,backup-dir))
+        tramp-auto-save-directory auto-saves-dir))
+
+(setq backup-by-copying t    ; Don't delink hardlinks
+      delete-old-versions t  ; Clean up the backups
+      version-control t      ; Use version numbers on backups,
+      kept-new-versions 5    ; keep some new versions
+      kept-old-versions 2)   ; and some old ones, too
+
 ;; enable modus-vivendi theme
 (load-theme 'modus-vivendi t)
 ;; allow `C-x C-l`
@@ -32,9 +47,12 @@
       savehist-mode t
       desktop-save-mode t)
 
+;; Don't kill emacs, just close frames
 (keymap-global-unset "C-x C-c")
-(keymap-global-set "C-x C-c" 'save-buffers-kill-emacs)
-(keymap-global-set "C-M-x C-M-c" 'save-buffers-kill-terminal)
+(keymap-global-set "C-x C-c" 'delete-frame)
+
+;; if I really need to kill emacs
+(keymap-global-set "C-S-x C-S-c" 'save-buffers-kill-terminal)
 
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
@@ -47,6 +65,7 @@
 	    (when (not (equal "*scratch*" (buffer-name)))
 	      (progn (setq fill-column 80)
 		     (display-fill-column-indicator-mode)))))
+
 ;; tree-sitter
 (require 'treesit)
 
