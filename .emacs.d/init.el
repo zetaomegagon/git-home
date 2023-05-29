@@ -2,7 +2,12 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-;; Put backup files neatly away
+
+;; set frame transparency
+(set-frame-parameter nil 'alpha-background 80)
+(add-to-list 'default-frame-alist '(alpha-background . 80)) ; For all 
+
+;; Put backup and auto-save into ~/.emacs.d/
 ;;
 ;; https://overflow.smnz.de/exchange/emacs/questions/33/put-all-backups-into-one-backup-folder
 (let ((backup-dir "~/.emacs.d/backups/")
@@ -24,19 +29,24 @@
 
 ;; enable modus-vivendi theme
 (load-theme 'modus-vivendi t)
-;; allow `C-x C-l`
+
+;; enable default disabled features
 (put 'downcase-region 'disabled nil)
-;; allow `C-x C-u
 (put 'upcase-region 'disabled nil)
+
 ;; sly
 (setq inferior-lisp-program "sbcl --noinform --no-linedit")
+
 ;; set warning buffer to only log errors
 (setq warning-minimum-level :error)
+
 ;; set re-builder syntax
 (require 're-builder)
 (setq reb-re-syntax 'string)
+
 ;; set dictionary-search dictionary server
 (setq dictionary-server "dict.org")
+
 ;; save emacs state
 (desktop-read)
 (setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
@@ -57,8 +67,10 @@
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
 (setq column-number-mode t)
+
 ;; disable line numbers in pdf-tools minor mode
 (add-hook 'pdf-tools-enabled-hook (lambda () (display-line-numbers-mode -1)))
+
 ;; show 80 character indicator in programming modes enabled, but not scratch    
 (add-hook 'prog-mode-hook
 	  (lambda ()
@@ -143,4 +155,3 @@
    (detached-vterm-mode 1)
    (detached-terminal-data-command system-type)))
 (use-package magit)
-
