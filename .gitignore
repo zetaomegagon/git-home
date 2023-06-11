@@ -7,6 +7,9 @@
 !.bashrc
 !.bashrc.d/
 !.bashrc.d/**
+!.config/
+!.config/htop/
+!.config/htop/htoprc
 !.emacs.d/
 !.emacs.d/early-init.el
 !.emacs.d/init.el
