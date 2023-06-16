@@ -5,7 +5,7 @@
 
 ;; set frame transparency
 (set-frame-parameter nil 'alpha-background 80)
-(add-to-list 'default-frame-alist '(alpha-background . 80)) ; For all 
+(add-to-list 'default-frame-alist '(alpha-background . 80))
 
 ;; Put backup and auto-save into ~/.emacs.d/
 ;;
@@ -48,8 +48,9 @@
 (setq dictionary-server "dict.org")
 
 ;; save emacs state
+(require 'desktop)
 (desktop-read)
-(setq desktop-path '("~/.emacs.d/desktop-save/" "~/.emacs.d" "~")
+(setq desktop-path (list "~/.emacs.d/desktop-save/")
       desktop-restore-eager 4
       desktop-auto-save-timeout 10
       desktop-load-locked-desktop t
@@ -62,7 +63,9 @@
 (keymap-global-set "C-x C-c" 'delete-frame)
 
 ;; if I really need to kill emacs
-(keymap-global-set "C-S-x C-S-c" 'save-buffers-kill-terminal)
+;;; define a function that determines if in X or in terminal and, based on that,
+;;; will call *save-buffers-kill-emacs* or *save-buffers-kill-terminal*
+(keymap-global-set "C-S-x C-S-c" 'save-buffers-kill-emacs)
 
 ;; set line and column number modes on
 (global-display-line-numbers-mode)
@@ -155,3 +158,6 @@
    (detached-vterm-mode 1)
    (detached-terminal-data-command system-type)))
 (use-package magit)
+(use-package scratch
+  :config
+  (global-set-key (kbd "C-c s") 'scratch))
