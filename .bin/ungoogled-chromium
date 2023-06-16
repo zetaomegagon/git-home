@@ -18,10 +18,11 @@
 # 3b. if 'incognito' is passed as the name, launches ungoogled-chromium with the #
 #     --incognito flag								 #
 ##################################################################################
-
+set -x
 input="$@"
 
 ungoogled-chromium() {
+    set +x
     local input=( $@ )
     local sdir="${input[0]}"
     local args=( ${input[@]:1:${#input[@]}} )
@@ -29,18 +30,23 @@ ungoogled-chromium() {
     local tdir="ungoogled-chromium-${sdir}"
     local home
     local rand="$(openssl rand -hex 16)"
-    local flatpak='com.github.Eloston.UngoogledChromium'
+    local flatpak="$(flatpak list --columns=application | grep -iE '^.*ungoogledchromium$')"
+    # limit the $PATH so we don't call this wrapper, and get path to binary
+    local package="PATH='/usr/bin:/usr/local/bin' $(which ungoogled-chromium)"
 
     _set-home() {
+	set +x
 	case "$sdir" in
 	    incognito|temp)
 		home="/tmp/${tdir}-${rand}" ;;
 	    *)
 		home="${pdir}/${sdir}"
 	esac
+	set -x
     }
 
     _populate-home() {
+	set +x
 	case "$sdir" in
 	    incognito)
 		mkdir -p "$home" ;;
@@ -51,20 +57,38 @@ ungoogled-chromium() {
 		    cp -a ${pdir}/template-${sdir}/ "$home"
 		fi
 	esac
+	set -x
+    }
+
+    _ungoogled-chromium() {
+	set -x
+	local -a input=( $@ )
+	
+	if [[ -n "$flatpak" ]]; then
+	    env HOME="$home" flatpak run --filesystem=$HOME/Downloads "$flatpak" "${input[@]}"
+	else
+	    # what args need to be here to have distinct working directories?
+	    "$package" "${input[@]}"
+	fi
+	set +x
     }
 
     _run-chromium() {
+	set -x
 	_set-home
 	_populate-home
 	case "$sdir" in
 	    incognito)
-		env HOME="$home" flatpak run --filesystem=$HOME/Downloads "$flatpak" --incognito "${args[@]}" ;;
+		_ungoogled-chromium --incognito "${args[@]}" ;;
 	    *)
-		env HOME="$home" flatpak run --filesystem=$HOME/Downloads "$flatpak" "${args[@]}"
+		_ungoogled-chromium "${args[@]}"
 	esac
+	set +x
     }
 
     _run-chromium
+    set +x
 }
 
 ungoogled-chromium "$input"
+set +x
