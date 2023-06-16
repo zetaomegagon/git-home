@@ -161,7 +161,7 @@ if ! [[ -f /run/.containerenv ]]; then
 	export -f brightness
     } 
 
-    gnome-brightness --set 25
+    #gnome-brightness --set 25
 
     ## Touchpad
     #- Source: https://wiki.archlinux.org/title/GNOME#Mouse_and_touchpad
@@ -179,11 +179,22 @@ if ! [[ -f /run/.containerenv ]]; then
     gsettings set org.gnome.desktop.background picture-uri $wallpaper_uri
 
     #- idea is to switch wallpaper and scaling based on current display
+    #- disabling for now, since I need to detect monitor dimension for this
+    #- to work as expected.
+    #-
+    #- eg
+    #
+    # if [[ $DIMENSIONS -gt $X ]]; then
+    # 	gsettings set org.gnome.desktop.background picture-options 'centered'
+    # else
+    # 	gsettings set org.gnome.desktop.background picture-options 'scaled'
+    # fi
+    
     wallpaper_uri="$(gsettings get org.gnome.desktop.background picture-uri)"
     if [[ "$wallpaper_uri" =~ .*hhkb.* ]]; then 
 	gsettings set org.gnome.desktop.background picture-options 'scaled'
     else
-	gsettings set org.gnome.desktop.background picture-options 'centered'
+	gsettings set org.gnome.desktop.background picture-options 'scaled'
     fi
 
     ## Screenshots
