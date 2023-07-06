@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+radeon_on="radeon.si_support=1 amdgpu.si_support=0"
+amdgpu_on="radeon.si_support=0 amdgpu.si_support=1"
+
+switch-driver() {
+    sudo grubby \
+	 --remove-args="$1" \
+	 --args="$2" \
+	 --update-kernel=ALL
+    
+    reboot
+}
+
+
+if lspci -k | grep -qi 'kernel driver in use: amdgpu'; then
+    switch-driver "$amdgpu_on" "$radeon_on"
+else
+    switch-driver "$radeon_on" "$amdgpu_on"
+fi
+
+
