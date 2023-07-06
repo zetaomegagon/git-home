@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
+# add local bin directory to path
 PATH="$HOME/.bin:$PATH"
+
+# enable Mesa ACO by default
+RADV_PERFTEST=aco
