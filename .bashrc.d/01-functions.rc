@@ -69,9 +69,9 @@ which() {
 
 # ls
 { unalias ls; unalias ll; } 2>/dev/null || :
-ls() { set -x; command ls --color=auto --sort=extension --group-directories-first -F "$@"; set +x; }
-la() { set -x; ls -Al "$@"; set +x; }
-ll() { set -x; ls -l "$@"; set +x; }
+ls() { command ls --color=auto --sort=extension --group-directories-first -F "$@"; }
+la() { ls -Al "$@"; }
+ll() { ls -l "$@"; }
 
 # tmux
 tls() { tmux list-sessions $@; }
