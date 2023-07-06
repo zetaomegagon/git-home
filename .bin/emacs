@@ -7,19 +7,23 @@ emacs() {
 
     local -a params
     local -a finput=( $@ )
+    local -a flags=(
+	--display="${DISPLAY:-$WAYLAND_DISPLAY}"
+	--socket-name="$XDG_RUNTIME_DIR/emacs/server"
+    )
     
     emacs-dead-p && emacsctl start
-
+    
     if [[ $TERM == dumb ]]; then
-        params+=" --reuse-frame"
+        local is_term_flag+=" --reuse-frame"
     else
-        params+=" --tty"
+        local is_term_flag+=" --tty"
     fi
 
     if [[ -z $finput ]]; then
-	command emacsclient ${params[@]}
+	command emacsclient ${flags[@]} $is_term_flag
     else
-	command emacsclient ${params[@]} ${finput[@]}
+	command emacsclient ${flags[@]} $is_term_flag ${finput[@]}
     fi
 }
 
