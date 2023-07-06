@@ -4,8 +4,8 @@
 (tool-bar-mode -1)
 
 ;; set frame transparency
-(set-frame-parameter nil 'alpha-background 80)
-(add-to-list 'default-frame-alist '(alpha-background . 80))
+(set-frame-parameter nil 'alpha-background 90)
+(add-to-list 'default-frame-alist '(alpha-background . 93))
 
 ;; Put backup and auto-save into ~/.emacs.d/
 ;;
