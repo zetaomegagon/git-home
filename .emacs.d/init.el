@@ -199,7 +199,7 @@
 ;; packages
 (use-package pdf-tools
   :config
-  (pdf-tools-install t nil nil t))
+  (pdf-tools-install t nil nil nil))
 (use-package sly)
 (use-package zygospore
   :config
