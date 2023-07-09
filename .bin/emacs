@@ -13,8 +13,19 @@ emacs() {
     )
     
     emacs-dead-p && emacsctl start
-    
-    if [[ $TERM == dumb ]]; then
+
+    # Need to compare $TERM to a terminal that
+    # is not being actively used to excute the
+    # script (i.e. from a shortcut)
+    #
+    # Would be good to find a common pattern
+    # to use for the `--reuse-frame` case
+    #
+    # So far:
+    # * gnome   - dumb
+    # * stumpwm - linux
+    # * lxqt    - qterminal
+    if [[ $TERM =~ dumb|linux|qterminal ]]; then
         local is_term_flag+=" --reuse-frame"
     else
         local is_term_flag+=" --tty"
