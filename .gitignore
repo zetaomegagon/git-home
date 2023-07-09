@@ -7,24 +7,46 @@
 !.bashrc
 !.bashrc.d/
 !.bashrc.d/**
+
+#@ htop
 !.config/
 !.config/htop/
 !.config/htop/htoprc
+
+#@ emacs
 !.emacs.d/
 !.emacs.d/early-init.el
 !.emacs.d/init.el
 !.emacs.d/bookmarks
 !.emacs.d/desktop-save
+
+#@ jed
+!.jed/
+!.jed/jed.rc
+
+#@ git / git crypt
 !.gitattributes
 !.gitconfig
 !.gitignore
+
+#@ sbcl
 !.sbclrc
+
+#@ tmux
 !.tmux.conf
+
+#@ gpg
 !.gnupg/
 !.gnupg/**
+
+#@ ssh
 !.ssh/
 !.ssh/**
+
+#@ readline
 !.inputrc
+
+#@ scripts
 !.bin/
 !.bin/**
 
