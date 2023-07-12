@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+htop(){
+    local conf
+    conf="$HOME/.config/htop/htoprc"
+    
+    /usr/bin/htop
+    
+    if [[ -f $conf ]]; then
+	(
+	    source "$HOME/.bashrc.d/01-functions.rc"
+	    cd "$HOME"
+	    git restore "$conf"
+	)
+    fi
+}
+
+htop
