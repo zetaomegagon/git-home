@@ -1,36 +1,27 @@
 #!/usr/bin/env bash
 
-declare -a input=( $@ )
+read -ra input < <(echo $*)
 
 emacs() {
-    source $HOME/.bashrc.d/12-emacs.rc
+    source "$HOME/.bashrc.d/12-emacs.rc"
 
-    local -a params
-    local -a finput=( $@ )
-    local -a flags=(
+    local is_term_flag
+    local -a flags
+    read -ra finput < <(echo $*)
+    flags=(
 	--display="${DISPLAY:-$WAYLAND_DISPLAY}"
 	--socket-name="$XDG_RUNTIME_DIR/emacs/server"
     )
     
     emacs-dead-p && emacsctl start
 
-    # Need to compare $TERM to a terminal that
-    # is not being actively used to excute the
-    # script (i.e. from a shortcut)
-    #
-    # Would be good to find a common pattern
-    # to use for the `--reuse-frame` case
-    #
-    # So far:
-    # * gnome   - dumb
-    # * stumpwm - linux
-    # * lxqt    - qterminal
     if [[ $TERM =~ (tmux|xterm)-[0-9].*color ]]; then
-        local is_term_flag+=" --tty"
+        is_term_flag+=" --tty"
     else
-        local is_term_flag+=" --reuse-frame"
+        is_term_flag+=" --reuse-frame"
     fi
 
+    
     if [[ -z $finput ]]; then
         command emacsclient ${flags[@]} $is_term_flag
     else
