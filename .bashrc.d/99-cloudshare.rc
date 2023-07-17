@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+linuxsrv(){
+    local domain='linuxsrv.itst.loc'
+    local user='sysadmin'
+    local pass="$HOME/.ssh/linuxsrv.pass"
+
+    sshpass -f "$pass" "$user"@"$domain" 2>/dev/null || ssh "$user"@"$domain"
+}
