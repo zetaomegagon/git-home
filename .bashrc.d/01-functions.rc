@@ -72,6 +72,7 @@ which() {
 ls() { command ls --color=auto --sort=extension --group-directories-first -F "$@"; }
 la() { ls -Al "$@"; }
 ll() { ls -l "$@"; }
+lz() { la -Z "$@"; }
 
 # tmux
 tls() { tmux list-sessions $@; }
