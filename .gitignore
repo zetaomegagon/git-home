@@ -41,7 +41,9 @@
 
 #@ ssh
 !.ssh/
-!.ssh/**
+!.ssh/config
+!.ssh/*.pub
+!.ssh/*.pass
 
 #@ readline
 !.inputrc
@@ -50,6 +52,3 @@
 !.bin/
 !.bin/**
 
-# Exclude
-.ssh/known_hosts
-.ssh/known_hosts.old
