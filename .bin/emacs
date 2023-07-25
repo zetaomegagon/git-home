@@ -9,23 +9,23 @@ emacs() {
     local -a flags
     read -ra finput < <(echo $*)
     flags=(
-	--display="${DISPLAY:-$WAYLAND_DISPLAY}"
-	--socket-name="$XDG_RUNTIME_DIR/emacs/server"
+        "--display=${DISPLAY:-$WAYLAND_DISPLAY}"
+	"--socket-name=$XDG_RUNTIME_DIR/emacs/server"
     )
     
     emacs-dead-p && emacsctl start
 
-    if [[ $TERM =~ (tmux|xterm)-[0-9].*color ]]; then
-        is_term_flag+=" --tty"
+    if [[ $TERM =~ (tmux|xterm).* ]]; then
+        flags+=("--tty")
     else
-        is_term_flag+=" --reuse-frame"
+	flags+=("--reuse-frame"	"--maximized")
     fi
 
     
     if [[ -z $finput ]]; then
-        command emacsclient ${flags[@]} $is_term_flag
+        command emacsclient ${flags[@]}
     else
-	command emacsclient ${flags[@]} $is_term_flag ${finput[@]}
+	command emacsclient ${flags[@]} ${finput[@]}
     fi
 }
 
