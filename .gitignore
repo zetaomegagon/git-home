@@ -1,4 +1,4 @@
-# Ignore
+d# Ignore
 *
 
 # Include
@@ -21,8 +21,7 @@
 !.emacs.d/desktop-save
 
 #@ jed
-!.jed/
-!.jed/jed.rc
+!.jedrc
 
 #@ git / git crypt
 !.gitattributes
