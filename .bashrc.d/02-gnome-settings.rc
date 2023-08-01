@@ -175,7 +175,7 @@ if ! [[ -f /run/.containerenv ]]; then
 
     ## Wallpaper
     #- make this dependant on plugged in display
-    wallpaper_uri="$HOME/Pictures/silverblue-logo.svg"
+    wallpaper_uri="$HOME/Pictures/hhkb-pro2-kb-layout-large.jpg"
     gsettings set org.gnome.desktop.background picture-uri $wallpaper_uri
 
     #- idea is to switch wallpaper and scaling based on current display
@@ -192,9 +192,9 @@ if ! [[ -f /run/.containerenv ]]; then
     
     wallpaper_uri="$(gsettings get org.gnome.desktop.background picture-uri)"
     if [[ "$wallpaper_uri" =~ .*hhkb.* ]]; then 
-	gsettings set org.gnome.desktop.background picture-options 'scaled'
+	    gsettings set org.gnome.desktop.background picture-options 'scaled'
     else
-	gsettings set org.gnome.desktop.background picture-options 'scaled'
+	    gsettings set org.gnome.desktop.background picture-options 'centered'
     fi
 
     ## Screenshots
