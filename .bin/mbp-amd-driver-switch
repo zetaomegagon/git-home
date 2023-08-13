@@ -8,8 +8,6 @@ switch-driver() {
 	 --remove-args="$1" \
 	 --args="$2" \
 	 --update-kernel=ALL
-    
-    reboot
 }
 
 
