@@ -89,7 +89,10 @@ date() {
 }
 
 # mpv
-mpv() { command flatpak run io.mpv.Mpv "$@"; }
+mpv() { command mpv "$@" || command flatpak run io.mpv.Mpv "$@"; }
+
+# nslookup
+nslookup() { command dig "$@" || command drill "$@"; }
 
 # systemctl
 syscontrol() {
