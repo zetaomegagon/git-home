@@ -51,7 +51,23 @@ git-get-commit() {
 }
 	
 # gpaste-client
-paste() { gpaste-client "$@"; }
+clip() {
+    read -ra input < <(printf -- "$*")
+    first="${input[0]}"
+    rest=( "${input[@]:1:${#input[@]}}" )
+
+    case "$first" in
+	'')
+	    gpaste-client --use-index
+	    ;;
+
+	delete)
+	    gpaste-client --use-index "$first" "${rest[@]}"
+	    ;;
+	*)
+	    gpaste-client "$first" "${rest[@]}"
+    esac
+}
 
 # which
 { unalias which; unset -f which; } 2>&-
