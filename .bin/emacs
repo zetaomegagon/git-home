@@ -1,33 +1,32 @@
 #!/usr/bin/env bash
 
-read -ra input < <(echo $*)
-
 emacs() {
     source "$HOME/.bashrc.d/12-emacs.rc"
 
     local is_term_flag
     local -a flags
-    read -ra finput < <(echo $*)
+    read -ra finput < <(printf -- "$*")
     flags=(
-        "--display=${DISPLAY:-$WAYLAND_DISPLAY}"
+	"--display=${DISPLAY:-$WAYLAND_DISPLAY}"
 	"--socket-name=$XDG_RUNTIME_DIR/emacs/server"
     )
-    
+
     emacs-dead-p && emacsctl start
 
     if [[ $TERM =~ (tmux|xterm).* ]]; then
-        flags+=("--tty")
+	flags+=("--tty")
     else
-	flags+=("--reuse-frame"	"--maximized")
+	flags+=("--reuse-frame")
     fi
 
-    
+
     if [[ -z $finput ]]; then
-        command emacsclient ${flags[@]}
+	command emacsclient ${flags[@]}
     else
 	command emacsclient ${flags[@]} ${finput[@]}
     fi
 }
 
-emacs "${input[@]}"
+read -ra input < <(printf -- "$*")
 
+emacs "${input[@]}"
