@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+input=( "$@" )
+finput=( "$@" )
+first="${input[0]}"
+
+case "$first" in
+    help|--help)
+	command VBoxManage "$first" | less ;;
+    *)
+	command VBoxManage "$first" "${rest[@]}"
+esac
