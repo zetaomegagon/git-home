@@ -92,16 +92,9 @@ ungoogled-chromium() {
 
     _populate-home() {
 	set -x
-	case "$sdir" in
-	    incognito)
-		mkdir -p "$home" ;;
-	    temp)
-		cp -a  "${pdir}/template-cloudshare" "$home" ;;
-	    *)
-		if [[ ! -d "$home" ]]; then
-		    cp -a ${pdir}/template-${sdir}/ "$home"
-		fi
-	esac
+	if [[ ! -d "$home" ]]; then
+	    cp -a ${pdir}/template-${sdir}/ "$home"
+	fi
 	set +x
     }
 
