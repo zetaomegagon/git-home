@@ -96,8 +96,8 @@
 (tool-bar-mode -1)
 
 ;; set frame transparency
-(set-frame-parameter nil 'alpha-background 90)
-(add-to-list 'default-frame-alist '(alpha-background . 93))
+(set-frame-parameter nil 'alpha-background 85)
+(add-to-list 'default-frame-alist '(alpha-background . 85))
 
 ;; Put backup and auto-save into ~/.emacs.d/
 ;;
@@ -125,9 +125,6 @@
 ;; enable default disabled features
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
-
-;; sly
-(setq inferior-lisp-program "sbcl --noinform --no-linedit")
 
 ;; set warning buffer to only log errors
 (setq warning-minimum-level :error)
@@ -176,6 +173,12 @@
 ;; tree-sitter
 (require 'treesit)
 
+;; org-babel
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((lisp . t)
+   (shell . t)))
+
 ;; straight.el
 (setq straight-repository-branch "develop") ;; workaround for https://github.com/radian-software/straight.el/issues/1053
 
@@ -197,27 +200,51 @@
 (setq straight-use-package-by-default t)
 
 ;; packages
+
+;;;; pdf-tools
 (use-package pdf-tools
   :config
   (pdf-tools-install t nil nil nil))
-(use-package sly)
+
+;;;; sly
+(use-package sly
+  :init
+  (setq inferior-lisp-program "sbcl --noinform --no-linedit")
+  (setq org-babel-lisp-eval-fn #'sly-eval)
+  :config
+  (add-hook 'sly-mode-hook
+          (lambda ()
+            (unless (sly-connected-p)
+              (save-excursion (sly))))))
+
+;;;; zygospore
 (use-package zygospore
   :config
   (global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows))
+
+;;;; ace-window
 (use-package ace-window
   :config
   (global-set-key (kbd "C-x o") 'ace-window)
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+
+;;;; helm
 (use-package helm
   :config
   (global-set-key (kbd "M-x") #'helm-M-x)
   (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
   (global-set-key (kbd "C-x C-f") #'helm-find-files)
   (helm-mode 1))
+
+;;;; company
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+
+;;;; racket-mode
 (use-package racket-mode)
+
+;;;; vterm
 (use-package vterm					
   :init
   ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
@@ -229,9 +256,13 @@
             (lambda ()
               (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
               (buffer-face-mode t))))
+
+;;;; multi-vterm
 (use-package multi-vterm
   :config
   (setq multi-vterm-dedicated-window-height-percent 50))
+
+;;;; detached
 (use-package detached
   :init
   (detached-init)
@@ -249,11 +280,16 @@
   ((detached-show-output-on-attach t)
    (detached-vterm-mode 1)
    (detached-terminal-data-command system-type)))
+
+;;;; magit
 (use-package magit)
+
+;;;; scratch
 (use-package scratch
   :config
   (global-set-key (kbd "C-c s") 'scratch))
 
+;;;; minimap
 (use-package minimap
   :config
-  (setq minimap-mode t))
+  (minimap-mode 1))
