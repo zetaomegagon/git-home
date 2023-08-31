@@ -210,12 +210,14 @@
 (use-package sly
   :init
   (setq inferior-lisp-program "sbcl --noinform --no-linedit")
+  ;; https://orgmode.org/worg//org-contrib/babel/languages/ob-doc-lisp.html
   (setq org-babel-lisp-eval-fn #'sly-eval)
   :config
+  ;; http://joaotavora.github.io/sly/#Auto_002dSLY
   (add-hook 'sly-mode-hook
-          (lambda ()
-            (unless (sly-connected-p)
-              (save-excursion (sly))))))
+            (lambda ()
+              (unless (sly-connected-p)
+		(save-excursion (sly))))))
 
 ;;;; zygospore
 (use-package zygospore
@@ -293,3 +295,4 @@
 (use-package minimap
   :config
   (minimap-mode 1))
+
