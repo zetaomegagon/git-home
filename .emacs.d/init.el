@@ -295,3 +295,6 @@
 (use-package minimap
   :config
   (minimap-mode 1))
+
+;;;; transpose-frame
+(use-package transpose-frame)
