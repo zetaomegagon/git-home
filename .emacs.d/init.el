@@ -108,10 +108,10 @@
     (when (not (file-directory-p dir))
       (make-directory dir t)))
   (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
-        tramp-backup-directory-alist `((".*" . ,backup-dir))
-        tramp-auto-save-directory auto-saves-dir))
+	auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+	auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+	tramp-backup-directory-alist `((".*" . ,backup-dir))
+	tramp-auto-save-directory auto-saves-dir))
 
 (setq backup-by-copying t    ; Don't delink hardlinks
       delete-old-versions t  ; Clean up the backups
@@ -163,7 +163,7 @@
 ;; disable line numbers in pdf-tools minor mode
 (add-hook 'pdf-tools-enabled-hook (lambda () (display-line-numbers-mode -1)))
 
-;; show 80 character indicator in programming modes enabled, but not scratch    
+;; show 80 character indicator in programming modes enabled, but not scratch
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (when (not (equal "*scratch*" (buffer-name)))
@@ -188,9 +188,9 @@
       (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -215,8 +215,8 @@
   :config
   ;; http://joaotavora.github.io/sly/#Auto_002dSLY
   (add-hook 'sly-mode-hook
-            (lambda ()
-              (unless (sly-connected-p)
+	    (lambda ()
+	      (unless (sly-connected-p)
 		(save-excursion (sly))))))
 
 ;;;; zygospore
@@ -247,7 +247,7 @@
 (use-package racket-mode)
 
 ;;;; vterm
-(use-package vterm					
+(use-package vterm
   :init
   ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
   (setq vterm-always-compile-module t
@@ -255,9 +255,9 @@
 	vterm-max-scrollback 100000)
   :config
   (add-hook 'vterm-mode-hook
-            (lambda ()
-              (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
-              (buffer-face-mode t))))
+	    (lambda ()
+	      (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
+	      (buffer-face-mode t))))
 
 ;;;; multi-vterm
 (use-package multi-vterm
@@ -295,4 +295,3 @@
 (use-package minimap
   :config
   (minimap-mode 1))
-
