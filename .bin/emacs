@@ -1,11 +1,24 @@
 #!/usr/bin/env bash
 
+is-term-p() {
+    shopt -s extglob
+    
+    if [[ $TERM == ?(tmu)x?(term)* ]]; then
+	return 0
+    else
+	return 1
+    fi
+}
+
 emacs() {
+    set -x
+
     source "$HOME/.bashrc.d/12-emacs.rc"
 
     local is_term_flag
     local -a flags
     read -ra finput < <(printf -- "$*")
+    
     flags=(
 	"--display=${DISPLAY:-$WAYLAND_DISPLAY}"
 	"--socket-name=$XDG_RUNTIME_DIR/emacs/server"
@@ -13,20 +26,29 @@ emacs() {
 
     emacs-dead-p && emacsctl start
 
-    if [[ $TERM =~ (tmux|xterm).* ]]; then
+    if is-term-p; then
 	flags+=("--tty")
     else
 	flags+=("--reuse-frame")
     fi
-
 
     if [[ -z $finput ]]; then
 	command emacsclient ${flags[@]}
     else
 	command emacsclient ${flags[@]} ${finput[@]}
     fi
-}
+    
+    set +x
+} 
+
+declare log
+
+if is-term-p; then
+    log="emacs-term.log"
+else
+    log="emacs-gui.log"
+fi
 
 read -ra input < <(printf -- "$*")
 
-emacs "${input[@]}"
+emacs "${input[@]}" 2>"$HOME/.emacs.d/$log"

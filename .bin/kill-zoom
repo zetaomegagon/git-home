@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-kill-zoom(){ pgrep zoom | xargs -I {} kill -9 {}; }
-
-kill-zoom

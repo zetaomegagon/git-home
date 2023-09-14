@@ -1,94 +1,5 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(connection-local-criteria-alist
-   '(((:application tramp :protocol "flatpak")
-      tramp-container-connection-local-default-flatpak-profile)
-     ((:application tramp)
-      tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
- '(connection-local-profile-alist
-   '((tramp-container-connection-local-default-flatpak-profile
-      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin"))
-     (tramp-connection-local-darwin-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-       (sess . number)
-       (ttname . string)
-       (tpgid . number)
-       (minflt . number)
-       (majflt . number)
-       (time . tramp-ps-time)
-       (pri . number)
-       (nice . number)
-       (vsize . number)
-       (rss . number)
-       (etime . tramp-ps-time)
-       (pcpu . number)
-       (pmem . number)
-       (args)))
-     (tramp-connection-local-busybox-ps-profile
-      (tramp-process-attributes-ps-args "-o" "pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "stat=abcde" "-o" "ppid,pgid,tty,time,nice,etime,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (user . string)
-       (group . string)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-       (ttname . string)
-       (time . tramp-ps-time)
-       (nice . number)
-       (etime . tramp-ps-time)
-       (args)))
-     (tramp-connection-local-bsd-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (group . string)
-       (comm . 52)
-       (state . string)
-       (ppid . number)
-       (pgrp . number)
-       (sess . number)
-       (ttname . string)
-       (tpgid . number)
-       (minflt . number)
-       (majflt . number)
-       (time . tramp-ps-time)
-       (pri . number)
-       (nice . number)
-       (vsize . number)
-       (rss . number)
-       (etime . number)
-       (pcpu . number)
-       (pmem . number)
-       (args)))
-     (tramp-connection-local-default-shell-profile
-      (shell-file-name . "/bin/sh")
-      (shell-command-switch . "-c"))
-     (tramp-connection-local-default-system-profile
-      (path-separator . ":")
-      (null-device . "/dev/null")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; disable startup message
+(setq inhibit-startup-echo-area-message (user-login-name))
 
 ;; disable menu, scroll, and tool bars
 (menu-bar-mode -1)
@@ -96,14 +7,14 @@
 (tool-bar-mode -1)
 
 ;; set frame transparency
-(set-frame-parameter nil 'alpha-background 85)
-(add-to-list 'default-frame-alist '(alpha-background . 85))
+(progn (set-frame-parameter nil 'alpha-background 90)
+       (add-to-list 'default-frame-alist '(alpha-background . 90)))
 
 ;; Put backup and auto-save into ~/.emacs.d/
 ;;
 ;; https://overflow.smnz.de/exchange/emacs/questions/33/put-all-backups-into-one-backup-folder
 (let ((backup-dir "~/.emacs.d/backups/")
-      (auto-saves-dir "~/.emacs.d/autosaves/"))
+      (auto-saves-dir "~/.emacs.d/auto-saves/"))
   (dolist (dir (list backup-dir auto-saves-dir))
     (when (not (file-directory-p dir))
       (make-directory dir t)))
@@ -136,32 +47,16 @@
 ;; set dictionary-search dictionary server
 (setq dictionary-server "dict.org")
 
-;; save emacs state
-(require 'desktop)
-(desktop-read)
-(setq desktop-path (list "~/.emacs.d/desktop-save/")
-      desktop-restore-eager 4
-      desktop-auto-save-timeout 10
-      desktop-load-locked-desktop t
-      desktop-restore-forces-onscreen nil
-      savehist-mode t
-      desktop-save-mode t)
-
-;; Don't kill emacs, just close frames
+; Don't kill emacs, just close frames
 (keymap-global-unset "C-x C-c")
 (keymap-global-set "C-x C-c" 'delete-frame)
 
-;; if I really need to kill emacs
-;;; define a function that determines if in X or in terminal and, based on that,
-;;; will call *save-buffers-kill-emacs* or *save-buffers-kill-terminal*
+; if I really need to kill emacs
 (keymap-global-set "C-S-x C-S-c" 'save-buffers-kill-emacs)
 
 ;; set line and column number modes on
-(global-display-line-numbers-mode)
 (setq column-number-mode t)
-
-;; disable line numbers in pdf-tools minor mode
-(add-hook 'pdf-tools-enabled-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
 
 ;; show 80 character indicator in programming modes enabled, but not scratch
 (add-hook 'prog-mode-hook
@@ -170,14 +65,6 @@
 	      (progn (setq fill-column 80)
 		     (display-fill-column-indicator-mode)))))
 
-;; tree-sitter
-(require 'treesit)
-
-;; org-babel
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((lisp . t)
-   (shell . t)))
 
 ;; straight.el
 (setq straight-repository-branch "develop") ;; workaround for https://github.com/radian-software/straight.el/issues/1053
@@ -201,6 +88,62 @@
 
 ;; packages
 
+;;;; org-mode
+(use-package '(org :type built-in)
+  :init
+  (setq org-confirm-babel-evaluate nil
+	org-babel-lisp-eval-fn #'sly-eval)
+  :config
+  (add-hook 'org-mode-hook #'org-indent-mode)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((lisp . t)
+     (shell . t))))
+
+;; (use-package org-modern
+;;   :config
+;;   (add-hook 'org-mode-hook #'org-modern-mode)
+;;   (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+  
+;;   (defun org-rice-setup () 
+;;     ;; Add frame borders and window dividers
+;;     (modify-all-frames-parameters
+;;      '((right-divider-width . 40)
+;;        (internal-border-width . 40)))
+;;     (dolist (face '(window-divider
+;; 		    window-divider-first-pixel
+;; 		    window-divider-last-pixel))
+;;       (face-spec-reset-face face)
+;;       (set-face-foreground face (face-attribute 'default :background)))
+;;     (set-face-background 'fringe (face-attribute 'default :background))
+
+;;     (setq
+;;      ;; Edit settings
+;;      org-auto-align-tags nil
+;;      org-tags-column 0
+;;      org-catch-invisible-edits 'show-and-error
+;;      org-special-ctrl-a/e t
+;;      org-insert-heading-respect-content t
+
+;;      ;; Org styling, hide markup etc.
+;;      org-hide-emphasis-markers t
+;;      org-pretty-entities t
+;;      org-ellipsis "…"
+
+;;      ;; Agenda styling
+;;      org-agenda-tags-column 0
+;;      org-agenda-block-separator ?─
+;;      org-agenda-time-grid
+;;      '((daily today require-timed)
+;;        (800 1000 1200 1400 1600 1800 2000)
+;;        " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+;;      org-agenda-current-time-string
+;;      "⭠ now ─────────────────────────────────────────────────"))
+;;   (add-hook 'org-mode-hook #'org-rice-setup)
+;;   (add-hook 'org-agenda-finalize-hook #'org-rice-setup))
+
+(use-package org-web-tools)
+
 ;;;; pdf-tools
 (use-package pdf-tools
   :config
@@ -209,11 +152,12 @@
 ;;;; sly
 (use-package sly
   :init
-  (setq inferior-lisp-program "sbcl --noinform --no-linedit")
-  ;; https://orgmode.org/worg//org-contrib/babel/languages/ob-doc-lisp.html
-  (setq org-babel-lisp-eval-fn #'sly-eval)
+  (setq inferior-lisp-program "sbcl --noinform --no-linedit"
+	sly-command-switch-to-existing-lisp 'always)
   :config
+  (keymap-global-set "C-c C-j" 'sly-eval-last-expression)
   ;; http://joaotavora.github.io/sly/#Auto_002dSLY
+  ;; start sly repl when lisp file is opened
   (add-hook 'sly-mode-hook
 	    (lambda ()
 	      (unless (sly-connected-p)
@@ -250,10 +194,10 @@
 (use-package vterm
   :init
   ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
-  (setq vterm-always-compile-module t
-	vterm-kill-buffer-on-exit t
-	vterm-max-scrollback 100000)
+  (setq vterm-always-compile-module t)
   :config
+  (setq vterm-kill-buffer-on-exit t
+	vterm-max-scrollback 100000)
   (add-hook 'vterm-mode-hook
 	    (lambda ()
 	      (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
@@ -292,9 +236,24 @@
   (global-set-key (kbd "C-c s") 'scratch))
 
 ;;;; minimap
-(use-package minimap
-  :config
-  (minimap-mode 1))
+(use-package minimap)
 
 ;;;; transpose-frame
 (use-package transpose-frame)
+
+;;;; ement
+(use-package ement)
+
+;; tree-sitter
+(require 'treesit)
+
+;; save emacs state
+(require 'desktop)
+(desktop-read)
+(setq desktop-path (list "~/.emacs.d/desktop-save/")
+      desktop-restore-eager 4
+      desktop-auto-save-timeout 10
+      desktop-load-locked-desktop t
+      desktop-restore-forces-onscreen nil
+      savehist-mode t
+      desktop-save-mode t)

@@ -115,10 +115,10 @@ No_Backups = 1;         % If non-zero, backup files will not be created.
 Startup_With_File = -1; % if greater then zero, force JED to prompt for a file
                         %   if none is specified on the command line.  If 
                         %   negative, inhibit startup message.
-DISPLAY_TIME   = -1;    % non-zero enables the time to be displayed on 
+DISPLAY_TIME = -1;	    % non-zero enables the time to be displayed on 
                         %  status line, zero disables it.  If this value
                         %  is -1, 24 hour time will be used.
-HIGHLIGHT	= 1;	% non-zero for region highlighting
+HIGHLIGHT = 1;			% non-zero for region highlighting
 WANT_SYNTAX_HIGHLIGHT = 1;
                         % Highlight syntax in C, Fortran, and TeX modes.
                         % See section on colors
@@ -131,30 +131,30 @@ HORIZONTAL_PAN	= 20;	% if zero, no automatic panning.  If positive, only
 #endif
 
 
-LINENUMBERS	= 2;	% A value of zero means do NOT display line number on
+LINENUMBERS	= 2;		% A value of zero means do NOT display line number on
                         % status line line.  A value of 1, means to display
                         % the linenumber. A value greater than 1 will also
                         % display column number information.  I recommend a 
-			% value of 2 only at high baud rates
+						% value of 2 only at high baud rates
 
-BLINK		= 1;	% if non zero, blink matching parenthesis
-TAB_DEFAULT	= 4;	% Tab size  (also try edit_tab_stops)
-USE_TABS	= 1;	% Use tabs when generating whitespace.
+BLINK		= 1;		% if non zero, blink matching parenthesis
+TAB_DEFAULT	= 4;		% Tab size  (also try edit_tab_stops)
+USE_TABS	= 1;		% Use tabs when generating whitespace.
 
 Tab_Always_Inserts_Tab = 1; % Set this to 1 if you want the tab key to insert
                             % tabs.
 
-WRAP_DEFAULT	= 80;	% wrap column
-ADD_NEWLINE	= 1;	% add newline to file when writing if one not present
-IGNORE_BEEP	= 3;	% Beep terminal during error messages---
+WRAP_DEFAULT = 80;		% wrap column
+ADD_NEWLINE	 = 1;		% add newline to file when writing if one not present
+IGNORE_BEEP	 = 3;		% Beep terminal during error messages---
                         %  1 == sound only, 2 = visible bell only, 3 = both
-_traceback	= 0;	% Non zero means dump traceback on S-Lang errors
-WRAP_INDENTS	= 0;	% Non zero indents next line after wrapping current.
-			%  Make this a 1 if you want indented text mode.
-%KILL_LINE_FEATURE = 0;
-			% If non-zero, kill line will kill through end of the 
-			%  line if Point is at the beginning of the line. For
-			%  emacs-like behavior, set this to zero.
+_traceback	 = 0;		% Non zero means dump traceback on S-Lang errors
+WRAP_INDENTS = 1;		% Non zero indents next line after wrapping current.
+						%  Make this a 1 if you want indented text mode.
+
+%KILL_LINE_FEATURE = 0;	% If non-zero, kill line will kill through end of the 
+						%  line if Point is at the beginning of the line. For
+						%  emacs-like behavior, set this to zero.
 
 %---------------------------------------------------------------------------
 % C-mode indentation style

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+read -ra input < <(printf -- "$*")
+
+for pid in "${input[@]}"; do
+    pgrep "$pid" &
+done | xargs -I {} kill -9 {}
+
+

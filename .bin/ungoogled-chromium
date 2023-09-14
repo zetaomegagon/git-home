@@ -43,33 +43,38 @@ ungoogled-chromium() {
 	VaapiVideoEncoder,
 	RawDraw,
     )
-    # Uncomment to allow extra features
-    #
-    # local enable_extras=(
-    # 	Accelerated2dCanvas,
-    # 	UIEnableSharedImageCacheForGpu,
-    # 	UseGpuSchedulerDfs,
-    # 	EnableDrDc,
-    # 	ClientGmbInterface,
-    # 	Vp9kSVCHWDecoding,
-    # 	VaapiJpegImageDecodeAcceleration,
-    # 	VaapiWebPImageDecodeAcceleration,
-    # 	GainmapHdrImages,
-    # 	EnablePixelCanvasRecording,
-    # )
     
-    # Uncomment to allow unsafe features
-    #
-    # local enable_unsafe=(
-    # 	UnsafeWebGPU
-    # )
+    local enable_extras=(
+	Accelerated2dCanvas,
+	UIEnableSharedImageCacheForGpu,
+	UseGpuSchedulerDfs,
+	EnableDrDc,
+	ClientGmbInterface,
+	Vp9kSVCHWDecoding,
+	VaapiJpegImageDecodeAcceleration,
+	VaapiWebPImageDecodeAcceleration,
+	GainmapHdrImages,
+	EnablePixelCanvasRecording,
+    )
+
+    local enable_experimental=(
+	PartitionedCookies,
+	ThirdPartyStoragePartitioning,
+	SplitCacheByNetworkIsolationKey,
+    )
+    
+    local enable_unsafe=(
+	UnsafeWebGPU,
+    )
+
     local disable_features=(
 	DesktopPWAsRunOnOsLogin,
-	WebAssemblyTrapHandler
+	WebAssemblyTrapHandler,
     )
+
     local flags=(
 	--disable-features="$(printf "%s" "${disable_features[@]}" $'\n')"
-	--enable-features="$(printf "%s%s%s" "${enable_features[@]}" "${enable_extras[@]}" "${enable_unsafe[@]}" $'\n')"
+	--enable-features="$(printf "%s%s%s%s" "${enable_features[@]}" "${enable_extras[@]}" "${enable_unsafe[@]}" "${enable_experimental}" $'\n')"
 	--disable-gpu-driver-bug-workarounds
 	--enable-fingerprinting-canvas-image-data-noise
 	# comment to enable UnsafeWebGPU, must be passed as a flag

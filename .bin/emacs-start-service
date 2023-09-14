@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-source $HOME/.bashrc.d/12-emacs.rc 
-
-emacsctl start

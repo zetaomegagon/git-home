@@ -4,7 +4,6 @@
 source $HOME/.bashrc.d/01-functions.rc
 
 ## shell editor context
-export ALTERNATE_EDITOR="$HOME/.bin/emacs-start-service"
 export EDITOR="$HOME/.bin/emacs"
 export VISUAL="$EDITOR"
 
