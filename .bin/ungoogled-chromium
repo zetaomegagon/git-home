@@ -63,9 +63,9 @@ ungoogled-chromium() {
 	SplitCacheByNetworkIsolationKey,
     )
     
-    local enable_unsafe=(
-	UnsafeWebGPU,
-    )
+    # local enable_unsafe=(
+    # 	UnsafeWebGPU,
+    # )
 
     local disable_features=(
 	DesktopPWAsRunOnOsLogin,
@@ -78,7 +78,7 @@ ungoogled-chromium() {
 	--disable-gpu-driver-bug-workarounds
 	--enable-fingerprinting-canvas-image-data-noise
 	# comment to enable UnsafeWebGPU, must be passed as a flag
-	# --enable-unsafe-webgpu
+	#--enable-unsafe-webgpu
 	# uncomment to use wayland. Need to figureout scaling first
 	# --ozone-platform-hint=auto
     )

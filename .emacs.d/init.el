@@ -89,7 +89,7 @@
 ;; packages
 
 ;;;; org-mode
-(use-package '(org :type built-in)
+(use-package org
   :init
   (setq org-confirm-babel-evaluate nil
 	org-babel-lisp-eval-fn #'sly-eval)

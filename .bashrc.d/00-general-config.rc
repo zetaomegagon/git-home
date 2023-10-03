@@ -1,37 +1,20 @@
 #!/usr/bin/env bash
 
 # shell options
-SHELL_OPTS=(
-    checkhash
-    dotglob
-    dirspell
-    extglob
-    failglob
-    globstar
-    gnu_errfmt
-    histreedit
-    histverify    
-)
-
-shopt -s ${SHELL_OPTS[@]}
+shopt -s checkhash
+shopt -s dotglob
+shopt -s dirspell
+shopt -s extglob
+#shopt -s failglob
+shopt -s globstar
+shopt -s gnu_errfmt
+shopt -s histreedit
+shopt -s histverify
 
 # history options
-shopt -s cmdhist                          # preserve multi-line command lines with a semi-colon
-export HISTFILESIZE="10000"               # save 10,000 command lines
-export HISTCONTROL="ignoreboth:erasedups" # ignore lines that start with a space, and duplicate lines. Erase previous duplicates of current line
-
-IGNORE_PATTERNS=(
-    '&:'
-    'l?(a|l|s|z)?(*):'
-    'history?(*):'
-    'cd?(*):'
-    'mkdir?(*):'
-    'exit:'
-    'help?(*)'
-    'rm?(*)'
-)
-
-export HISTIGNORE="$(printf "%s" "${IGNORE_PATTERNS[@]}")" # patterns to ignore before saving to $HISTFILE
+shopt -s cmdhist
+export HISTFILESIZE="10000"
+export HISTCONTROL="ignoreboth:erasedups"
 
 # add local bin directory to path
 PATH="$HOME/.bin:$PATH"

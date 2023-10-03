@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+read -ra INPUT < <(printf -- "$*")
+
+# @nhed – : is a no-op in bash, but this code plays on the value of $_, which “expands to the last argument to the previous simple command”
+# (which is to say this is a perl-level obfuscation). It’d be more legible as urldecode() { local i="${*//+/ }"; echo -e "${i//%/\\x}"; }
+# (replace each + with a space, then replace each % with \x so bash knows to interpret the escape sequences properly).
+
+urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+
+urldecode "$INPUT"

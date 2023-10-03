@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export radeonsi_zerovram=true
+export RADV_PERFTEST=video_decode
