@@ -4,4 +4,4 @@ declare rand domain
 rand="$(openssl rand -hex 8)"
 domain="null.void"
 
-printf "%s "${rand}@${domain}" | tee | gpaste-client
+printf "%s" "${rand}@${domain}" | gpaste-client
