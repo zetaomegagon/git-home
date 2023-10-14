@@ -251,7 +251,8 @@
 (require 'desktop)
 (desktop-read)
 (setq desktop-path (list "~/.emacs.d/desktop-save/")
-      desktop-restore-eager 4
+      ; set this to 0 to avoid emacs.service hitting timeout 
+      desktop-restore-eager 0
       desktop-auto-save-timeout 10
       desktop-load-locked-desktop t
       desktop-restore-forces-onscreen nil
