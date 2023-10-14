@@ -58,12 +58,11 @@ clip() {
 
     case "$first" in
 	'')
-	    gpaste-client --use-index
-	    ;;
-
-	delete)
-	    gpaste-client --use-index "$first" "${rest[@]}"
-	    ;;
+	    gpaste-client --use-index ;;
+	clear)
+	    gpaste-client empty ;;
+	delete|get|select|set-password)
+	    gpaste-client --use-index "$first" "${rest[@]}" ;;
 	*)
 	    gpaste-client "$first" "${rest[@]}"
     esac
