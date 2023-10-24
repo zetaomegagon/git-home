@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-read -ra input < <(printf -- "$*")
+readarray input < <(printf -- "$*")
 
-for pid in "${input[@]}"; do
-    pgrep "$pid" &
+for proc_name in "${input[@]}"; do
+    pgrep "$proc_name" &
 done | xargs -I {} kill -9 {}
 
 
