@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+input="${1/--/}"
 radeon_on="radeon.si_support=1 amdgpu.si_support=0"
 amdgpu_on="radeon.si_support=0 amdgpu.si_support=1"
 
@@ -10,11 +11,28 @@ switch-driver() {
 	 --update-kernel=ALL
 }
 
+current() {
+    lspci -k | grep -iE 'kernel driver in use: (radeon|amdgpu)'
+}
 
-if lspci -k | grep -qi 'kernel driver in use: amdgpu'; then
-    switch-driver "$amdgpu_on" "$radeon_on"
-else
-    switch-driver "$radeon_on" "$amdgpu_on"
-fi
+usage() {
+    echo "Usage: ${0##*/} [--switch|--current]"
+}
 
+case "$input" in
+    current)
+	eval "$input"
+	;;
+    switch)
+	if lspci -k | grep -qi 'kernel driver in use: amdgpu'; then
+	    switch-driver "$amdgpu_on" "$radeon_on"
+	    echo "Will use iGPU"
+	else
+	    switch-driver "$radeon_on" "$amdgpu_on"
+	    echo "Will use dGPU"
+	fi
+	;;
+    *)
+	usage
+esac
 
