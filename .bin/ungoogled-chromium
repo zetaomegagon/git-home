@@ -19,11 +19,11 @@
 #     --incognito flag								 #
 ##################################################################################
 set -x
-input="$@"
+readarray input < <(printf -- "$*")
 
 ungoogled-chromium() {
     set -x
-    local input=( $@ )
+    readarray input < <(printf -- "$*")
     local sdir="${input[0]}"
     local args=( ${input[@]:1:${#input[@]}} )
     local pdir="$HOME/.ungoogled-chromium"
@@ -33,9 +33,11 @@ ungoogled-chromium() {
     local downloads="$HOME/Downloads"
     # limit the $PATH so we don't call this wrapper, and get path to binary
     local package="PATH='/usr/bin:/usr/local/bin' $(which ungoogled-chromium)"
-    # chrome flags
-    # see: https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/flag_descriptions.cc
-    local enable_features=(
+    # chrome flags and switches
+    # see:
+    #  - https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/flag_descriptions.cc
+    #  - https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
+    local enable_flag_gpu=(
 	GpuRasterization,
 	CanvasOopRasterization,
 	IgnoreGpuBlockList,
@@ -43,8 +45,8 @@ ungoogled-chromium() {
 	VaapiVideoEncoder,
 	RawDraw,
     )
-    
-    local enable_extras=(
+
+    local enable_flag_extra_gpu=(
 	Accelerated2dCanvas,
 	UIEnableSharedImageCacheForGpu,
 	UseGpuSchedulerDfs,
@@ -57,30 +59,34 @@ ungoogled-chromium() {
 	EnablePixelCanvasRecording,
     )
 
-    local enable_experimental=(
+    local enable_flag_privacy=(
+	FingerprintingCanvasImageDataNoise,
+        FingerprintingCanvasMeasuretextNoise,
+	FingerprintingClientRectsNoise,
+        ForcePunycodeHostnames,
+	DisableGreaseTLS,
+	HttpAcceptHeader,
+	NoPings,
+    )
+    
+    local enable_flag_privacy_experimental=(
 	PartitionedCookies,
 	ThirdPartyStoragePartitioning,
 	SplitCacheByNetworkIsolationKey,
     )
-    
-    # local enable_unsafe=(
-    # 	UnsafeWebGPU,
-    # )
-
-    local disable_features=(
+            
+    local disable_flags=(
 	DesktopPWAsRunOnOsLogin,
 	WebAssemblyTrapHandler,
     )
 
-    local flags=(
-	--disable-features="$(printf "%s" "${disable_features[@]}" $'\n')"
-	--enable-features="$(printf "%s%s%s%s" "${enable_features[@]}" "${enable_extras[@]}" "${enable_unsafe[@]}" "${enable_experimental}" $'\n')"
+    local switches=(
+	--disable-features="$(printf "%s" "${disable_flags[@]}" $'\n')"
+	--enable-features="$(printf "%s%s%s%s" "${enable_flag_gpu[@]}" "${enable_flag_gpu_extra[@]}" "${enable_flag_privacy[@]}" "${enable_flag_privacy_experimental[@]}" $'\n')"
+	--omnibox-autocomplete-filtering=search-bookmarks-chrome
+	--extension-mime-request-handling=always-prompt-for-install
+	--disable-search-engine-collection
 	--disable-gpu-driver-bug-workarounds
-	--enable-fingerprinting-canvas-image-data-noise
-	# comment to enable UnsafeWebGPU, must be passed as a flag
-	#--enable-unsafe-webgpu
-	# uncomment to use wayland. Need to figureout scaling first
-	# --ozone-platform-hint=auto
     )
 
     _set-home() {
@@ -105,13 +111,13 @@ ungoogled-chromium() {
 
     _ungoogled-chromium() {
 	set -x
-	local -a input=( $@ )
+	readarray input < <(printf -- "$*")
 
 	if [[ -n "$flatpak" ]]; then
 	    env HOME="$home" flatpak run \
 		--filesystem="$downloads" \
 		"$flatpak" \
-		"${flags[@]}" \
+		"${switches[@]}" \
 		"${input[@]}"
 	else
 	    # what args need to be here to have distinct working directories?
