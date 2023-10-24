@@ -47,14 +47,14 @@ git-home-init() {
 This git wrapper makes git just work like git. Most solutions I've found use a clunky function or alias, and this feels awkward to me. The function is using a simple conditional to check if in the `work-dir`, and to use `git-home` if so; otherwise call the git binary directly. Additionally, no need to add a case for `git-crypt`. It actually gets passed into `git-home` and acts like a git module (where you can call, for instance `git <module>` or `git-<module>`). So you can call it like `git crypt <args>`
 ```
 git() {
-    # make `args` and `rest` local in scope
-    local -a args rest
+    # make the variables we'll use local in scope
+    local -a args first rest
 
     # read-in arguments to an array ARGS
     readarray args < <(printf -- "$*")
     
     # capture the git command, for instance 'push'
-    local first="${args[0]}"
+    first="${args[0]}"
     
     # capture the rest of the arguments, for instancs '-u origin panda'
     readarray rest < <(printf -- "${args[@]:1:${#args[@]}}")
