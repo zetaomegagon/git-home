@@ -54,7 +54,7 @@ git() {
     local first="${args[0]}"
     
     # capture the rest of the arguments, for instancs '-u origin panda'
-    local rest=( "${args[@]:1:${#args[@]}}" )
+    readarray rest < <(printf -- "${args[@]:1:${#args[@]}}")
 
     # check if in the home dir bare repo.
     # If so, use 'git-home' or 'git-home-init'; otherwise, call the git binary directly
