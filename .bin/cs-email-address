@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 declare rand domain
-rand="$(openssl rand -hex 8)"
-domain="null.void"
+user_rand="$(openssl rand -hex 8)"
+mail_rand="$(openssl rand -hex 8)"
+domain="${mail_rand}.null.void"
 
-printf "%s" "${rand}@${domain}" | gpaste-client
+printf "%s" "${user_rand}@${domain}" | gpaste-client
+
+
