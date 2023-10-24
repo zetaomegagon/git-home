@@ -17,7 +17,7 @@ emacs() {
 
     local is_term_flag
     local -a flags
-    read -ra finput < <(printf -- "$*")
+    readarray finput < <(printf -- "$*")
     
     flags=(
 	"--display=${DISPLAY:-$WAYLAND_DISPLAY}"
@@ -49,6 +49,6 @@ else
     log="emacs-gui.log"
 fi
 
-read -ra input < <(printf -- "$*")
+readarray input < <(printf -- "$*")
 
 emacs "${input[@]}" 2>"$HOME/.emacs.d/$log"
