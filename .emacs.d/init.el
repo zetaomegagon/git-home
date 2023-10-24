@@ -30,6 +30,10 @@
       kept-new-versions 5    ; keep some new versions
       kept-old-versions 2)   ; and some old ones, too
 
+;; undo history
+(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo/"))
+      undo-tree-auto-save-history t)
+
 ;; enable modus-vivendi theme
 (load-theme 'modus-vivendi t)
 
@@ -253,7 +257,7 @@
 (setq desktop-path (list "~/.emacs.d/desktop-save/")
       ; set this to 0 to avoid emacs.service hitting timeout 
       desktop-restore-eager 0
-      desktop-auto-save-timeout 10
+      desktop-auto-save-timeout 5
       desktop-load-locked-desktop t
       desktop-restore-forces-onscreen nil
       savehist-mode t
