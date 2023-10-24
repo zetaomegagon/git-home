@@ -1,7 +1,7 @@
-d# Ignore
+## Ignore
 *
 
-# Include
+## Include
 !.bash_logout
 !.bash_profile
 !.bashrc
@@ -50,4 +50,7 @@ d# Ignore
 #@ scripts
 !.bin/
 !.bin/**
+
+# except these
+*/cs-*
 
