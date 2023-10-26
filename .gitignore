@@ -52,5 +52,5 @@
 !.bin/**
 
 # except these
-*/cs-*
-
+.bin/cs-*
+.bin/vial
