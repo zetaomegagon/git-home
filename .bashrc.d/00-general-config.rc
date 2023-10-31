@@ -1,19 +1,35 @@
 #!/usr/bin/env bash
 
-# shell options
-shopt -s checkhash
-shopt -s dotglob
-shopt -s dirspell
-shopt -s extglob
-#shopt -s failglob
-shopt -s globstar
-shopt -s gnu_errfmt
-shopt -s histreedit
-shopt -s histverify
+# --------------------------------------------------------------------------------------------------
+# shell options                    See: https://www.mankier.com/1/bash#Shell_Builtin_Commands
+# --------------------------------------------------------------------------------------------------
+shopt -s autocd                    # cd wihout cd
+shopt -s cdable_vars               # if var expands to a dir, cd into it
+shopt -s cdspell                   # cd spell checking
+shopt -s checkhash                 # check hash table; then path
+shopt -s checkjobs                 # check running jobs before exiting a shell
+shopt -s direxpand                 # do word expansion where a directory name would exist 
+shopt -s dirspell                  # correct directory names during completion
+shopt -s dotglob                   # match filenames that begin with '.' during glob expansion
+shopt -s extglob                   # extended pattern matching. See Pathname Expansion in Bash(1)
 
-# history options
-shopt -s cmdhist
-export HISTFILESIZE="10000"
+shopt -s globstar                  # change how globs match files and directories
+                                   #   **  = match all files and 0+ directories and subdirs
+                                   #   **/ = match 0+ directories and subdirs
+
+shopt -s gnu_errfmt                # write shell error messages in GNU error message format
+                                   #   see: https://www.gnu.org/prep/standards/html_node/Errors.html
+
+shopt -s no_empty_cmd_completion   # do not attempt completion when the line is empty
+
+# --------------------------------------------------------------------------------------------------
+# history options                  See  https://www.mankier.com/1/bash#History_Expansion
+# --------------------------------------------------------------------------------------------------
+shopt -s cmdhist                   # attempt to save multi-line commands in the same history entry
+shopt -s histappend                # append new session history into .bash_history
+shopt -s histreedit                # allow editing on failed history substitution
+shopt -s histverify                # on history substitution allow editing before sending
+export HISTFILESIZE="100000000"
 export HISTCONTROL="ignoreboth:erasedups"
 
 # add local bin directory to path
