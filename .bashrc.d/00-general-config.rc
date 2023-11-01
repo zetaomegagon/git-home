@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 # --------------------------------------------------------------------------------------------------
+# path
+# --------------------------------------------------------------------------------------------------
+PATH="$HOME/.bin:$PATH"
+
+# --------------------------------------------------------------------------------------------------
 # shell options                    See: https://www.mankier.com/1/bash#Shell_Builtin_Commands
 # --------------------------------------------------------------------------------------------------
 shopt -s autocd                    # cd wihout cd
@@ -23,14 +28,26 @@ shopt -s gnu_errfmt                # write shell error messages in GNU error mes
 shopt -s no_empty_cmd_completion   # do not attempt completion when the line is empty
 
 # --------------------------------------------------------------------------------------------------
-# history options                  See  https://www.mankier.com/1/bash#History_Expansion
+# history options                  See: https://www.mankier.com/1/bash#History_Expansion
+#                                       https://mywiki.wooledge.org/BashFAQ/088
 # --------------------------------------------------------------------------------------------------
 shopt -s cmdhist                   # attempt to save multi-line commands in the same history entry
 shopt -s histappend                # append new session history into .bash_history
 shopt -s histreedit                # allow editing on failed history substitution
 shopt -s histverify                # on history substitution allow editing before sending
-export HISTFILESIZE="100000000"
+
+# --------------------------------------------------------------------------------------------------
+# history variables                See: https://www.mankier.com/1/bash#History
+#                                       https://mywiki.wooledge.org/BashFAQ/088
+# --------------------------------------------------------------------------------------------------
+export PROMPT_COMMAND="${PROMPT_COMMAND:-:} ; history -a"
+export HISTFILESIZE=-1
+export HISTSIZE=-1
 export HISTCONTROL="ignoreboth:erasedups"
 
-# add local bin directory to path
-PATH="$HOME/.bin:$PATH"
+# --------------------------------------------------------------------------------------------------
+# prevent $HISTFILE from being truncated or deleted
+# --------------------------------------------------------------------------------------------------
+if ! lsattr -a $HISTFILE | grep -qE '^-+a-+.*$'; then
+    sudo chattr +a $HISTFILE
+fi
