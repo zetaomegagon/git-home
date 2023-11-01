@@ -2,8 +2,6 @@
 
 readarray input < <(printf -- "$*")
 
-for proc_name in "${input[@]}"; do
+for proc_name in ${input[@]}; do
     pgrep "$proc_name" &
 done | xargs -I {} kill -9 {}
-
-
