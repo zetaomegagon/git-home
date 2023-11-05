@@ -43,11 +43,34 @@ shopt -s histverify                # on history substitution allow editing befor
 export PROMPT_COMMAND="${PROMPT_COMMAND:-:} ; history -a"
 export HISTFILESIZE=-1
 export HISTSIZE=-1
-export HISTCONTROL="ignoreboth:erasedups"
+export HISTCONTROL="ignoreboth"
 
 # --------------------------------------------------------------------------------------------------
-# prevent $HISTFILE from being truncated or deleted
+# history functions                See: https://mywiki.wooledge.org/BashFAQ/088
 # --------------------------------------------------------------------------------------------------
-if ! lsattr -a $HISTFILE | grep -qE '^-+a-+.*$'; then
+dedupe-history() {
+    awk 'NR==FNR && !/^#/{lines[$0]=FNR;next} lines[$0]==FNR' "$HISTFILE" "$HISTFILE" \
+	> "/tmp/${HISTFILE##*/}.compressed" \
+	&& mv "/tmp/${HISTFILE##*/}.compressed" "$HISTFILE"
+}
+
+# --------------------------------------------------------------------------------------------------
+# deduplicate $HISTFILE and make it append only
+# --------------------------------------------------------------------------------------------------
+if lsattr -a $HISTFILE | grep -qE '^-+a-+.*$'; then
+    sudo chattr -a $HISTFILE
+    dedupe-history
+    sudo chattr +a $HISTFILE
+else
+    dedupe-history
     sudo chattr +a $HISTFILE
 fi
+
+# --------------------------------------------------------------------------------------------------
+# TODO                             Additionally limit the current $HISTFILE to the last 10,000
+#                                  lines, archiving the rest of the lines into a new file.
+#
+#                                  Allow for the following functionality:
+#                                   - fast search over all files
+#                                   - optional history builtin manipulations over all files
+# --------------------------------------------------------------------------------------------------
