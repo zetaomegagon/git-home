@@ -40,10 +40,23 @@ shopt -s histverify                # on history substitution allow editing befor
 # history variables                See: https://www.mankier.com/1/bash#History
 #                                       https://mywiki.wooledge.org/BashFAQ/088
 # --------------------------------------------------------------------------------------------------
-export PROMPT_COMMAND="history -a"
+export HISTIGNORE_LIST=(
+    'cd*:'
+    'l[alsz]:'
+    'exit:'
+    'history:'
+    'dtach*:'
+    'rm*:'
+    'man*:'
+    'help*:'
+    '*-help:'
+    '*--help:'
+)
+export PROMPT_COMMAND='history -a'
 export HISTFILESIZE=-1
 export HISTSIZE=-1
-export HISTCONTROL="ignoreboth"
+export HISTIGNORE="$(printf "%s" "${HISTIGNORE_LIST[@]}")"
+export HISTCONTROL='ignoreboth'
 
 # --------------------------------------------------------------------------------------------------
 # history functions                See: https://mywiki.wooledge.org/BashFAQ/088
