@@ -53,4 +53,4 @@
 
 # except these
 .bin/cs-*
-.bin/vial
+.bin/vial/vial-*
