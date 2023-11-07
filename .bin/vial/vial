@@ -1,31 +1,39 @@
 #!/usr/bin/env bash
-set -x
 
-VIAL_GUI_REPO='https://github.com/vial-kb/vial-gui.git'
-VIAL_CURRENT_VERSION="$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' "$VIAL_GUI_REPO" | tail -n1 | cut -d'/' -f3)"
-VIAL_APPIMAGE="Vial-${VIAL_CURRENT_VERSION}-x86_64.AppImage"
-VIAL_DOWNLOAD_LINK="https://github.com/vial-kb/vial-gui/releases/download/$VIAL_CURRENT_VERSION/$VIAL_APPIMAGE"
-VIAL_BIN_PATH="$HOME/.bin/vial/vial-bin"
-VIAL_BIN_DIR="${VIAL_BIN_PATH%/*}"
-VIAL_BIN="${VIAL_BIN_PATH##*/}"
-VIAL_VERSION_FILE="${VIAL_BIN_DIR}/vial-current"
+declare -ra VIAL_VARS=(
+    VIAL_REPO
+    VIAL_CURRENT_VERSION
+    VIAL_APPIMAGE
+    VIAL_DOWNLOAD_LINK
+    VIAL_BIN_PATH
+    VIAL_BIN_DIR
+    VIAL_BIN
+    VIAL_VERSION_FILE
+)
 
-printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"
-
-if [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" && -e "$VIAL_BIN" ]]; then
-    coproc "$VIAL_COPROC" {
-	"$VIAL_BIN"
-    }
-else
+exec-vial() {
+    local $(printf "%s" "${VIAL_VARS[*]}")
+    VIAL_REPO='https://github.com/vial-kb/vial-gui.git'
+    VIAL_CURRENT_VERSION="$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' "${VIAL_REPO}" | tail -n1 | cut -d'/' -f3)"
+    VIAL_BIN_PATH="$HOME/.bin/vial/vial-bin"
+    VIAL_BIN_DIR="${VIAL_BIN_PATH%/*}"
+    VIAL_VERSION_FILE="${VIAL_BIN_DIR}/vial-current"
+    VIAL_APPIMAGE="Vial-${VIAL_CURRENT_VERSION}-x86_64.AppImage"
+    VIAL_DOWNLOAD_LINK="${VIAL_REPO%%.*}/releases/download/${VIAL_CURRENT_VERSION}/${VIAL_APPIMAGE}"
+    VIAL_BIN="${VIAL_BIN_PATH##*/}"
+    
     (
 	cd "$VIAL_BIN_DIR"
-	wget -O "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK"
-	chmod +x "$VIAL_BIN"
-    )
+	printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"	
 
-    coproc "$VIAL_COPROC" {
-	"$VIAL_BIN"
-    }    
-fi >/dev/null 2>&1
+	if [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" && -e "$VIAL_BIN_PATH" ]]; then
+	    "$VIAL_BIN_PATH" &
+	else	    
+	    wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK"
+	    chmod +x "$VIAL_BIN_PATH"
+	    "$VIAL_BIN_PATH" &
+	fi
+    )    
+}
 
-set +x
+exec-vial
