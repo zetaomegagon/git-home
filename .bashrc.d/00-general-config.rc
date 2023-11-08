@@ -3,7 +3,10 @@
 # --------------------------------------------------------------------------------------------------
 # path
 # --------------------------------------------------------------------------------------------------
-PATH="$HOME/.bin:$PATH"
+[[ "${PATH#*$HOME/Gits/cloudshare:}" == $PATH ]] && PATH="$HOME/Gits/cloudshare:$PATH"
+[[ "${PATH#*$HOME/.bin/vial:}" == $PATH ]] && PATH="$HOME/.bin/vial:$PATH"
+[[ "${PATH#*$HOME/.bin/linphone:}" == $PATH ]] && PATH="$HOME/.bin/linphone:$PATH"
+[[ "${PATH#*$HOME/.bin:}" == $PATH ]] && PATH="$HOME/.bin:$PATH"
 
 # --------------------------------------------------------------------------------------------------
 # shell options                    See: https://www.mankier.com/1/bash#Shell_Builtin_Commands

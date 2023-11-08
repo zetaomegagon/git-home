@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-## source CloudShare scripts
-PATH="$HOME/Gits/cloudshare:$PATH"
-
 ## servers
 linuxsrv(){
     local domain='linuxsrv.itst.loc'
