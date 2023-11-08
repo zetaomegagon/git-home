@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 declare -ra VIAL_VARS=(
-    VIAL_REPO
     VIAL_CURRENT_VERSION
     VIAL_APPIMAGE
     VIAL_DOWNLOAD_LINK
@@ -11,10 +10,17 @@ declare -ra VIAL_VARS=(
     VIAL_VERSION_FILE
 )
 
+get-current-version() {
+    VIAL_REPO='https://github.com/vial-kb/vial-gui.git'
+
+    git -c 'versionsort.suffix=-' \
+	ls-remote --tags --sort='v:refname' "${VIAL_REPO}" \
+	| tail -n1 \
+	| cut -d'/' -f3
+}
+
 exec-vial() {
     local $(printf "%s" "${VIAL_VARS[*]}")
-    VIAL_REPO='https://github.com/vial-kb/vial-gui.git'
-    VIAL_CURRENT_VERSION="$(git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' "${VIAL_REPO}" | tail -n1 | cut -d'/' -f3)"
     VIAL_BIN_PATH="$HOME/.bin/vial/vial-bin"
     VIAL_BIN_DIR="${VIAL_BIN_PATH%/*}"
     VIAL_VERSION_FILE="${VIAL_BIN_DIR}/vial-current"
@@ -23,17 +29,19 @@ exec-vial() {
     VIAL_BIN="${VIAL_BIN_PATH##*/}"
 
     (
-	cd "$VIAL_BIN_DIR"
-	printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"
+	{
+	    cd "$VIAL_BIN_DIR"
 
-	if [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" && -e "$VIAL_BIN_PATH" ]]; then
-	    "$VIAL_BIN_PATH" &
-	else
-	    wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK"
-	    chmod +x "$VIAL_BIN_PATH"
-	    "$VIAL_BIN_PATH" &
-	fi
-    )
+	    if [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" && -e "$VIAL_BIN_PATH" ]]; then
+		"$VIAL_BIN_PATH"
+	    else
+		printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"
+		wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK"
+		chmod +x "$VIAL_BIN_PATH"
+		"$VIAL_BIN_PATH"
+	    fi
+	} >/dev/null 2>&1 &
+    ) 
 }
 
 exec-vial
