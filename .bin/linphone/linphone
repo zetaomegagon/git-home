@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+declare -ra LINPHONE_VARS=(
+    LINPHONE_CURRENT_VERSION
+    LINPHONE_APPIMAGE
+    LINPHONE_DOWNLOAD_LINK
+    LINPHONE_BIN_PATH
+    LINPHONE_BIN_DIR
+    LINPHONE_BIN
+    LINPHONE_VERSION_FILE
+)
+
+get-current-version() {
+    local LINPHONE_REPO='https://github.com/BelledonneCommunications/linphone-desktop.git'
+
+    git -c 'versionsort.suffix=-' \
+	ls-remote --tags --sort='v:refname' "${LINPHONE_REPO}" \
+	| sed -E '/alpha|beta/d' \
+	| tr -d '^{}' \
+	| tail -n1 \
+	| cut -d'/' -f3
+}
+    
+exec-linphone() {
+    local $(printf "%s" "${LINPHONE_VARS[*]}")    
+    LINPHONE_CURRENT_VERSION="$(get-current-version)"
+    LINPHONE_BIN_PATH="$HOME/.bin/linphone/linphone-bin"
+    LINPHONE_BIN_DIR="${LINPHONE_BIN_PATH%/*}"
+    LINPHONE_APPIMAGE="Linphone-${LINPHONE_CURRENT_VERSION}.AppImage"
+    LINPHONE_DOWNLOAD_LINK="https://linphone.org/releases/linux/latest_app"
+    LINPHONE_BIN="${LINPHONE_BIN_PATH##*/}"
+    LINPHONE_VERSION_FILE="${LINPHONE_BIN_DIR}/${LINPHONE_BIN/bin/current}"
+
+    (
+	{
+	    cd "$LINPHONE_BIN_DIR"
+	    
+	    if [[ "$LINPHONE_CURRENT_VERSION" == "$(cat "$LINPHONE_VERSION_FILE")" && -e "$LINPHONE_BIN_PATH" ]]; then
+		"$LINPHONE_BIN_PATH"
+	    else
+		printf "%s" "$LINPHONE_CURRENT_VERSION" > "$LINPHONE_VERSION_FILE"
+		wget -qO "$LINPHONE_BIN" "$LINPHONE_DOWNLOAD_LINK"
+		chmod +x "$LINPHONE_BIN_PATH"
+		"$LINPHONE_BIN_PATH"
+	    fi
+	} >/dev/null 2>&1 &	
+    ) 
+}
+
+exec-linphone

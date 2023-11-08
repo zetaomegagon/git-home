@@ -54,3 +54,4 @@
 # except these
 .bin/cs-*
 .bin/vial/vial-*
+.bin/linphone/linphone-*
