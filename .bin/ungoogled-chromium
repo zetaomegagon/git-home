@@ -18,13 +18,10 @@
 # 3b. if 'incognito' is passed as the name, launches ungoogled-chromium with the #
 #     --incognito flag								 #
 ##################################################################################
-set -x
-readarray input < <(printf -- "$*")
-
 ungoogled-chromium() {
     set -x
-    readarray input < <(printf -- "$*")
-    local sdir="${input[0]}"
+    local input=( $@ )
+    local sdir=${input[0]}
     local args=( ${input[@]:1:${#input[@]}} )
     local pdir="$HOME/.ungoogled-chromium"
     local tdir="ungoogled-chromium-${sdir}"
@@ -103,16 +100,17 @@ ungoogled-chromium() {
 
     _populate-home() {
 	set -x
-	if [[ ! -d "$home" ]]; then
+	if [[ ! -d "$home" && -e "${pdir}/template-${sdir}" ]]; then
 	    cp -a ${pdir}/template-${sdir}/ "$home"
+	else
+	    cp -a ${pdir}/template-personal/ "$home"
 	fi
 	set +x
     }
 
     _ungoogled-chromium() {
 	set -x
-	readarray input < <(printf -- "$*")
-
+	local input=( $@ )
 	if [[ -n "$flatpak" ]]; then
 	    env HOME="$home" flatpak run \
 		--filesystem="$downloads" \
@@ -132,9 +130,9 @@ ungoogled-chromium() {
 	_populate-home
 	case "$sdir" in
 	    incognito)
-		_ungoogled-chromium --incognito "${args[@]}" ;;
+		_ungoogled-chromium --incognito ${args[@]} ;;
 	    *)
-		_ungoogled-chromium "${args[@]}"
+		_ungoogled-chromium ${args[@]}
 	esac
 	set +x
     }
@@ -143,5 +141,6 @@ ungoogled-chromium() {
     set +x
 }
 
-ungoogled-chromium "$input"
-set +x
+input=( $@ )
+ungoogled-chromium ${input[@]}
+
