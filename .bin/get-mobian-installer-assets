@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+MOBIAN_DEVICE="${1:-librem5}"
+MOBIAN_BUILD_WEEK="$(date -dlast-sunday +%Y%m%d)"
+MOBIAN_INSTALLER_URL="https://images.mobian.org/${MOBIAN_DEVICE}/installer/weekly/"
+MOBIAN_INSTALLER_GREP_STRING="mobian-installer-${MOBIAN_DEVICE}-phosh-${MOBIAN_BUILD_WEEK}"
+MOBIAN_INSTALLER_DOWNLOAD_DIR="$HOME/ISO/mobian/installer/"
+MOBIAN_INSTALLER_ASSETS=(
+    $(
+	curl --silent "$MOBIAN_INSTALLER_URL" \
+	    | grep -i "$MOBIAN_INSTALLER_GREP_STRING" \
+	    | sed -E "s,(.*>)(${MOBIAN_INSTALLER_GREP_STRING}.[a-z0-9\.]+)(<.*),\2,g"
+    )
+)
+
+exec-get-mobian-installer-assets() {
+    (
+	if [[ ! -d "$MOBIAN_INSTALLER_DOWNLOAD_DIR" ]]; then
+	    mkdir -p "$MOBIAN_INSTALLER_DOWNLOAD_DIR" ||
+		exit 1
+	    cd "$MOBIAN_INSTALLER_DOWNLOAD_DIR" ||
+		exit 2
+	else
+	    cd "$MOBIAN_INSTALLER_DOWNLOAD_DIR" ||
+		exit 2
+	fi
+    
+	for ASSET in "${MOBIAN_INSTALLER_ASSETS[@]}"; do
+	    if [[ ! -e "$ASSET" ]]; then
+		wget \
+		    --quiet \
+		    --show-progress \
+		    "${MOBIAN_INSTALLER_URL}${ASSET}"
+	    fi
+	done
+
+	gpg --verify *.sha256sums.sig && shasum -c *.sha256sums
+    )
+}
+
+exec-get-mobian-installer-assets
