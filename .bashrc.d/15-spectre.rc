@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+export SPECTRE_USERNAME=Elijah\ Thomas\ Beale
+export SPECTRE_ASKPASS=/home/ebeale/.bin/spectre-ask
+export SPECTRE_ALGORITHM=3
+export SPECTRE_FORMAT=flat
+
+BIN_HOME=/home/ebeale/.bin
+
+source $BIN_HOME/bashlib
+
+spectre() {
+    # Modified spectre wrapper
+    _copy() {
+        local _clips=('pbcopy' 'xclip' 'gpaste-client')
+        local _use="${_clips[2]}"
+
+        case "$_use" in
+            "${_clips[0]}")
+                hash "$_use" 2>/dev/null && "$_use" ;;
+            "${_clips[1]}")
+                hash "$_use" 2>/dev/null && "$_use" ;;
+            "${_clips[2]}")
+                hash "$_use" 2>/dev/null && "$_use" add-password "" ;;
+            *)
+                cat; echo 2>/dev/null
+                return
+        esac
+
+        echo >&2 "Copied!"
+    }
+
+    # print help to stdout so that it can be paged
+    case "$1" in        
+        -h|--help)
+            { $BIN_HOME/spectre -h 2>&1 | less -R; } && return 0 ;;
+    esac
+    
+    # Empty the clipboard.
+    :| _copy 2>/dev/null
+
+    # Ask for the user's name and password if not yet known.
+    SPECTRE_FULLNAME=${SPECTRE_USERNAME:-$(ask 'Your Full Name:')}
+
+    # restart the gpaste-client daemon because it has
+    # trouble keeping up with clipboard changes.
+    gpaste-client daemon-reexec >/dev/null 2>&1
+
+    # Start Master Password and copy the output. This is where the
+    # magic begins.
+    #
+    # Added only read / write json option.
+    printf %s "$(SPECTRE_USERNAME=$SPECTRE_USERNAME command spectre "$@")" | _copy
+
+    # For gpaste-client: clear last password after 30 seconds
+    if [[ "$_use" = "${_clips[2]}" ]]; then
+        local length=16
+        local delay=30
+        # execute in a subshell so that we get back control
+        # of the command line
+        (
+            # group these commands so that we can redirect
+            # unwanted output to /dev/null, and run in the
+            # background
+            {
+                _name="spectre_$(mktemp -u "$(for ((i=1;i<=length;i++)); do printf %s "X"; done)")"
+                gpaste-client rename-password "" "$_name"
+                sleep "$delay"
+                gpaste-client delete-password "$_name"
+            } >/dev/null 2>&1 &
+        )
+    fi
+}

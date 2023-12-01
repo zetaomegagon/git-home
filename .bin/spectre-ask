@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Ask script for MasterPassword
+# Defined in $SPECTRE_ASKPASS
+
+read -rsp "$1" && echo "$REPLY"

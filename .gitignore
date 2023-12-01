@@ -55,3 +55,5 @@
 .bin/cs-*
 .bin/vial/vial-*
 .bin/linphone/linphone-*
+.bin/spectre
+.bin/bashlib
