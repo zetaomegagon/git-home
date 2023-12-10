@@ -42,10 +42,6 @@ spectre() {
     # Ask for the user's name and password if not yet known.
     SPECTRE_FULLNAME=${SPECTRE_USERNAME:-$(ask 'Your Full Name:')}
 
-    # restart the gpaste-client daemon because it has
-    # trouble keeping up with clipboard changes.
-    gpaste-client daemon-reexec >/dev/null 2>&1
-
     # Start Master Password and copy the output. This is where the
     # magic begins.
     #
@@ -55,7 +51,7 @@ spectre() {
     # For gpaste-client: clear last password after 30 seconds
     if [[ "$_use" = "${_clips[2]}" ]]; then
         local length=16
-        local delay=30
+        local delay=60
         # execute in a subshell so that we get back control
         # of the command line
         (
