@@ -248,8 +248,12 @@
 ;;;; ement
 (use-package ement)
 
+;; powershell.el
+(use-package powershell)
+
 ;; tree-sitter
 (require 'treesit)
+
 
 ;; save emacs state
 (require 'desktop)
