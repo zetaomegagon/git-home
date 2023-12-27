@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+shopt -s extglob
+
+clip() {
+    local -a input rest gpaste_opts sort_opts; local first
+    
+    input=( $@ )
+    first="${input[0]}"
+    rest=( "${input[@]:1:${#input[@]}}" )
+    gpaste_opts=( --use-index --oneline )
+    sort_opts=( --reverse --numeric-sort --field-separator=':' --key=1 )
+
+    clip-list() {
+	local first="$1"
+	if [[ -n "$first" ]]; then
+	    gpaste-client "${gpaste_opts[@]}" \
+		| sort "${sort_opts[@]}" \
+		| tail -n "$first" \
+		| sed -r 's,(\s)\s*,\1,g'
+	else
+	    gpaste-client "${gpaste_opts[@]}" \
+		| sort "${sort_opts[@]}" \
+		| sed -r 's,(\s)\s*,\1,g'
+	fi
+    }
+    
+    clip-clean() {
+	gpaste-client empty
+    }
+    
+    clip-mutate() {
+	gpaste-client --use-index "$1" "$2"
+    }
+    
+    clip-get() {
+	gpaste-client "${gpaste_opts[@]}" "$1" "$2" | sed -r 's,(\s)\s*,\1,g'
+	printf '\n'
+    }
+    
+    clip-exec() {
+	gpaste-client "$1" "$2"
+    }
+    
+    case "$first" in
+	?(.*)|+([0-9]) ) clip-list   "$first"              ;;
+	clea?(r|n)     ) clip-clean                        ;;
+        ?(d|m)*e|s*t*  ) clip-mutate "$first" "${rest[@]}" ;;
+	get            ) clip-get    "$first" "${rest[@]}" ;;
+	*              ) clip-exec   "$first" "${rest[@]}"
+    esac
+}
