@@ -202,6 +202,7 @@
   :config
   (setq vterm-kill-buffer-on-exit t
 	vterm-max-scrollback 100000)
+  (define-key vterm-mode-map (kbd "C-'") #'vterm-send-next-key)
   (add-hook 'vterm-mode-hook
 	    (lambda ()
 	      (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
@@ -266,3 +267,6 @@
       desktop-restore-forces-onscreen nil
       savehist-mode t
       desktop-save-mode t)
+
+;; start a vterm instance
+(multi-vterm)
