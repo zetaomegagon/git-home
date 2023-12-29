@@ -268,5 +268,3 @@
       savehist-mode t
       desktop-save-mode t)
 
-;; start a vterm instance
-(multi-vterm)
