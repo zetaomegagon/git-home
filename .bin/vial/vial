@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+declare -r VIAL_REPO='https://github.com/vial-kb/vial-gui.git'
+
+get-current-version() {
+    git -c 'versionsort.suffix=-' \
+	ls-remote --tags --sort='v:refname' "${VIAL_REPO}" \
+	| tail -n1 \
+	| cut -d'/' -f3
+}
+
 declare -ra VIAL_VARS=(
     VIAL_CURRENT_VERSION
     VIAL_APPIMAGE
@@ -8,40 +17,37 @@ declare -ra VIAL_VARS=(
     VIAL_BIN_DIR
     VIAL_BIN
     VIAL_VERSION_FILE
+    VIAL_START_MSG
 )
 
-get-current-version() {
-    VIAL_REPO='https://github.com/vial-kb/vial-gui.git'
-
-    git -c 'versionsort.suffix=-' \
-	ls-remote --tags --sort='v:refname' "${VIAL_REPO}" \
-	| tail -n1 \
-	| cut -d'/' -f3
-}
-
-exec-vial() {
+download-and-run-vial() {
     local $(printf "%s" "${VIAL_VARS[*]}")
+    VIAL_CURRENT_VERSION="$(get-current-version)"
     VIAL_BIN_PATH="$HOME/.bin/vial/vial-bin"
     VIAL_BIN_DIR="${VIAL_BIN_PATH%/*}"
-    VIAL_VERSION_FILE="${VIAL_BIN_DIR}/vial-current"
+    VIAL_VERSION_FILE="${VIAL_BIN_DIR}/vial-current-version"
     VIAL_APPIMAGE="Vial-${VIAL_CURRENT_VERSION}-x86_64.AppImage"
-    VIAL_DOWNLOAD_LINK="${VIAL_REPO%%.*}/releases/download/${VIAL_CURRENT_VERSION}/${VIAL_APPIMAGE}"
+    VIAL_DOWNLOAD_LINK="${VIAL_REPO%.*}/releases/download/${VIAL_CURRENT_VERSION}/${VIAL_APPIMAGE}"
     VIAL_BIN="${VIAL_BIN_PATH##*/}"
+    VIAL_START_MSG="Starting Vial..."
 
-    (
-	{
-	    cd "$VIAL_BIN_DIR"
+    exec-vial() {
+	printf "%s\n" "$VIAL_START_MSG"
+	(
+	    "$VIAL_BIN_PATH" >/dev/null 2>&1 &
+	)
+    }
 
-	    if [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" && -e "$VIAL_BIN_PATH" ]]; then
-		"$VIAL_BIN_PATH"
-	    else
-		printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"
-		wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK"
-		chmod +x "$VIAL_BIN_PATH"
-		"$VIAL_BIN_PATH"
-	    fi
-	} >/dev/null 2>&1 &
-    ) 
+    cd "$VIAL_BIN_DIR" || { echo "Cannot change to: $VIAL_BIN_DIR" && exit; } >&2
+
+    if $(file --mime "$VIAL_BIN_PATH" | grep -qE 'x-executable') && [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" ]]; then
+	exec-vial
+    else
+	wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK" || { echo "Not a valid URL: $VIAL_DOWNLOAD_LINK" && exit; } >&2
+	chmod +x "$VIAL_BIN_PATH"
+	exec-vial
+	printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"
+    fi
 }
 
-exec-vial
+download-and-run-vial
