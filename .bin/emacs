@@ -15,7 +15,7 @@ emacs() {
 
     source "$HOME/.bashrc.d/12-emacs.rc"
 
-    local is_term_flag
+    local is_term_flag finput
     local -a flags
     readarray finput < <(printf -- "$*")
     
@@ -41,7 +41,7 @@ emacs() {
     set +x
 } 
 
-declare log
+declare log input
 
 if is-term-p; then
     log="emacs-term.log"
@@ -52,3 +52,5 @@ fi
 readarray input < <(printf -- "$*")
 
 emacs "${input[@]}" 2>"$HOME/.emacs.d/$log"
+
+exit 0
