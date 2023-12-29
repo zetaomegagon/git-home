@@ -19,6 +19,7 @@
 !.emacs.d/init.el
 !.emacs.d/bookmarks
 !.emacs.d/desktop-save
+!.emacs.d/.authinfo.gpg
 
 #@ jed
 !.jedrc
