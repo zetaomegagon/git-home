@@ -248,3 +248,4 @@
       savehist-mode t
       desktop-save-mode t)
 
+(sly)
