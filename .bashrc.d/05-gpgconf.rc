@@ -5,4 +5,7 @@ unset SSH_AGENT_PID
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 gpgconf --launch gpg-agent
 
-
+# get publick key fingerprint
+get-gpg-pkf() { 
+    gpg --list-keys | command grep -E '\s7D31.*CC11$' | tr -d ' '
+}
