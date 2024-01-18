@@ -3,7 +3,7 @@
 # --------------------------------------------------------------------------------------------------
 # path
 # --------------------------------------------------------------------------------------------------
-[[ "${PATH#*$HOME/Gits/cloudshare:}" == $PATH ]] && PATH="$HOME/Gits/cloudshare:$PATH"
+[[ "${PATH#*$HOME/projects/repositories/cloudshare:}" == $PATH ]] && PATH="$HOME/Gits/cloudshare:$PATH"
 [[ "${PATH#*$HOME/.bin/vial:}" == $PATH ]] && PATH="$HOME/.bin/vial:$PATH"
 [[ "${PATH#*$HOME/.bin/linphone:}" == $PATH ]] && PATH="$HOME/.bin/linphone:$PATH"
 [[ "${PATH#*$HOME/.bin:}" == $PATH ]] && PATH="$HOME/.bin:$PATH"
@@ -65,19 +65,30 @@ export HISTCONTROL='ignoreboth'
 # history functions                See: https://mywiki.wooledge.org/BashFAQ/088
 # --------------------------------------------------------------------------------------------------
 dedupe-history() {
+    local TEMPDIR="$(mktemp -d -t bash-history-XXXXXXXXXXXXXXXX)"
     awk 'NR==FNR && !/^#/{lines[$0]=FNR;next} lines[$0]==FNR' "$HISTFILE" "$HISTFILE" \
-	> "/tmp/${HISTFILE##*/}.compressed" \
-	&& mv "/tmp/${HISTFILE##*/}.compressed" "$HISTFILE" 2>&-
+	> "${TEMPDIR}/${HISTFILE##*/}.compressed" \
+	&& cp "${TEMPDIR}/${HISTFILE##*/}.compressed" "$HISTFILE" 2>&-
+}
+
+backup-history() {
+    local BAKDIR="$HOME/.history"
+	local DATE="$(date -uIns)"
+	local NEWHIST="history-$DATE"
+    [[ ! -d $BAKDIR ]] && mkdir $BAKDIR
+	cp $HISTFILE "$BAKDIR/$NEWHIST"
 }
 
 # --------------------------------------------------------------------------------------------------
 # deduplicate $HISTFILE and make it append only
 # --------------------------------------------------------------------------------------------------
 if lsattr -a $HISTFILE | grep -qE '^-+a-+.*$'; then
+    backup-history
     sudo chattr -a $HISTFILE
     dedupe-history
     sudo chattr +a $HISTFILE
 else
+    backup-history
     dedupe-history
     sudo chattr +a $HISTFILE
 fi
