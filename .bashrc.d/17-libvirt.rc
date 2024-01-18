@@ -1,0 +1,3 @@
+#!/usr/bin/env/bash
+
+export LIBVIRT_DEFAULT_URI='qemu:///system'
