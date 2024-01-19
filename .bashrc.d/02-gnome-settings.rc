@@ -95,7 +95,7 @@ if ! [[ -f /run/.containerenv ]]; then
     }
 
     
-    gnome-nightlight --enabled true --from "20" --to "7" 3000
+    gnome-nightlight --enabled true --from "19" --to "7" 3000
 
     ## Display brightness
     #- Source: https://wiki.archlinux.org/title/Backlight#Using_DBus_with_GNOME
