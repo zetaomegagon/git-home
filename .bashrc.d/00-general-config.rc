@@ -3,10 +3,17 @@
 # --------------------------------------------------------------------------------------------------
 # path
 # --------------------------------------------------------------------------------------------------
-[[ "${PATH#*$HOME/projects/repositories/cloudshare:}" == $PATH ]] && PATH="$HOME/Gits/cloudshare:$PATH"
-[[ "${PATH#*$HOME/.bin/vial:}" == $PATH ]] && PATH="$HOME/.bin/vial:$PATH"
-[[ "${PATH#*$HOME/.bin/linphone:}" == $PATH ]] && PATH="$HOME/.bin/linphone:$PATH"
-[[ "${PATH#*$HOME/.bin:}" == $PATH ]] && PATH="$HOME/.bin:$PATH"
+PATHS=(
+    projects/repositories/cloudshare
+    .bin/vial
+    .bin/linphone
+    .bin
+)
+
+for rpath in "${PATHS[@]}"; do
+    fpath="${HOME}/${rpath}"
+    [[ "${PATH#*${fpath}:}" == $PATH ]] && PATH="${fpath}:$PATH"
+done
 
 # --------------------------------------------------------------------------------------------------
 # shell options                    See: https://www.mankier.com/1/bash#Shell_Builtin_Commands
