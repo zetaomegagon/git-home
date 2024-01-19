@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+SOURCE="$HOME"
+TARGET="/snapshots"
+DATE="$(date -uIs)"
+NAME="${HOME##*/}-${DATE}"
+
+sudo btrfs subvolume snapshot "$SOURCE" "${TARGET}/${NAME}"
