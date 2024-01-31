@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# list connected accesspoint based on it's radio's MAC address
+
+aps=(
+    E8:9F:80:4F:EB:C5 #living room
+    E8:9F:80:50:5C:92 #bedroom
+    E8:9F:80:DF:DB:2C #office
+)
+
+current_ap="$(nmcli -f BSSID,ACTIVE dev wifi list | grep yes | cut -d " " -f 1)"
+
+case "$current_ap" in
+    "${aps[0]}") printf "living-room" ;;
+    "${aps[1]}") printf "bedroom"     ;;
+    "${aps[2]}") printf "office"      ;;
+    *)           printf "2G Connection: please forget SSID"
+esac
+
+	  
