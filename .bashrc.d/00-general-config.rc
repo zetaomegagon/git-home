@@ -94,10 +94,11 @@ if lsattr -a $HISTFILE | grep -qE '^-+a-+.*$'; then
     sudo chattr -a $HISTFILE
     dedupe-history
     sudo chattr +a $HISTFILE
-else
-    backup-history
-    dedupe-history
-    sudo chattr +a $HISTFILE
+    # I think this condition may cause history to get clobbered
+    # else
+    #     backup-history
+    #     dedupe-history
+    #     sudo chattr +a $HISTFILE
 fi
 
 # --------------------------------------------------------------------------------------------------
