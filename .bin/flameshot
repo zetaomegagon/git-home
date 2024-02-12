@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Workaround to flameshot / xdg-desktop-portal Wayland / D-Bus bug
+# - https://github.com/flameshot-org/flameshot/issues/3326
+# - https://github.com/flatpak/xdg-desktop-portal/issues/1070
+
+/usr/bin/flameshot "${@:-gui}"
