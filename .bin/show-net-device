@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# list connected accesspoint based on it's radio's MAC address
+# print connected accesspoint name based on it's radio's MAC address
+# If no current accesspoint, print current ethernet device or "unknown"
 
 aps=(
     E8:9F:80:4F:EB:C5 #living room
@@ -11,12 +12,19 @@ aps=(
 access_point="$(nmcli -f BSSID,ACTIVE dev wifi list | grep yes | cut -d " " -f 1)"
 eth_device="$(nmcli -t dev | grep ':ethernet' | grep ':connected:' | cut -d':' -f1)"
 
-case "$current_ap" in
+print-catch-case() {
+    if [[ -n "$eth_device" ]]; then
+	printf "$eth_device"
+    else
+	printf "unknown"
+    fi
+}
+
+case "$access_point" in
     "${aps[0]}") printf "living-room" ;;
     "${aps[1]}") printf "bedroom"     ;;
     "${aps[2]}") printf "office"      ;;
-             "") printf "$eth_device" ;; 
-              *) printf "unknown"
+              *) print-catch-case
 esac
 
 	  
