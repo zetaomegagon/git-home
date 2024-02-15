@@ -42,10 +42,14 @@ clip() {
     }
     
     case "$first" in
-	!(*)|+([0-9])  ) clip-list   "$first"              ;;
+	!(.*)|+([0-9]) ) clip-list   "$first"              ;;
 	clea?(r|n)     ) clip-clean                        ;;
         ?(d|m)*e|s*t*  ) clip-mutate "$first" "${rest[@]}" ;;
 	get            ) clip-get    "$first" "${rest[@]}" ;;
 	*              ) clip-exec   "$first" "${rest[@]}"
     esac
 }
+
+input=( $@ )
+
+clip "${input[@]}"
