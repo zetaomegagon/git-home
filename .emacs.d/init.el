@@ -80,6 +80,8 @@
   :init
   (setq org-confirm-babel-evaluate nil
 	org-babel-lisp-eval-fn #'sly-eval)
+  (setq org-todo-keywords
+	'((sequence "TODO" "IN-PROGRESS" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED" "CANCELED")))
   :config
   (add-hook 'org-mode-hook #'org-indent-mode)
   (org-babel-do-load-languages
@@ -132,14 +134,21 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
+;;;; eterm-256color
+(use-package eterm-256color)
+
 ;;;; vterm
 (use-package vterm
   :init
   ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
   (setq vterm-always-compile-module t)
   :config
+  ; https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#customization
   (setq vterm-kill-buffer-on-exit t
-	vterm-max-scrollback 100000)
+	vterm-copy-exclude-prompt t
+	vterm-buffer-name-string t
+	vterm-max-scrollback 100000
+	vterm-term-environment-variable "eterm-color")
   (define-key vterm-mode-map (kbd "C-'") #'vterm-send-next-key)
   (add-hook 'vterm-mode-hook
 	    (lambda ()
