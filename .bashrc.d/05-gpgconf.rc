@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# -*- mode: bash-ts -*-
 
 export GPG_TTY=$(tty)
 unset SSH_AGENT_PID
