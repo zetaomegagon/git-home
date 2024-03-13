@@ -34,6 +34,7 @@ ungoogled-chromium() {
     # see:
     #  - https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/flag_descriptions.cc
     #  - https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
+
     local enable_flag_gpu=(
 	GpuRasterization,
 	CanvasOopRasterization,
@@ -58,20 +59,20 @@ ungoogled-chromium() {
 
     local enable_flag_privacy=(
 	FingerprintingCanvasImageDataNoise,
-        FingerprintingCanvasMeasuretextNoise,
+	FingerprintingCanvasMeasuretextNoise,
 	FingerprintingClientRectsNoise,
-        ForcePunycodeHostnames,
+	ForcePunycodeHostnames,
 	DisableGreaseTLS,
 	HttpAcceptHeader,
 	NoPings,
     )
-    
+
     local enable_flag_privacy_experimental=(
 	PartitionedCookies,
 	ThirdPartyStoragePartitioning,
 	SplitCacheByNetworkIsolationKey,
     )
-            
+
     local disable_flags=(
 	DesktopPWAsRunOnOsLogin,
 	WebAssemblyTrapHandler,
@@ -85,6 +86,11 @@ ungoogled-chromium() {
 	--disable-search-engine-collection
 	--disable-gpu-driver-bug-workarounds
     )
+
+    # https://github.com/microsoft/vscode/issues/204798#issuecomment-1936657589
+    if ! lspci -k | grep -qi 'kernel driver in use: amdgpu'; then
+	switches+=(--disable-accelerated-video-decode)
+    fi
 
     _set-home() {
 	set -x
