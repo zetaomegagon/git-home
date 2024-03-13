@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# -*- mode: bash-ts -*-
 
 export GIT_PS1_SHOWUPSTREAM=auto
 export GIT_PS1_SHOWDIRTYSTATE=1

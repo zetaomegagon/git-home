@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# -*- mode: bash-ts -*-
 
 export SPECTRE_USERNAME=Elijah\ Thomas\ Beale
 export SPECTRE_ASKPASS=/home/ebeale/.bin/spectre-ask

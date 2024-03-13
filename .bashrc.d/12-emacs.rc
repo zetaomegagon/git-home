@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# -*- mode: bash-ts -*-
 
 ## source definitions
 source $HOME/.bashrc.d/01-functions.rc
@@ -49,11 +49,12 @@ fi
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }"'echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
 
 # https://github.com/akermu/emacs-libvterm#directory-tracking-and-prompt-tracking
-vterm_prompt_end(){
-    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
-}
+# vterm_prompt_end(){
+#     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+# }
 
-PS1=$PS1'\[$(vterm_prompt_end)\]'
+# PS1=$PS1'\[$(vterm_prompt_end)\]'
+
 
 # https://github.com/akermu/emacs-libvterm#message-passing
 vterm_cmd() {
