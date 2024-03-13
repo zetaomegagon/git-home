@@ -146,9 +146,9 @@
   ; https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#customization
   (setq vterm-kill-buffer-on-exit t
 	vterm-copy-exclude-prompt t
-	vterm-buffer-name-string t
-	vterm-max-scrollback 100000
-	vterm-term-environment-variable "eterm-color")
+	;vterm-buffer-name-string t
+	vterm-term-environment-variable "eterm-color"
+	vterm-max-scrollback 100000)
   (define-key vterm-mode-map (kbd "C-'") #'vterm-send-next-key)
   (add-hook 'vterm-mode-hook
 	    (lambda ()
