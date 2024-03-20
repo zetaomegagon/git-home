@@ -203,6 +203,13 @@
 ;; tree-sitter
 (require 'treesit)
 
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((sh-mode bash-ts-mode) . ("bash-language-server" "start")))
+  :hook
+  (sh-mode . eglot-ensure)
+  (bash-ts-mode . eglot-ensure))
+
 ;; save emacs state
 (require 'desktop)
 (desktop-read)
@@ -215,3 +222,15 @@
       savehist-mode t
       desktop-save-mode t)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(eglot)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
