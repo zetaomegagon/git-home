@@ -21,7 +21,7 @@ declare -ra VIAL_VARS=(
 )
 
 download-and-run-vial() {
-    local $(printf "%s" "${VIAL_VARS[*]}")
+    local "${VIAL_VARS[@]}"
     VIAL_CURRENT_VERSION="$(get-current-version)"
     VIAL_BIN_PATH="$HOME/.bin/vial/vial-bin"
     VIAL_BIN_DIR="${VIAL_BIN_PATH%/*}"
@@ -40,7 +40,7 @@ download-and-run-vial() {
 
     cd "$VIAL_BIN_DIR" || { echo "Cannot change to: $VIAL_BIN_DIR" && exit; } >&2
 
-    if $(file --mime "$VIAL_BIN_PATH" | grep -qE 'x-executable') && [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" ]]; then
+    if eval "file --mime $VIAL_BIN_PATH | grep -qE x-executable" && [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" ]]; then
 	exec-vial
     else
 	wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK" || { echo "Not a valid URL: $VIAL_DOWNLOAD_LINK" && exit; } >&2
