@@ -3,28 +3,33 @@
 # print connected accesspoint name based on it's radio's MAC address
 # If no current accesspoint, print current ethernet device or "unknown"
 
+declare -A aps
 aps=(
-    E8:9F:80:4F:EB:C5 #living room
-    E8:9F:80:50:5C:92 #bedroom
-    E8:9F:80:DF:DB:2C #office
+    [living-room]="E8:9F:80:4F:EB:C5"
+    [bedroom]="E8:9F:80:50:5C:92"
+    [office]="E8:9F:80:DF:DB:2C"
+    [g1100-2g]="48:5D:36:60:00:84"
+    [g1100-5g]="48:5D:36:60:00:82"
 )
 
 access_point="$(nmcli -f BSSID,ACTIVE dev wifi list | grep yes | cut -d " " -f 1)"
 eth_device="$(nmcli -t dev | grep ':ethernet' | grep ':connected:' | cut -d':' -f1)"
 
-print-catch-case() {
+ethernet-or-unknown() {
     if [[ -n "$eth_device" ]]; then
-	printf "$eth_device"
+	printf "%s" "$eth_device"
     else
 	printf "unknown"
     fi
 }
 
 case "$access_point" in
-    "${aps[0]}") printf "living-room" ;;
-    "${aps[1]}") printf "bedroom"     ;;
-    "${aps[2]}") printf "office"      ;;
-              *) print-catch-case
+    "${aps[living-room]}") printf "Living Room" ;;
+        "${aps[bedroom]}") printf "Bedroom"     ;;
+         "${aps[office]}") printf "Office"      ;;
+       "${aps[g1100-2g]}") printf "FiOS-G1100"  ;;
+       "${aps[g1100-5g]}") printf "FiOS-G1100"  ;;
+                        *) ethernet-or-unknown
 esac
 
-	  
+
