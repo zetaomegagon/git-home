@@ -36,25 +36,25 @@ ungoogled-chromium() {
     #  - https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
 
     local enable_flag_gpu=(
-	GpuRasterization,
-	CanvasOopRasterization,
-	IgnoreGpuBlockList,
-	ZeroCopy,
-	VaapiVideoEncoder,
-	RawDraw,
+	# GpuRasterization,
+	# CanvasOopRasterization,
+	# IgnoreGpuBlockList,
+	# ZeroCopy,
+	# VaapiVideoEncoder,
+	# RawDraw,
     )
 
     local enable_flag_extra_gpu=(
-	Accelerated2dCanvas,
-	UIEnableSharedImageCacheForGpu,
-	UseGpuSchedulerDfs,
-	EnableDrDc,
-	ClientGmbInterface,
-	Vp9kSVCHWDecoding,
-	VaapiJpegImageDecodeAcceleration,
-	VaapiWebPImageDecodeAcceleration,
-	GainmapHdrImages,
-	EnablePixelCanvasRecording,
+	# Accelerated2dCanvas,
+	# UIEnableSharedImageCacheForGpu,
+	# UseGpuSchedulerDfs,
+	# EnableDrDc,
+	# ClientGmbInterface,
+	# Vp9kSVCHWDecoding,
+	# VaapiJpegImageDecodeAcceleration,
+	# VaapiWebPImageDecodeAcceleration,
+	# GainmapHdrImages,
+	# EnablePixelCanvasRecording,
     )
 
     local enable_flag_privacy=(
