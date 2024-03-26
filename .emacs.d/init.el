@@ -72,6 +72,9 @@
 ;; set auth-sources to only use a gpg backed sources
 (setq auth-sources '("~/.authinfo.gpg"))
 
+;; winner mode
+(winner-mode)
+
 ;; packages
 (elpaca-wait)
 
@@ -197,18 +200,46 @@
 ;;;; ement
 (use-package ement)
 
-;; powershell.el
+;;;; powershell.el
 (use-package powershell)
 
-;; tree-sitter
+;;;; racket-mode
+(use-package racket-mode
+  :config
+  (require 'racket-xp)
+  :hook
+  (racket-hash-lang-mode-hook . racket-xp-mode))
+
+;;;; tree-sitter
 (require 'treesit)
 
+;;;; eglot
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs '((sh-mode bash-ts-mode) . ("bash-language-server" "start")))
   :hook
   (sh-mode . eglot-ensure)
   (bash-ts-mode . eglot-ensure))
+
+;;;; exec-path-from-shell
+(use-package exec-path-from-shell
+  :config
+  (when (or (memq window-system '(mac ns x))
+	    (daemonp))
+    (exec-path-from-shell-initialize)))
+
+;;;; tldr
+(use-package tldr
+  :config
+  (setq tldr-enabled-categories
+	'("common"  "linux"  "sunos"
+	  "freebsd" "netbsd" "openbsd"
+	  "android" "osx"    "windows")))
+
+;;;; disable-mouse
+(use-package disable-mouse
+  :config
+  (global-disable-mouse-mode))
 
 ;; save emacs state
 (require 'desktop)
@@ -222,15 +253,3 @@
       savehist-mode t
       desktop-save-mode t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(eglot)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
