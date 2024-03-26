@@ -67,3 +67,4 @@
 .bin/linphone/linphone-*
 .bin/spectre
 .bin/bashlib
+.bin/racket
