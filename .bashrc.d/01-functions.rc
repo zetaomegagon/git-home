@@ -38,7 +38,7 @@ git() {
     fi
 }
 
-git-get-commit() {
+git-get-log() {
     _usage() { echo "Usage: get-commit NUMBER"; }
 
     local skip; skip="${1:-0}"
