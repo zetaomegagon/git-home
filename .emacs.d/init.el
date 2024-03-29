@@ -200,6 +200,30 @@
 ;;;; ement
 (use-package ement)
 
+;;;; emms
+(use-package emms
+  :config
+  (emms-all)
+  (setq emms-player-list '(emms-player-mpv emms-player-vlc)
+	emms-info-functions '(emms-info-native
+			      emms-info-metaflac
+			      emms-info-ogginfo)))
+
+;;;; elfeed
+(use-package elfeed
+  :config
+  (global-set-key (kbd "C-x w") 'elfeed)
+  (setq browse-url-browser-function 'eww-browse-url)
+  (setq elfeed-feeds
+	'(("https://lwn.net/headlines/rss" news linux foss)
+	  ("https://www.phoronix.com/rss.php" news linux foss reviews)
+	  ("https://planet.kernel.org/rss20.xml" planet linux blog)
+	  ("https://planet.lisp.org/rss20.xml" planet lisp common-lisp blog)
+	  ("https://planet.scheme.org/atom.xml" planet lisp scheme blog)
+	  ("https://planet.emacslife.com/atom.xml" planet emacs blog)
+	  ("https://www.kernel.org/feeds/all.atom.xml" news linux kernel)
+	  ("https://rss.slashdot.org/Slashdot/slashdotLinux" news linux slashdot))))
+
 ;;;; powershell.el
 (use-package powershell)
 
