@@ -10,6 +10,15 @@
 (progn (set-frame-parameter nil 'alpha-background 90)
        (add-to-list 'default-frame-alist '(alpha-background . 90)))
 
+(defun eb/toggle-frame-transparency ()
+  "toggle frame alpha value between 70 and 90"
+  (interactive nil)
+  (cond ((equal (frame-parameter nil 'alpha-background) 90)
+	 (set-frame-parameter nil 'alpha-background 70))
+	(t (set-frame-parameter nil 'alpha-background 90))))
+
+(keymap-global-set "<f1>" 'eb/toggle-frame-transparency)
+
 ;; Put backup and auto-save into ~/.emacs.d/
 ;;
 ;; https://overflow.smnz.de/exchange/emacs/questions/33/put-all-backups-into-one-backup-folder
@@ -51,11 +60,11 @@
 ;; set dictionary-search dictionary server
 (setq dictionary-server "dict.org")
 
-; Don't kill emacs, just close frames
+;; Don't kill emacs, just close frames
 (keymap-global-unset "C-x C-c")
 (keymap-global-set "C-x C-c" 'delete-frame)
 
-; if I really need to kill emacs
+;; if I really need to kill emacs
 (keymap-global-set "C-S-x C-S-c" 'save-buffers-kill-emacs)
 
 ;; set line and column number modes on
@@ -86,12 +95,17 @@
   (setq org-todo-keywords
 	'((sequence "TODO" "IN-PROGRESS" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED" "CANCELED")))
   :config
-  (add-hook 'org-mode-hook #'org-indent-mode)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((lisp . t)
-     (shell . t))))
+  (org-babel-do-load-languages 'org-babel-load-languages
+			       '((lisp   . t)
+				 (shell  . t)
+				 (awk    . t)))
+  :hook
+  (org-mode-hook . (lambda ()
+		     (org-indent-mode)
+		     (visual-line-mode)
+		     (toggle-word-wrap))))
 
+;;;; org-web-toos
 (use-package org-web-tools)
 
 ;;;; pdf-tools
@@ -104,38 +118,39 @@
   :init
   (setq inferior-lisp-program "/usr/local/bin/sbcl --noinform --no-linedit"
 	sly-command-switch-to-existing-lisp 'always)
+  :bind
+  ("C-c C-j" . sly-eval-last-expression)
   :config
-  (keymap-global-set "C-c C-j" 'sly-eval-last-expression)
   ;; http://joaotavora.github.io/sly/#Auto_002dSLY
   ;; start sly repl when lisp file is opened
-  (add-hook 'sly-mode-hook
-	    (lambda ()
-	      (unless (sly-connected-p)
-		(save-excursion (sly))))))
+  :hook
+  (sly-mode-hook . (lambda ()
+		     (unless (sly-connected-p)
+		       (save-excursion (sly))))))
 
 ;;;; zygospore
 (use-package zygospore
-  :config
-  (global-set-key (kbd "C-x 1") 'zygospore-toggle-delete-other-windows))
+  :bind
+  ("C-x 1" . zygospore-toggle-delete-other-windows))
 
 ;;;; ace-window
 (use-package ace-window
-  :config
-  (global-set-key (kbd "C-x o") 'ace-window)
-  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+  :bind ("C-x o" . ace-window)
+  :config (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
 
 ;;;; helm
 (use-package helm
+  :bind (("M-x"     . helm-M-x)
+	 ("C-x b"   . helm-buffers-list)
+	 ("C-x r b" . helm-filtered-bookmarks)
+	 ("C-x C-f" . helm-find-files))
   :config
-  (global-set-key (kbd "M-x") #'helm-M-x)
-  (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
-  (global-set-key (kbd "C-x C-f") #'helm-find-files)
   (helm-mode 1))
 
 ;;;; company
 (use-package company
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  :hook
+  (after-init-hook . global-company-mode))
 
 ;;;; eterm-256color
 (use-package eterm-256color)
@@ -143,24 +158,27 @@
 ;;;; vterm
 (use-package vterm
   :init
-  ; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
+  ;; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
   (setq vterm-always-compile-module t)
   :config
-  ; https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#customization
+  ;; https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#customization
   (setq vterm-kill-buffer-on-exit t
 	vterm-copy-exclude-prompt t
-	;vterm-buffer-name-string t
+	;;vterm-buffer-name-string t
 	vterm-term-environment-variable "eterm-color"
 	vterm-max-scrollback 100000)
   (define-key vterm-mode-map (kbd "C-'") #'vterm-send-next-key)
-  (add-hook 'vterm-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
-	      (buffer-face-mode t))))
+  :hook
+  (vterm-mode-hook . (lambda ()
+		       (set
+			(make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
+		       (buffer-face-mode t))))
+
 (elpaca-wait)
 
 ;;;; multi-vterm
 (use-package multi-vterm
+  :init
   :config
   (setq multi-vterm-dedicated-window-height-percent 50))
 
@@ -188,11 +206,35 @@
 
 ;;;; scratch
 (use-package scratch
-  :config
-  (global-set-key (kbd "C-c s") 'scratch))
+  :bind ("C-c s" . scratch))
 
 ;;;; minimap
-(use-package minimap)
+(use-package minimap
+  :init
+  (setq minimap-width-fraction 0.10
+	minimap-minimum-width 29
+	minimap-window-location 'left
+	minimap-buffer-name " *MINIMAP*"
+	minimap-update-delay 0.1
+	minimap-always-recenter nil
+	minimap-recenter-type 'relative
+	minimap-hide-scroll-bar t
+	minimap-hide-fringes nil
+	minimap-dedicated-window t
+	minimap-display-semantic-overlays t
+	minimap-enlarge-certain-faces 'as-fallback
+	minimap-normal-height-faces '(font-lock-function-name-face)
+	minimap-sync-overlay-properties '(face invisible)
+	minimap-major-modes '(prog-mode)
+	minimap-recreate-window t
+	minimap-automatically-delete-window 'visible
+	minimap-tag-only nil
+	minimap-highlight-line t
+	minimap-disable-mode-line t
+	minimap-hide-cursor t)
+  :bind
+  ("C-0" . (lambda ()
+	     (interactive) (minimap-mode 'toggle))))
 
 ;;;; transpose-frame
 (use-package transpose-frame)
@@ -211,8 +253,9 @@
 
 ;;;; elfeed
 (use-package elfeed
+  :bind
+  ("C-x w" . elfeed)
   :config
-  (global-set-key (kbd "C-x w") 'elfeed)
   (setq browse-url-browser-function 'eww-browse-url)
   (setq elfeed-feeds
 	'(("https://lwn.net/headlines/rss" news linux foss)
@@ -222,7 +265,14 @@
 	  ("https://planet.scheme.org/atom.xml" planet lisp scheme blog)
 	  ("https://planet.emacslife.com/atom.xml" planet emacs blog)
 	  ("https://www.kernel.org/feeds/all.atom.xml" news linux kernel)
-	  ("https://rss.slashdot.org/Slashdot/slashdotLinux" news linux slashdot))))
+	  ("https://www.kernel.org/feeds/kdist.xml" news linux kernel)
+	  ("https://rss.slashdot.org/Slashdot/slashdotLinux" news linux slashdot)))
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "lwn\\.net"                  :add 'lwn))
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "phoronix\\.com"             :add 'phoronix))
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "kernel\\.org/feeds/all.+"   :add 'kernel-archives))
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "kernel\\.org/feeds/kdist.+" :add 'kernel-release))
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "slashdot\\.org"             :add 'slashdot))
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "lwn.net"                    :add 'lwn)))
 
 ;;;; powershell.el
 (use-package powershell)
@@ -269,11 +319,10 @@
 (require 'desktop)
 (desktop-read)
 (setq desktop-path (list "~/.emacs.d/desktop-save/")
-      ; set this to 0 to avoid emacs.service hitting timeout
+					; set this to 0 to avoid emacs.service hitting timeout
       desktop-restore-eager 0
       desktop-auto-save-timeout 5
       desktop-load-locked-desktop t
       desktop-restore-forces-onscreen nil
       savehist-mode t
       desktop-save-mode t)
-
