@@ -27,7 +27,7 @@ ungoogled-chromium() {
     local tdir="ungoogled-chromium-${sdir}"
     local home
     local flatpak="$(flatpak list --columns=application | grep -iE '^.*ungoogledchromium$')"
-    local downloads="$HOME/Downloads"
+    local downloads="$HOME/downloads"
     # limit the $PATH so we don't call this wrapper, and get path to binary
     local package="PATH='/usr/bin:/usr/local/bin' $(which ungoogled-chromium)"
     # chrome flags and switches
