@@ -100,10 +100,10 @@
 				 (shell  . t)
 				 (awk    . t)))
   :hook
-  (org-mode-hook . (lambda ()
-		     (org-indent-mode)
-		     (visual-line-mode)
-		     (toggle-word-wrap))))
+  (org-mode . (lambda ()
+		(org-indent-mode)
+		(visual-line-mode)
+		(toggle-word-wrap))))
 
 ;;;; org-web-toos
 (use-package org-web-tools)
@@ -124,9 +124,9 @@
   ;; http://joaotavora.github.io/sly/#Auto_002dSLY
   ;; start sly repl when lisp file is opened
   :hook
-  (sly-mode-hook . (lambda ()
-		     (unless (sly-connected-p)
-		       (save-excursion (sly))))))
+  (sly-mode . (lambda ()
+		(unless (sly-connected-p)
+		  (save-excursion (sly))))))
 
 ;;;; zygospore
 (use-package zygospore
@@ -150,7 +150,12 @@
 ;;;; company
 (use-package company
   :hook
-  (after-init-hook . global-company-mode))
+  (after-init . global-company-mode))
+
+;;;; which-key
+(use-package which-key
+  :config
+  (which-key-mode))
 
 ;;;; eterm-256color
 (use-package eterm-256color)
@@ -169,7 +174,7 @@
 	vterm-max-scrollback 100000)
   (define-key vterm-mode-map (kbd "C-'") #'vterm-send-next-key)
   :hook
-  (vterm-mode-hook . (lambda ()
+  (vterm-mode . (lambda ()
 		       (set
 			(make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
 		       (buffer-face-mode t))))
@@ -282,7 +287,7 @@
   :config
   (require 'racket-xp)
   :hook
-  (racket-hash-lang-mode-hook . racket-xp-mode))
+  (racket-hash-lang-mode . racket-xp-mode))
 
 ;;;; tree-sitter
 (require 'treesit)
@@ -292,8 +297,8 @@
   :config
   (add-to-list 'eglot-server-programs '((sh-mode bash-ts-mode) . ("bash-language-server" "start")))
   :hook
-  (sh-mode . eglot-ensure)
-  (bash-ts-mode . eglot-ensure))
+  (sh      . eglot-ensure)
+  (bash-ts . eglot-ensure))
 
 ;;;; exec-path-from-shell
 (use-package exec-path-from-shell
@@ -319,7 +324,7 @@
 (require 'desktop)
 (desktop-read)
 (setq desktop-path (list "~/.emacs.d/desktop-save/")
-					; set this to 0 to avoid emacs.service hitting timeout
+      ;; set this to 0 to avoid emacs.service hitting timeout due to pdfs loading
       desktop-restore-eager 0
       desktop-auto-save-timeout 5
       desktop-load-locked-desktop t
