@@ -34,70 +34,75 @@ ungoogled-chromium() {
     # see:
     #  - https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/flag_descriptions.cc
     #  - https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
-
-    local enable_flag_gpu=(
-	# GpuRasterization,
-	# CanvasOopRasterization,
-	# IgnoreGpuBlockList,
-	# ZeroCopy,
-	# VaapiVideoEncoder,
-	# RawDraw,
-    )
-
-    local enable_flag_extra_gpu=(
-	# Accelerated2dCanvas,
-	# UIEnableSharedImageCacheForGpu,
-	# UseGpuSchedulerDfs,
-	# EnableDrDc,
-	# ClientGmbInterface,
-	# Vp9kSVCHWDecoding,
-	# VaapiJpegImageDecodeAcceleration,
-	# VaapiWebPImageDecodeAcceleration,
-	# GainmapHdrImages,
-	# EnablePixelCanvasRecording,
-    )
-
+    
     local enable_flag_privacy=(
-	FingerprintingCanvasImageDataNoise,
-	FingerprintingCanvasMeasuretextNoise,
-	FingerprintingClientRectsNoise,
-	ForcePunycodeHostnames,
-	DisableGreaseTLS,
-	HttpAcceptHeader,
-	NoPings,
+	'FingerprintingCanvasImageDataNoise,'
+	'FingerprintingCanvasMeasuretextNoise,'
+	'FingerprintingClientRectsNoise,'
+	'ForcePunycodeHostnames,'
+	'DisableGreaseTLS,'
+	'HttpAcceptHeader,'
+	'NoPings,'
     )
 
     local enable_flag_privacy_experimental=(
-	PartitionedCookies,
-	ThirdPartyStoragePartitioning,
-	SplitCacheByNetworkIsolationKey,
+	'PartitionedCookies,'
+	'ThirdPartyStoragePartitioning,'
+	'SplitCacheByNetworkIsolationKey,'
     )
 
     local disable_flags=(
-	DesktopPWAsRunOnOsLogin,
-	WebAssemblyTrapHandler,
+	'DesktopPWAsRunOnOsLogin,'
+	'WebAssemblyTrapHandler,'
     )
 
-    local switches=(
-	--disable-features="$(printf "%s" "${disable_flags[@]}" $'\n')"
-	--enable-features="$(printf "%s%s%s%s" "${enable_flag_gpu[@]}" "${enable_flag_gpu_extra[@]}" "${enable_flag_privacy[@]}" "${enable_flag_privacy_experimental[@]}" $'\n')"
-	--omnibox-autocomplete-filtering=search-bookmarks-chrome
-	--extension-mime-request-handling=always-prompt-for-install
-	--disable-search-engine-collection
-	--disable-gpu-driver-bug-workarounds
-    )
+    if lspci -k | grep -qi 'kernel driver in use: radeon'; then
+	local switches=(
+	    --disable-features="$(printf "%s" "${disable_flags[@]}" $'\n')"
+	    --enable-features="$(printf "%s" "${enable_flag_privacy[@]}${enable_flag_privacy_experimental[@]}" $'\n')"
+	    --omnibox-autocomplete-filtering=search-bookmarks-chrome
+	    --extension-mime-request-handling=always-prompt-for-install
+	    --disable-search-engine-collection
+	    --disable-accelerated-video-decode # https://github.com/microsoft/vscode/issues/204798#issuecomment-1936657589
+	)
+    else
+	local enable_flag_gpu=(
+	    'GpuRasterization,'
+	    'CanvasOopRasterization,'
+	    'IgnoreGpuBlockList,'
+	    'ZeroCopy,'
+	    'VaapiVideoEncoder,'
+	    'RawDraw,'
+	)
 
-    # https://github.com/microsoft/vscode/issues/204798#issuecomment-1936657589
-    if ! lspci -k | grep -qi 'kernel driver in use: amdgpu'; then
-	switches+=(--disable-accelerated-video-decode)
+	local enable_flag_gpu_extra=(
+	    'Accelerated2dCanvas,'
+	    'UIEnableSharedImageCacheForGpu,'
+	    'UseGpuSchedulerDfs,'
+	    'EnableDrDc,'
+	    'ClientGmbInterface,'
+	    'Vp9kSVCHWDecoding,'
+	    'VaapiJpegImageDecodeAcceleration,'
+	    'VaapiWebPImageDecodeAcceleration,'
+	    'GainmapHdrImages,'
+	    'EnablePixelCanvasRecording,'
+	)
+
+	local switches=(
+	    --disable-features="$(printf "%s" "${disable_flags[@]}" $'\n')"
+	    --enable-features="$(printf "%s" "${enable_flag_gpu[@]}${enable_flag_gpu_extra[@]}${enable_flag_privacy[@]}${enable_flag_privacy_experimental[@]}" $'\n')"
+	    --omnibox-autocomplete-filtering=search-bookmarks-chrome
+	    --extension-mime-request-handling=always-prompt-for-install
+	    --disable-search-engine-collection
+	    --disable-gpu-driver-bug-workarounds
+	)
     fi
 
     _set-home() {
 	set -x
 	case "$sdir" in
 	    incognito|temp)
-		local rand="$(openssl rand -hex 16)"
-		home="/tmp/${tdir}-${rand}" ;;
+		home="/tmp/${tdir}-$(openssl rand -hex 16)" ;;
 	    *)
 		home="${pdir}/${sdir}"
 	esac
@@ -106,10 +111,8 @@ ungoogled-chromium() {
 
     _populate-home() {
 	set -x
-	if [[ ! -d "$home" && -e "${pdir}/template-${sdir}" ]]; then
-	    cp -a ${pdir}/template-${sdir}/ "$home"
-	else
-	    cp -a ${pdir}/template-personal/ "$home"
+	if [[ ! -d "$home" ]] && [[ -e "${pdir}/template-${sdir}" ]]; then
+	    cp -a "${pdir}/template-${sdir}" "$home"
 	fi
 	set +x
     }
