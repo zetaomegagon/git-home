@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+debug-emacs() {
+    tail -f "$*"
+}
+
+help() {
+    printf "%s\n" "debug-emacs <gui|tty>"
+}
+
+declare arg
+arg="$*"
+
+case "$arg" in
+    gui|tty)
+	debug-emacs "$HOME/.emacs.d/emacs-${flag}.log" ;;
+    *)
+	help
+esac
+
+	
