@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 
 input="${1/--/}"
-radeon_on="radeon.si_support=1 amdgpu.si_support=0"
-amdgpu_on="radeon.si_support=0 amdgpu.si_support=1"
 
-switch-driver() {
-    sudo grubby \
-	 --remove-args="$1" \
-	 --args="$2" \
-	 --update-kernel=ALL
+gpu_off='radeon.si_support=1 amdgpu.si_support=0'
+gpu_on='radeon.si_support=0 amdgpu.si_support=1'
+
+get-current-gpu() {
+    lspci -k | grep -iE 'kernel driver in use: (radeon|amdgpu)' \
+	| tr -d ' ' \
+	| cut -d ':' -f 2
 }
 
-current() {
-    lspci -k | grep -iE 'kernel driver in use: (radeon|amdgpu)'
+switch-driver() {
+    local remove_gpu_commandline="$1"
+    local add_gpu_commandline="$2"
+    
+    sudo grubby \
+	 --remove-args="$remove_gpu_commandline" \
+	 --args="$add_gpu_commandline" \
+	 --update-kernel=ALL
+
+    printf "%s\n" "Will use $(get-current-gpu)"
 }
 
 usage() {
@@ -21,15 +29,13 @@ usage() {
 
 case "$input" in
     current)
-	eval "$input"
+	get-current-gpu
 	;;
     switch)
-	if lspci -k | grep -qi 'kernel driver in use: amdgpu'; then
-	    switch-driver "$amdgpu_on" "$radeon_on"
-	    echo "Will use iGPU"
+	if get-current-gpu == 'amdgpu'; then
+	    switch-driver "$gpu_on" "$gpu_off"
 	else
-	    switch-driver "$radeon_on" "$amdgpu_on"
-	    echo "Will use dGPU"
+	    switch-driver "$gpu_off" "$gpu_on"
 	fi
 	;;
     *)
