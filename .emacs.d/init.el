@@ -160,6 +160,7 @@
 ;;;; eterm-256color
 (use-package eterm-256color)
 
+
 ;;;; vterm
 (use-package vterm
   :init
@@ -297,8 +298,8 @@
   :config
   (add-to-list 'eglot-server-programs '((sh-mode bash-ts-mode) . ("bash-language-server" "start")))
   :hook
-  (sh      . eglot-ensure)
-  (bash-ts . eglot-ensure))
+  (sh-mode      . eglot-ensure)
+  (bash-ts-mode . eglot-ensure))
 
 ;;;; exec-path-from-shell
 (use-package exec-path-from-shell
@@ -319,6 +320,20 @@
 (use-package disable-mouse
   :config
   (global-disable-mouse-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Trying these packages out ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;; eat
+(use-package eat)
+
+;;;; avy
+(use-package avy)
+(elpaca-wait)
+
+;;; ace-link
+(use-package ace-link)
 
 ;; save emacs state
 (require 'desktop)
