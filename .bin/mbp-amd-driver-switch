@@ -2,43 +2,47 @@
 
 input="${1/--/}"
 
-gpu_off='radeon.si_support=1 amdgpu.si_support=0'
-gpu_on='radeon.si_support=0 amdgpu.si_support=1'
-
 get-current-gpu() {
-    lspci -k | grep -iE 'kernel driver in use: (radeon|amdgpu)' \
-	| tr -d ' ' \
-	| cut -d ':' -f 2
+    local input="${1/--/}"
+
+    if [[ "$input" = interactive ]]; then
+	lspci -k | grep -iE 'k.*e: (radeon|amdgpu)' | tr -d ' ' | cut -d ':' -f 2
+    else
+	grep -q 'radeon.si_support=1' /etc/default/grub
+    fi
 }
 
-switch-driver() {
-    local remove_gpu_commandline="$1"
-    local add_gpu_commandline="$2"
-    
-    sudo grubby \
-	 --remove-args="$remove_gpu_commandline" \
-	 --args="$add_gpu_commandline" \
-	 --update-kernel=ALL
+toggle-gpu-on-off() {
+    local amdgpu_off='radeon.si_support=1 amdgpu.si_support=0'
+    local amdgpu_on='radeon.si_support=0 amdgpu.si_support=1'
 
-    printf "%s\n" "Will use $(get-current-gpu)"
+    @confirmation-msg() {
+	local dgpu_or_igpu
+
+	get-current-gpu && dgpu_or_igpu=iGPU || dgpu_or_igpu=dGPU
+
+	printf "%s\n" "Will use ${dgpu_or_igpu}"
+    }
+
+    @toggle() {
+	sudo grubby --remove-args="$1" --args="$2" --update-kernel=ALL || exit
+    }
+
+    if get-current-gpu; then
+	@toggle "$amdgpu_off" "$amdgpu_on"
+	@confirmation-msg
+    else
+	@toggle "$amdgpu_on" "$amdgpu_off"
+	@confirmation-msg
+    fi
 }
 
-usage() {
-    echo "Usage: ${0##*/} [--switch|--current]"
+usage-msg() {
+    echo "Usage: ${0##*/} [--toggle|--current]"
 }
 
 case "$input" in
-    current)
-	get-current-gpu
-	;;
-    switch)
-	if get-current-gpu == 'amdgpu'; then
-	    switch-driver "$gpu_on" "$gpu_off"
-	else
-	    switch-driver "$gpu_off" "$gpu_on"
-	fi
-	;;
-    *)
-	usage
+    current) get-current-gpu --interactive ;;
+     toggle) toggle-gpu-on-off ;;
+          *) usage-msg
 esac
-
