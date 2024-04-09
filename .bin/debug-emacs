@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 
 debug-emacs() {
-    tail -f "$*"
+    tail -f "$1"
 }
 
-help() {
+usage-msg() {
     printf "%s\n" "debug-emacs <gui|tty>"
 }
 
-declare arg
-arg="$*"
+declare flag="$1"
 
-case "$arg" in
-    gui|tty)
-	debug-emacs "$HOME/.emacs.d/emacs-${flag}.log" ;;
-    *)
-	help
+case "$flag" in
+    gui|tty) debug-emacs "$HOME/.emacs.d/emacs-${flag}.log" ;;
+          *) usage-msg
 esac
 
-	
+
