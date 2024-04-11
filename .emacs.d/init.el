@@ -7,15 +7,15 @@
 (tool-bar-mode -1)
 
 ;; set frame transparency
-(progn (set-frame-parameter nil 'alpha-background 90)
-       (add-to-list 'default-frame-alist '(alpha-background . 90)))
+(progn (set-frame-parameter nil 'alpha-background 95)
+       (add-to-list 'default-frame-alist '(alpha-background . 95)))
 
 (defun eb/toggle-frame-transparency ()
-  "toggle frame alpha value between 70 and 90"
+  "toggle frame alpha value between 85 and 95"
   (interactive nil)
-  (cond ((equal (frame-parameter nil 'alpha-background) 90)
-	 (set-frame-parameter nil 'alpha-background 70))
-	(t (set-frame-parameter nil 'alpha-background 90))))
+  (cond ((equal (frame-parameter nil 'alpha-background) 95)
+	 (set-frame-parameter nil 'alpha-background 85))
+	(t (set-frame-parameter nil 'alpha-background 95))))
 
 (keymap-global-set "<f1>" 'eb/toggle-frame-transparency)
 
