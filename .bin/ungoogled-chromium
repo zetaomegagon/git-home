@@ -26,10 +26,10 @@ ungoogled-chromium() {
     local pdir="$HOME/.ungoogled-chromium"
     local tdir="ungoogled-chromium-${sdir}"
     local home
-    local flatpak="$(flatpak list --columns=application | grep -iE '^.*ungoogledchromium$')"
+    local flatpak="$(flatpak list --columns=application | grep -iE '^.*ungoogled.?chromium$')"
     local downloads="$HOME/downloads"
     # limit the $PATH so we don't call this wrapper, and get path to binary
-    local package="PATH='/usr/bin:/usr/local/bin' $(which ungoogled-chromium)"
+    local rpm="PATH='/usr/bin:/usr/local/bin' $(which ungoogled-chromium)"
     # chrome flags and switches
     # see:
     #  - https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/flag_descriptions.cc
@@ -63,9 +63,11 @@ ungoogled-chromium() {
 	    --omnibox-autocomplete-filtering=search-bookmarks-chrome
 	    --extension-mime-request-handling=always-prompt-for-install
 	    --disable-search-engine-collection
-	    --disable-accelerated-video-decode # https://github.com/microsoft/vscode/issues/204798#issuecomment-1936657589
+	    --disable-accelerated-video-decode https://github.com/microsoft/vscode/issues/204798#issuecomment-1936657589
 	)
     else
+	# can't use GPU accel with AMD GPU
+	# see: https://issues.chromium.org/issues/40632250
 	local enable_flag_gpu=(
 	    'GpuRasterization,'
 	    'CanvasOopRasterization,'
@@ -128,7 +130,7 @@ ungoogled-chromium() {
 		"${input[@]}"
 	else
 	    # what args need to be here to have distinct working directories?
-	    "$package" "${input[@]}"
+	    "$rpm" "${input[@]}"
 	fi
 	set +x
     }
