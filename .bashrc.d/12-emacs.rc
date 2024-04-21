@@ -16,11 +16,11 @@ emacsctl() {
 }
 
 emacs-dead-p() {
-    emacsctl status | command grep -q "inactive (dead)"
+    systemctl --user --quiet is-active emacs
 }
 
 emacs-running-p() {
-     emacsctl status | command grep -q "active (running)"
+    systemctl --user --quiet is-active emacs
 }
 
 ## vterm
