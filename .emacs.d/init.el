@@ -39,6 +39,17 @@
       kept-new-versions 5    ; keep some new versions
       kept-old-versions 2)   ; and some old ones, too
 
+;; save emacs state
+(require 'desktop)
+(desktop-read)
+(setq desktop-path (list "~/.emacs.d/desktop-save/")
+      desktop-restore-eager 0 ;emacs service times out on large files
+      desktop-auto-save-timeout 5
+      desktop-load-locked-desktop t
+      desktop-restore-forces-onscreen nil
+      savehist-mode t
+      desktop-save-mode t)
+
 ;; undo history
 (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo/"))
       undo-tree-auto-save-history t)
@@ -78,13 +89,15 @@
 	      (progn (setq fill-column 80)
 		     (display-fill-column-indicator-mode)))))
 
-;; set auth-sources to only use a gpg backed sources
+;; set auth-sources to only use gpg backed sources
 (setq auth-sources '("~/.authinfo.gpg"))
 
 ;; winner mode
 (winner-mode)
 
-;; packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           Begin Packages                                   ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (elpaca-wait)
 
 ;;;; org-mode
@@ -133,24 +146,18 @@
   :bind
   ("C-x 1" . zygospore-toggle-delete-other-windows))
 
+;;;; avy
+(use-package avy)
+
+;;; ace-link
+(use-package ace-link)
+
+(elpaca-wait)
+
 ;;;; ace-window
 (use-package ace-window
   :bind ("C-x o" . ace-window)
   :config (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
-
-;;;; helm
-(use-package helm
-  :bind (("M-x"     . helm-M-x)
-	 ("C-x b"   . helm-buffers-list)
-	 ("C-x r b" . helm-filtered-bookmarks)
-	 ("C-x C-f" . helm-find-files))
-  :config
-  (helm-mode 1))
-
-;;;; company
-(use-package company
-  :hook
-  (after-init . global-company-mode))
 
 ;;;; which-key
 (use-package which-key
@@ -255,14 +262,19 @@
   (setq emms-player-list '(emms-player-mpv emms-player-vlc)
 	emms-info-functions '(emms-info-native
 			      emms-info-metaflac
-			      emms-info-ogginfo)))
+			      emms-info-ogginfo))
+  :bind
+  ("C-c -" . emms-volume-mode-plus)
+  ("C-c +" . emms-volume-mode-minus))
+
+(setq browse-url-firefox-arguments '("--profile /home/ebeale/.mozilla/firefox/18rv2ik5.arkenfox-user.js")
+      browse-url-browser-function 'browse-url-firefox)
 
 ;;;; elfeed
 (use-package elfeed
   :bind
   ("C-x w" . elfeed)
   :config
-  (setq browse-url-browser-function 'eww-browse-url)
   (setq elfeed-feeds
 	'(("https://lwn.net/headlines/rss" news linux foss)
 	  ("https://www.phoronix.com/rss.php" news linux foss reviews)
@@ -303,6 +315,8 @@
 
 ;;;; exec-path-from-shell
 (use-package exec-path-from-shell
+  :init
+  (setq exec-path-from-shell-arguments nil)
   :config
   (when (or (memq window-system '(mac ns x))
 	    (daemonp))
@@ -321,28 +335,159 @@
   :config
   (global-disable-mouse-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Trying these packages out ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                      Trying these packages out                             ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;; terraform-mode
+(use-package terraform-mode
+  :custom
+  (terraform-indent-level 4)
+  :hook
+  (terraform-mode . (lambda () (outline-minor-mode 1))))
 
 ;;;; eat
 (use-package eat)
 
-;;;; avy
-(use-package avy)
-(elpaca-wait)
+;;;; vertico
+(use-package vertico
+  :config
+  (setq vertico-cycle t)
+  (setq vertico-resize nil)
+  (vertico-mode 1))
 
-;;; ace-link
-(use-package ace-link)
+;; The `marginalia' package provides helpful annotations next to
+;; completion candidates in the minibuffer.  The information on
+;; display depends on the type of content.  If it is about files, it
+;; shows file permissions and the last modified date.  If it is a
+;; buffer, it shows the buffer's size, major mode, and the like.
+;;
+;; Further reading: https://protesilaos.com/emacs/dotemacs#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e
+(use-package marginalia
+  :config
+  (marginalia-mode 1))
 
-;; save emacs state
-(require 'desktop)
-(desktop-read)
-(setq desktop-path (list "~/.emacs.d/desktop-save/")
-      ;; set this to 0 to avoid emacs.service hitting timeout due to pdfs loading
-      desktop-restore-eager 0
-      desktop-auto-save-timeout 5
-      desktop-load-locked-desktop t
-      desktop-restore-forces-onscreen nil
-      savehist-mode t
-      desktop-save-mode t)
+;; The `orderless' package lets the minibuffer use an out-of-order
+;; pattern matching algorithm.  It matches space-separated words or
+;; regular expressions in any order.  In its simplest form, something
+;; like "ins pac" matches `package-menu-mark-install' as well as
+;; `package-install'.  This is a powerful tool because we no longer
+;; need to remember exactly how something is named.
+;;
+;; Note that Emacs has lots of "completion styles" (pattern matching
+;; algorithms), but let us keep things simple.
+;;
+;; Further reading: https://protesilaos.com/emacs/dotemacs#h:7cc77fd0-8f98-4fc0-80be-48a758fcb6e2
+(use-package orderless
+  :config
+  (setq completion-styles '(orderless basic)))
+
+;; The `consult' package provides lots of commands that are enhanced
+;; variants of basic, built-in functionality.  One of the headline
+;; features of `consult' is its preview facility, where it shows in
+;; another Emacs window the context of what is currently matched in
+;; the minibuffer.  Here I define key bindings for some commands you
+;; may find useful.  The mnemonic for their prefix is "alternative
+;; search" (as opposed to the basic C-s or C-r keys).
+;;
+;; Further reading: https://protesilaos.com/emacs/dotemacs#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d
+(use-package consult
+  :bind (;; A recursive grep
+         ("M-s M-g" . consult-grep)
+         ;; Search for files names recursively
+         ("M-s M-f" . consult-find)
+         ;; Search through the outline (headings) of the file
+         ("M-s M-o" . consult-outline)
+         ;; Search the current buffer
+         ("M-s M-l" . consult-line)
+         ;; Switch to another buffer, or bookmarked file, or recently
+         ;; opened file.
+         ("M-s M-b" . consult-buffer)))
+
+;; The `embark' package lets you target the thing or context at point
+;; and select an action to perform on it.  Use the `embark-act'
+;; command while over something to find relevant commands.
+;;
+;; When inside the minibuffer, `embark' can collect/export the
+;; contents to a fully fledged Emacs buffer.  The `embark-collect'
+;; command retains the original behaviour of the minibuffer, meaning
+;; that if you navigate over the candidate at hit RET, it will do what
+;; the minibuffer would have done.  In contrast, the `embark-export'
+;; command reads the metadata to figure out what category this is and
+;; places them in a buffer whose major mode is specialised for that
+;; type of content.  For example, when we are completing against
+;; files, the export will take us to a `dired-mode' buffer; when we
+;; preview the results of a grep, the export will put us in a
+;; `grep-mode' buffer.
+;;
+;; Further reading: https://protesilaos.com/emacs/dotemacs#h:61863da4-8739-42ae-a30f-6e9d686e1995
+(use-package embark
+  :bind (("C-." . embark-act)
+         :map minibuffer-local-map
+         ("C-c C-c" . embark-collect)
+         ("C-c C-e" . embark-export)))
+
+;; The `embark-consult' package is glue code to tie together `embark'
+;; and `consult'.
+(use-package embark-consult)
+
+;; The `wgrep' packages lets us edit the results of a grep search
+;; while inside a `grep-mode' buffer.  All we need is to toggle the
+;; editable mode, make the changes, and then type C-c C-c to confirm
+;; or C-c C-k to abort.
+;;
+;; Further reading: https://protesilaos.com/emacs/dotemacs#h:9a3581df-ab18-4266-815e-2edd7f7e4852
+(use-package wgrep
+  :bind ( :map grep-mode-map
+          ("e" . wgrep-change-to-wgrep-mode)
+          ("C-x C-q" . wgrep-change-to-wgrep-mode)
+          ("C-c C-c" . wgrep-finish-edit)))
+
+;;;; corfu
+(use-package corfu
+  ;; Optional customizations
+  ;; :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode))
+
+;; A few more useful configurations...
+(use-package emacs
+  :ensure nil
+  :init
+  ;; TAB cycle if there are only few candidates
+  ;; (setq completion-cycle-threshold 3)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete)
+
+  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
+  ;; try `cape-dict'.
+  (setq text-mode-ispell-word-completion nil)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
+  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
+  ;; setting is useful beyond Corfu.
+  (setq read-extended-command-predicate #'command-completion-default-include-p))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           End Packages                                     ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
