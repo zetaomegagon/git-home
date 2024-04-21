@@ -3,6 +3,8 @@
 input="${1/--/}"
 
 get-current-gpu() {
+    # if called interactively print the current GPU
+    # else only return exit status
     local input="${1/--/}"
 
     if [[ "$input" = interactive ]]; then
@@ -12,28 +14,39 @@ get-current-gpu() {
     fi
 }
 
-toggle-gpu-on-off() {
-    local amdgpu_off='radeon.si_support=1 amdgpu.si_support=0'
-    local amdgpu_on='radeon.si_support=0 amdgpu.si_support=1'
+is-gpu-radeon() {
+    get-current-gpu
+}
 
-    @confirmation-msg() {
+toggle-gpu-on-or-off() {
+    confirmation-msg() {
 	local dgpu_or_igpu
 
-	get-current-gpu && dgpu_or_igpu=iGPU || dgpu_or_igpu=dGPU
+	is-gpu-radeon && dgpu_or_igpu=iGPU || dgpu_or_igpu=dGPU
 
 	printf "%s\n" "Will use ${dgpu_or_igpu}"
     }
 
-    @toggle() {
-	sudo grubby --remove-args="$1" --args="$2" --update-kernel=ALL || exit
+    toggle-dgpu-on() {
+	sudo grubby \
+	     --remove-args="radeon.si_support=1 amdgpu.si_support=0" \
+	     --args="radeon.si_support=0 amdgpu.si_support=1" \
+	     --update-kernel=ALL || exit
     }
 
-    if get-current-gpu; then
-	@toggle "$amdgpu_off" "$amdgpu_on"
-	@confirmation-msg
+    toggle-dgpu-off() {
+	sudo grubby \
+	     --remove-args="radeon.si_support=0 amdgpu.si_support=1" \
+	     --args="radeon.si_support=1 amdgpu.si_support=0" \
+	     --update-kernel=ALL || exit
+    }
+    
+    if is-gpu-radeon; then
+	toggle-dgpu-on
+	confirmation-msg
     else
-	@toggle "$amdgpu_on" "$amdgpu_off"
-	@confirmation-msg
+	toggle-dgpu-off
+	confirmation-msg
     fi
 }
 
@@ -43,6 +56,6 @@ usage-msg() {
 
 case "$input" in
     current) get-current-gpu --interactive ;;
-     toggle) toggle-gpu-on-off ;;
+     toggle) toggle-gpu-on-or-off ;;
           *) usage-msg
 esac
