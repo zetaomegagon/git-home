@@ -1,7 +1,8 @@
 # -*- mode: bash-ts -*-
 
 ## source definitions
-source $HOME/.bashrc.d/01-functions.rc
+#  shellcheck disable=SC1091
+source "$HOME/.bashrc.d/01-functions.rc"
 
 ## shell editor context
 export EDITOR="$HOME/.bin/emacs"
@@ -16,11 +17,12 @@ emacsctl() {
 }
 
 emacs-dead-p() {
-    systemctl --user --quiet is-active emacs
+    systemctl --user --quiet is-active emacs || return 0
 }
 
 emacs-running-p() {
-    systemctl --user --quiet is-active emacs
+    # looks better to explicitly return 0
+    systemctl --user --quiet is-active emacs && return 0
 }
 
 ## vterm
