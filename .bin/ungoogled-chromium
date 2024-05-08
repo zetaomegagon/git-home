@@ -63,7 +63,7 @@ ungoogled-chromium() {
 	    --omnibox-autocomplete-filtering=search-bookmarks-chrome
 	    --extension-mime-request-handling=always-prompt-for-install
 	    --disable-search-engine-collection
-	    --disable-accelerated-video-decode https://github.com/microsoft/vscode/issues/204798#issuecomment-1936657589
+	    --disable-accelerated-video-decode
 	)
     else
 	# can't use GPU accel with AMD GPU
