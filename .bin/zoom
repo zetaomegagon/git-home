@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
+#
+# shellcheck disable=SC2034
 
-(/usr/bin/zoom >/dev/null 2>&1- &)
+is-local-install() {
+    grep -q zoom <(ls /usr/bin)
+}
+
+is-flatpak-install() {
+    grep -q '[zZ]oom' <(flatpak list --columns=application)
+}
+
+if is-local-install; then
+    (/usr/bin/zoom >/dev/null 2>&1 &)
+fi
+
+if is-flatpak-install; then
+    (flatpak run us.zoom.Zoom >/dev/null 2>&1 &)    
+fi
