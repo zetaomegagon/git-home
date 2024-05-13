@@ -60,6 +60,7 @@
 ;; enable default disabled features
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
 ;; set warning buffer to only log errors
 (setq warning-minimum-level :error)
@@ -111,7 +112,8 @@
   (org-babel-do-load-languages 'org-babel-load-languages
 			       '((lisp   . t)
 				 (shell  . t)
-				 (awk    . t)))
+				 (awk    . t)
+				 (jq     . t)))
   :hook
   (org-mode . (lambda ()
 		(org-indent-mode)
@@ -123,8 +125,8 @@
 
 ;;;; pdf-tools
 (use-package pdf-tools
-  :config
-  (pdf-tools-install t nil nil nil))
+   :config
+   (pdf-tools-install t nil nil nil))
 
 ;;;; sly
 (use-package sly
@@ -180,7 +182,8 @@
 	;;vterm-buffer-name-string t
 	vterm-term-environment-variable "eterm-color"
 	vterm-max-scrollback 100000)
-  (define-key vterm-mode-map (kbd "C-'") #'vterm-send-next-key)
+  :bind
+  ("C-'" . vterm-send-next-key)
   :hook
   (vterm-mode . (lambda ()
 		       (set
@@ -238,7 +241,7 @@
 	minimap-enlarge-certain-faces 'as-fallback
 	minimap-normal-height-faces '(font-lock-function-name-face)
 	minimap-sync-overlay-properties '(face invisible)
-	minimap-major-modes '(prog-mode)
+	minimap-major-modes '(prog-mode 'nxml-mode)
 	minimap-recreate-window t
 	minimap-automatically-delete-window 'visible
 	minimap-tag-only nil
@@ -250,7 +253,9 @@
 	     (interactive) (minimap-mode 'toggle))))
 
 ;;;; transpose-frame
-(use-package transpose-frame)
+(use-package transpose-frame
+  :bind
+  ("C-c C-c t" . transpose-frame))
 
 ;;;; ement
 (use-package ement)
@@ -267,7 +272,7 @@
   ("C-c -" . emms-volume-mode-plus)
   ("C-c +" . emms-volume-mode-minus))
 
-(setq browse-url-firefox-arguments '("--profile /home/ebeale/.mozilla/firefox/18rv2ik5.arkenfox-user.js")
+(setq browse-url-firefox-arguments '("--profile" "/home/ebeale/.mozilla/firefox/18rv2ik5.arkenfox-user.js")
       browse-url-browser-function 'browse-url-firefox)
 
 ;;;; elfeed
@@ -339,6 +344,35 @@
 ;;                      Trying these packages out                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;; doc-tools / toc-mode
+;; needs a custom elpaca recipie
+;; (use-package epc)
+;; (use-package doc-tools)
+;; (elpaca-wait)
+;; (use-package toc-mode)
+
+;;;; jq-mode
+(use-package jq-mode
+  :config
+  (or (with-eval-after-load "json-mode" (define-key json-mode-map (kbd "C-c C-j") #'jq-interactively))
+      (with-eval-after-load "json-ts-mode" (define-key json-ts-mode-map (kbd "C-c C-j") #'jq-interactively))))
+
+;;;; hyperbole
+(use-package hyperbole
+  :config
+  (hyperbole-mode 1))
+
+;;;; helpful
+(use-package helpful
+  :bind
+  ("C-h f"   . helpful-callable)
+  ("C-h v"   . helpful-variable)
+  ("C-h k"   . helpful-key)
+  ("C-h x"   . helpful-command)
+  ("C-c C-d" . helpful-at-point)
+  ("C-h F"   . helpful-function))
+
 ;;;; terraform-mode
 (use-package terraform-mode
   :custom
@@ -356,41 +390,17 @@
   (setq vertico-resize nil)
   (vertico-mode 1))
 
-;; The `marginalia' package provides helpful annotations next to
-;; completion candidates in the minibuffer.  The information on
-;; display depends on the type of content.  If it is about files, it
-;; shows file permissions and the last modified date.  If it is a
-;; buffer, it shows the buffer's size, major mode, and the like.
-;;
-;; Further reading: https://protesilaos.com/emacs/dotemacs#h:bd3f7a1d-a53d-4d3e-860e-25c5b35d8e7e
+;;;; marginalia
 (use-package marginalia
   :config
   (marginalia-mode 1))
 
-;; The `orderless' package lets the minibuffer use an out-of-order
-;; pattern matching algorithm.  It matches space-separated words or
-;; regular expressions in any order.  In its simplest form, something
-;; like "ins pac" matches `package-menu-mark-install' as well as
-;; `package-install'.  This is a powerful tool because we no longer
-;; need to remember exactly how something is named.
-;;
-;; Note that Emacs has lots of "completion styles" (pattern matching
-;; algorithms), but let us keep things simple.
-;;
-;; Further reading: https://protesilaos.com/emacs/dotemacs#h:7cc77fd0-8f98-4fc0-80be-48a758fcb6e2
+;;;; orderless
 (use-package orderless
   :config
   (setq completion-styles '(orderless basic)))
 
-;; The `consult' package provides lots of commands that are enhanced
-;; variants of basic, built-in functionality.  One of the headline
-;; features of `consult' is its preview facility, where it shows in
-;; another Emacs window the context of what is currently matched in
-;; the minibuffer.  Here I define key bindings for some commands you
-;; may find useful.  The mnemonic for their prefix is "alternative
-;; search" (as opposed to the basic C-s or C-r keys).
-;;
-;; Further reading: https://protesilaos.com/emacs/dotemacs#h:22e97b4c-d88d-4deb-9ab3-f80631f9ff1d
+;;;; consult
 (use-package consult
   :bind (;; A recursive grep
          ("M-s M-g" . consult-grep)
@@ -404,44 +414,23 @@
          ;; opened file.
          ("M-s M-b" . consult-buffer)))
 
-;; The `embark' package lets you target the thing or context at point
-;; and select an action to perform on it.  Use the `embark-act'
-;; command while over something to find relevant commands.
-;;
-;; When inside the minibuffer, `embark' can collect/export the
-;; contents to a fully fledged Emacs buffer.  The `embark-collect'
-;; command retains the original behaviour of the minibuffer, meaning
-;; that if you navigate over the candidate at hit RET, it will do what
-;; the minibuffer would have done.  In contrast, the `embark-export'
-;; command reads the metadata to figure out what category this is and
-;; places them in a buffer whose major mode is specialised for that
-;; type of content.  For example, when we are completing against
-;; files, the export will take us to a `dired-mode' buffer; when we
-;; preview the results of a grep, the export will put us in a
-;; `grep-mode' buffer.
-;;
-;; Further reading: https://protesilaos.com/emacs/dotemacs#h:61863da4-8739-42ae-a30f-6e9d686e1995
+;;;; embark
 (use-package embark
   :bind (("C-." . embark-act)
          :map minibuffer-local-map
          ("C-c C-c" . embark-collect)
          ("C-c C-e" . embark-export)))
 
-;; The `embark-consult' package is glue code to tie together `embark'
-;; and `consult'.
+;;;; embark-consult
 (use-package embark-consult)
 
-;; The `wgrep' packages lets us edit the results of a grep search
-;; while inside a `grep-mode' buffer.  All we need is to toggle the
-;; editable mode, make the changes, and then type C-c C-c to confirm
-;; or C-c C-k to abort.
-;;
-;; Further reading: https://protesilaos.com/emacs/dotemacs#h:9a3581df-ab18-4266-815e-2edd7f7e4852
+;;;; wgrep
 (use-package wgrep
-  :bind ( :map grep-mode-map
-          ("e" . wgrep-change-to-wgrep-mode)
-          ("C-x C-q" . wgrep-change-to-wgrep-mode)
-          ("C-c C-c" . wgrep-finish-edit)))
+  :bind
+  ( :map grep-mode-map
+    ("e"       . wgrep-change-to-wgrep-mode)
+    ("C-x C-q" . wgrep-change-to-wgrep-mode)
+    ("C-c C-c" . wgrep-finish-edit)))
 
 ;;;; corfu
 (use-package corfu
@@ -491,3 +480,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           End Packages                                     ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
