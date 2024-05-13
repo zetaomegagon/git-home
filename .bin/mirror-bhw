@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+WGET_HOME="$HOME/documents/"
+WGET_TARGET="https://wiki.bash-hackers.org"
+WGET_OPTS=(
+    '--quiet'
+    '--no-check-certificate'
+    '--mirror'
+    '--backup-converted'
+    '--no-parent'
+    '--execute robots=off'
+)
+
+# shellcheck disable=SC2034,SC2068
+
+if ! pgrep -f wget | grep -q "$WGET_TARGET"; then
+    (
+	cd "$WGET_HOME" && wget ${WGET_OPTS[@]} "$WGET_TARGET" &
+    )    
+fi
