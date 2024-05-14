@@ -117,7 +117,7 @@
   :hook
   (org-mode . (lambda ()
 		(org-indent-mode)
-		(visual-line-mode)
+		;;(visual-line-mode)
 		(toggle-word-wrap))))
 
 ;;;; org-web-toos
@@ -344,13 +344,17 @@
 ;;                      Trying these packages out                             ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 ;;;; doc-tools / toc-mode
 ;; needs a custom elpaca recipie
 ;; (use-package epc)
 ;; (use-package doc-tools)
 ;; (elpaca-wait)
 ;; (use-package toc-mode)
+
+;;;; vundo
+(use-package vundo
+  :config
+  (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;;;; jq-mode
 (use-package jq-mode
