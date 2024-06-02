@@ -2,7 +2,7 @@
 (setq package-enable-at-startup nil)
 
 ;; elpaca
-(setq elpaca-core-date '(20240421)) ; https://github.com/progfolio/elpaca/wiki/Warnings-and-Errors#unable-to-determine-elpaca-core-date
+(setq elpaca-core-date '(20240602)) ; https://github.com/progfolio/elpaca/wiki/Warnings-and-Errors#unable-to-determine-elpaca-core-date
 
 
 (defvar elpaca-installer-version 0.6)
