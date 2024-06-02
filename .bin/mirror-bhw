@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S bash
 
 WGET_HOME="$HOME/documents/"
 WGET_TARGET="https://wiki.bash-hackers.org"
@@ -12,9 +12,8 @@ WGET_OPTS=(
 )
 
 # shellcheck disable=SC2034,SC2068
-
-if ! pgrep -f wget | grep -q "$WGET_TARGET"; then
+if ! pgrep -af wget | grep -q "$WGET_TARGET"; then
     (
 	cd "$WGET_HOME" && wget ${WGET_OPTS[@]} "$WGET_TARGET" &
-    )    
+    )
 fi
