@@ -99,10 +99,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Begin Packages                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(elpaca-wait)
+
+;;;; jq-mode
+(use-package jq-mode
+  :ensure (:wait t)
+  :config
+  (or (with-eval-after-load "json-mode" (define-key json-mode-map (kbd "C-c C-j") #'jq-interactively))
+      (with-eval-after-load "json-ts-mode" (define-key json-ts-mode-map (kbd "C-c C-j") #'jq-interactively))))
 
 ;;;; org-mode
 (use-package org
+  :ensure nil
   :init
   (setq org-confirm-babel-evaluate nil
 	org-babel-lisp-eval-fn #'sly-eval)
@@ -124,9 +131,9 @@
 (use-package org-web-tools)
 
 ;;;; pdf-tools
-(use-package pdf-tools
-   :config
-   (pdf-tools-install t nil nil nil))
+;; (use-package pdf-tools
+;;    :config
+;;    (pdf-tools-install t nil nil nil))
 
 ;;;; sly
 (use-package sly
@@ -152,9 +159,8 @@
 (use-package avy)
 
 ;;; ace-link
-(use-package ace-link)
-
-(elpaca-wait)
+(use-package ace-link
+  :ensure (:wait t))
 
 ;;;; ace-window
 (use-package ace-window
@@ -169,32 +175,80 @@
 ;;;; eterm-256color
 (use-package eterm-256color)
 
-
 ;;;; vterm
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; emacs-libvterm compiles the libvterm module in a non-blocking way, so the
+;; normal =:enusre (:wait t)= doesn't work
 (use-package vterm
-  :init
-  ;; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
-  (setq vterm-always-compile-module t)
+  ;; https://github.com/progfolio/.emacs.d#vterm
+  :ensure (vterm :post-build
+                 (progn
+		   ;; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
+                   (setq vterm-always-compile-module t)
+                   (require 'vterm)
+                   ;;print compilation info for elpaca
+                   (with-current-buffer (get-buffer-create vterm-install-buffer-name)
+                     (goto-char (point-min))
+                     (while (not (eobp))
+                       (message "%S"
+                                (buffer-substring (line-beginning-position)
+                                                  (line-end-position)))
+                       (forward-line)))
+                   (when-let ((so (expand-file-name "./vterm-module.so"))
+                              ((file-exists-p so)))
+                     (make-symbolic-link
+                      so (expand-file-name (file-name-nondirectory so)
+                                           "../../builds/vterm")
+                      'ok-if-already-exists))))
   :config
   ;; https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#customization
   (setq vterm-kill-buffer-on-exit t
 	vterm-copy-exclude-prompt t
-	;;vterm-buffer-name-string t
-	vterm-term-environment-variable "eterm-color"
 	vterm-max-scrollback 100000)
   :bind
   ("C-'" . vterm-send-next-key)
   :hook
-  (vterm-mode . (lambda ()
-		       (set
-			(make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
-		       (buffer-face-mode t))))
-
-(elpaca-wait)
+  (vterm-mode . (lambda () (set
+			    (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
+		  (buffer-face-mode t))))
+;;
+;; Below is Progfilio's (u/nv-elisp's) code for installing vterm without user interaction:
+;;
+;; 
+;;
+;; (use-package vterm
+;;   :ensure (vterm :post-build
+;;                  (progn
+;;                    (setq vterm-always-compile-module t)
+;;                    (require 'vterm)
+;;                    ;;print compilation info for elpaca
+;;                    (with-current-buffer (get-buffer-create vterm-install-buffer-name)
+;;                      (goto-char (point-min))
+;;                      (while (not (eobp))
+;;                        (message "%S"
+;;                                 (buffer-substring (line-beginning-position)
+;;                                                   (line-end-position)))
+;;                        (forward-line)))
+;;                    (when-let ((so (expand-file-name "./vterm-module.so"))
+;;                               ((file-exists-p so)))
+;;                      (make-symbolic-link
+;;                       so (expand-file-name (file-name-nondirectory so)
+;;                                            "../../builds/vterm")
+;;                       'ok-if-already-exists))))
+;;   :commands (vterm vterm-other-window)
+;;   :general
+;;   (+general-global-application
+;;     "t" '(:ignore t :which-key "terminal")
+;;     "tt" 'vterm-other-window
+;;     "t." 'vterm)
+;;   :config
+;;   (evil-set-initial-state 'vterm-mode 'emacs))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;; multi-vterm
 (use-package multi-vterm
-  :init
   :config
   (setq multi-vterm-dedicated-window-height-percent 50))
 
@@ -312,6 +366,7 @@
 
 ;;;; eglot
 (use-package eglot
+  :ensure nil
   :config
   (add-to-list 'eglot-server-programs '((sh-mode bash-ts-mode) . ("bash-language-server" "start")))
   :hook
@@ -355,12 +410,6 @@
 (use-package vundo
   :config
   (setq vundo-glyph-alist vundo-unicode-symbols))
-
-;;;; jq-mode
-(use-package jq-mode
-  :config
-  (or (with-eval-after-load "json-mode" (define-key json-mode-map (kbd "C-c C-j") #'jq-interactively))
-      (with-eval-after-load "json-ts-mode" (define-key json-ts-mode-map (kbd "C-c C-j") #'jq-interactively))))
 
 ;;;; hyperbole
 (use-package hyperbole
