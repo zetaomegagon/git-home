@@ -48,7 +48,7 @@ spectre() {
     # Added only read / write json option.
     printf %s "$(SPECTRE_USERNAME=$SPECTRE_USERNAME command spectre "$@")" | _copy
 
-    # For gpaste-client: clear last password after 30 seconds
+    # For gpaste-client: clear last password after $delay seconds
     if [[ "$_use" = "${_clips[2]}" ]]; then
         local length=16
         local delay=60
