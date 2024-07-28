@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+# shellcheck disable=SC2034
+bin="slack"
+flatpak="com.${bin}.${bin^}"
+
+is-local-install() {
+    grep -qi "$bin" <(ls /usr/bin)
+}
+
+is-flatpak-install() {
+    grep -qi "$flatpak" <(flatpak list --columns=application)
+}
+
+not-installed() {
+    printf "%s\n" "${bin^} is not installed"
+}
+
+if is-local-install; then
+    (
+	/usr/bin/$bin >/dev/null 2>&1 &
+    )
+elif is-flatpak-install; then
+    (
+	flatpak run "$flatpak" >/dev/null 2>&1 &
+    )
+else
+    not-installed
+fi
+
