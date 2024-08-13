@@ -2,7 +2,7 @@
 #
 # shellcheck disable=SC2034
 bin="slack"
-flatpak="com.${bin}.${bin^}"
+flatpak="$(command grep -iE "^[a-z]{2,3}\.$bin" <(flatpak list --columns=application))"
 
 is-local-install() {
     grep -qi "$bin" <(ls /usr/bin)
