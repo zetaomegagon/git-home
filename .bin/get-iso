@@ -1,4 +1,4 @@
-#!/usr/bin/env -S bash -x
+#!/usr/bin/env bash
 
 get-iso() {
     local iso_url iso_name iso_home iso_path
@@ -8,7 +8,7 @@ get-iso() {
     iso_home="$HOME/documents/iso"
     iso_path="$iso_home/$iso_name"
 
-    wget --quiet --output-document="$iso_path" "$iso_url"
+    wget --output-document="$iso_path" "$iso_url"
 }
 
 get-iso "$1"
