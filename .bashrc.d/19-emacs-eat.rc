@@ -1,0 +1,6 @@
+# -*- mode: bash-ts -*-
+
+# https://elpa.nongnu.org/nongnu-devel/doc/eat.html#Part-III_003a--Advanced-Customizations
+
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+    source "$EAT_SHELL_INTEGRATION_DIR/bash"
