@@ -1,9 +1,9 @@
-#!/usr/bin/env -S bash
+#!/usr/bin/env bash
 
 WGET_HOME="$HOME/documents/"
 WGET_TARGET="https://wiki.bash-hackers.org"
 WGET_OPTS=(
-    '--quiet'
+    '--quiet'    
     '--no-check-certificate'
     '--mirror'
     '--backup-converted'
