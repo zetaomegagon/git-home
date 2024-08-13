@@ -2,7 +2,9 @@
 #
 # shellcheck disable=SC2034
 bin="zoom"
-flatpak="us.${bin}.${bin^}"
+flatpak="$(command grep -iE "^[a-z]{2,3}\.$bin" <(flatpak list --columns=application))"
+user_defined_desktop="$1"
+XDG_CURRENT_DESKTOP="${user_defined_desktop-:GNOME}"
 
 is-local-install() {
     grep -qi "$bin" <(ls /usr/bin)
