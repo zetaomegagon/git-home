@@ -1,9 +1,8 @@
-;; inhibit package.el as required by straight.el
+;; inhibit package.el as required by third party package managers
 (setq package-enable-at-startup nil)
 
 ;; elpaca
 (setq elpaca-core-date (format-time-string "%Y%m%d")) ; https://github.com/progfolio/elpaca/wiki/Warnings-and-Errors#unable-to-determine-elpaca-core-date
-
 
 (defvar elpaca-installer-version 0.6)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
