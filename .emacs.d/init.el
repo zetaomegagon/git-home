@@ -213,10 +213,9 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 ;; normal =:enusre (:wait t)= doesn't work
 (use-package vterm
   ;; https://github.com/progfolio/.emacs.d#vterm
+  :init (setq vterm-always-compile-module t)
   :ensure (vterm :post-build
                  (progn
-		   ;; https://github.com/akermu/emacs-libvterm#frequently-asked-questions-and-problems
-                   (setq vterm-always-compile-module t)
                    (require 'vterm)
                    ;;print compilation info for elpaca
                    (with-current-buffer (get-buffer-create vterm-install-buffer-name)
@@ -243,39 +242,6 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   (vterm-mode . (lambda () (set
 			    (make-local-variable 'buffer-face-mode-face) 'fixed-pitch)
 		  (buffer-face-mode t))))
-;;
-;; Below is Progfilio's (u/nv-elisp's) code for installing vterm without user interaction:
-;;
-;; 
-;;
-;; (use-package vterm
-;;   :ensure (vterm :post-build
-;;                  (progn
-;;                    (setq vterm-always-compile-module t)
-;;                    (require 'vterm)
-;;                    ;;print compilation info for elpaca
-;;                    (with-current-buffer (get-buffer-create vterm-install-buffer-name)
-;;                      (goto-char (point-min))
-;;                      (while (not (eobp))
-;;                        (message "%S"
-;;                                 (buffer-substring (line-beginning-position)
-;;                                                   (line-end-position)))
-;;                        (forward-line)))
-;;                    (when-let ((so (expand-file-name "./vterm-module.so"))
-;;                               ((file-exists-p so)))
-;;                      (make-symbolic-link
-;;                       so (expand-file-name (file-name-nondirectory so)
-;;                                            "../../builds/vterm")
-;;                       'ok-if-already-exists))))
-;;   :commands (vterm vterm-other-window)
-;;   :general
-;;   (+general-global-application
-;;     "t" '(:ignore t :which-key "terminal")
-;;     "tt" 'vterm-other-window
-;;     "t." 'vterm)
-;;   :config
-;;   (evil-set-initial-state 'vterm-mode 'emacs))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;; multi-vterm
 (use-package multi-vterm
