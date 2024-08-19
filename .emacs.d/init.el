@@ -213,9 +213,9 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 ;; normal =:enusre (:wait t)= doesn't work
 (use-package vterm
   ;; https://github.com/progfolio/.emacs.d#vterm
-  :init (setq vterm-always-compile-module t)
   :ensure (vterm :post-build
                  (progn
+				   (setq vterm-always-compile-module t)
                    (require 'vterm)
                    ;;print compilation info for elpaca
                    (with-current-buffer (get-buffer-create vterm-install-buffer-name)
