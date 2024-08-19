@@ -340,12 +340,12 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 	  ("https://www.kernel.org/feeds/all.atom.xml" news linux kernel)
 	  ("https://www.kernel.org/feeds/kdist.xml" news linux kernel)
 	  ("https://rss.slashdot.org/Slashdot/slashdotLinux" news linux slashdot)))
-  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "lwn\\.net"                  :add 'lwn))
-  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "phoronix\\.com"             :add 'phoronix))
-  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "kernel\\.org/feeds/all.+"   :add 'kernel-archives))
-  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "kernel\\.org/feeds/kdist.+" :add 'kernel-release))
-  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "slashdot\\.org"             :add 'slashdot))
-  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :feed-url "lwn.net"                    :add 'lwn)))
+  (add-hook 'elfeed-new-entry-hook (progn
+				     (elfeed-make-tagger :feed-url "lwn\\.net"                  :add 'lwn)
+				     (elfeed-make-tagger :feed-url "phoronix\\.com"             :add 'phoronix)
+				     (elfeed-make-tagger :feed-url "kernel\\.org/feeds/all.+"   :add 'kernel-archives)
+				     (elfeed-make-tagger :feed-url "kernel\\.org/feeds/kdist.+" :add 'kernel-release)
+				     (elfeed-make-tagger :feed-url "slashdot\\.org"             :add 'slashdot))))
 
 ;;;; powershell.el
 (use-package powershell)
