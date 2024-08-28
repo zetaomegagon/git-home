@@ -126,6 +126,9 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 (defun eshell/x (&rest args)
   (delete-single-window))
 
+;; ediff mode
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Begin Packages                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
