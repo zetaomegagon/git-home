@@ -248,6 +248,7 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 
 ;;;; multi-vterm
 (use-package multi-vterm
+  :after (vterm)
   :config
   (setq multi-vterm-dedicated-window-height-percent 50))
 
@@ -271,7 +272,9 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
    (detached-terminal-data-command system-type)))
 
 ;;;; magit
-(use-package magit)
+;; https://github.com/progfolio/elpaca/issues/324#issuecomment-2192762062
+(use-package transient)
+(use-package magit :after (transient))
 
 ;;;; scratch
 (use-package scratch
