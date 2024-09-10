@@ -1,8 +1,14 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S bash
 
 input=( $@ )
 
 for proc_name in ${input[@]}; do
-    pgrep -x "$proc_name" &
+    if [[ "$proc_name" = schildichat* ]]; then
+	echo "Killing $proc_name" >&2
+	pgrep -xf "/opt/SchildiChat/schildichat-desktop"
+    else
+	echo "Killing $proc_name" >&2
+	{ pgrep -x "$proc_name" || pgrep -xf "$proc_name"; }
+    fi >/dev/null 2>&1 &
 done | xargs -I {} kill -9 {}
 
