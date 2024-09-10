@@ -6,6 +6,9 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+;; toggle isearch to use regex
+(isearch-toggle-regexp t)
+
 ;; set frame transparency
 (progn (set-frame-parameter nil 'alpha-background 95)
        (add-to-list 'default-frame-alist '(alpha-background . 95)))
