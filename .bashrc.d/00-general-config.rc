@@ -53,8 +53,12 @@ shopt -s histverify                # on history substitution allow editing befor
 # --------------------------------------------------------------------------------------------------
 HISTIGNORE_LIST=(
     # builtins
+    'fc:'
+    'fg:'
+    'bg:'
     '. *:'
     'source *:'
+    'pwd:'
     'cd:'
     'cd *:'
     'l[alsz]:'
@@ -76,6 +80,8 @@ HISTIGNORE_LIST=(
     'slack:'
     'schildichat-desktop:'
     'files:'
+    'forget:'
+    'forget *:'
 )
 export PROMPT_COMMAND='history -a'
 export HISTFILESIZE=-1
@@ -86,6 +92,8 @@ export HISTCONTROL='ignoreboth'
 # --------------------------------------------------------------------------------------------------
 # history functions                See: https://mywiki.wooledge.org/BashFAQ/088
 # --------------------------------------------------------------------------------------------------
+alias forget=' '
+
 dedupe-history() {
     local TEMPDIR="$(mktemp -d -t bash-history-XXXXXXXXXXXXXXXX)"
     awk 'NR==FNR && !/^#/{lines[$0]=FNR;next} lines[$0]==FNR' "$HISTFILE" "$HISTFILE" \
