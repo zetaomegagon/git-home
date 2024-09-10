@@ -53,12 +53,15 @@ shopt -s histverify                # on history substitution allow editing befor
 # --------------------------------------------------------------------------------------------------
 HISTIGNORE_LIST=(
     # builtins
+    '. *:'
+    'source *:'
     'cd:'
     'cd *:'
     'l[alsz]:'
     'l[alsz] *:'
     'exit:'
     'history:'
+    'history *:'
     'rm *:'
     'man *:'
     'help *:'
