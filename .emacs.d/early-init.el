@@ -1,7 +1,7 @@
 ;; inhibit package.el as required by third party package managers
 (setq package-enable-at-startup nil)
 
-;; elpaca
+;; Install Elpaca
 (setq elpaca-core-date (format-time-string "%Y%m%d")) ; https://github.com/progfolio/elpaca/wiki/Warnings-and-Errors#unable-to-determine-elpaca-core-date
 
 (defvar elpaca-installer-version 0.6)
@@ -41,7 +41,7 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
-;; Install use-package support
+;; Enable Elpaca use-package support
 (elpaca elpaca-use-package
   (elpaca-use-package-mode)               ; Enable :elpaca use-package keyword.
   (setq elpaca-use-package-by-default t)) ; Assume :elpaca t unless otherwise specified.
