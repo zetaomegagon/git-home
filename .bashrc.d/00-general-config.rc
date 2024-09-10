@@ -56,6 +56,7 @@ HISTIGNORE_LIST=(
     'cd:'
     'cd *:'
     'l[alsz]:'
+    'l[alsz] *:'
     'exit:'
     'history:'
     'rm *:'
