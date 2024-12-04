@@ -5,4 +5,4 @@ TARGET="/snapshots"
 DATE="$(date -uIs)"
 NAME="${HOME##*/}-${DATE}"
 
-sudo btrfs subvolume snapshot "$SOURCE" "${TARGET}/${NAME}"
+sudo btrfs subvolume snapshot -r "$SOURCE" "${TARGET}/${NAME}"

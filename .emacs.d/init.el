@@ -7,20 +7,20 @@
 (tool-bar-mode -1)
 
 ;; toggle isearch to use regex
-(isearch-toggle-regexp t)
+(isearch-toggle-regexp)
 
 ;; set frame transparency
 (progn (set-frame-parameter nil 'alpha-background 95)
        (add-to-list 'default-frame-alist '(alpha-background . 95)))
 
-(defun eb/toggle-frame-transparency ()
+(defun eb-toggle-frame-transparency ()
   "toggle frame alpha value between 85 and 95"
   (interactive nil)
   (cond ((equal (frame-parameter nil 'alpha-background) 95)
-	 (set-frame-parameter nil 'alpha-background 85))
+	 (set-frame-parameter nil 'alpha-background 80))
 	(t (set-frame-parameter nil 'alpha-background 95))))
 
-(keymap-global-set "<f1>" 'eb/toggle-frame-transparency)
+(keymap-global-set "<f1>" 'eb-toggle-frame-transparency)
 
 ;; Put backup and auto-save into ~/.emacs.d/
 ;;
@@ -328,8 +328,8 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 			      emms-info-metaflac
 			      emms-info-ogginfo))
   :bind
-  ("C-c -" . emms-volume-mode-plus)
-  ("C-c +" . emms-volume-mode-minus))
+  ("C-c +" . emms-volume-mode-plus)
+  ("C-c -" . emms-volume-mode-minus))
 
 (setq browse-url-firefox-arguments '("--profile" "/home/ebeale/.mozilla/firefox/18rv2ik5.arkenfox-user.js")
       browse-url-browser-function 'browse-url-firefox)
@@ -342,19 +342,22 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   (setq elfeed-feeds
 	'(("https://lwn.net/headlines/rss" news linux foss)
 	  ("https://www.phoronix.com/rss.php" news linux foss reviews)
-	  ("https://planet.kernel.org/rss20.xml" planet linux blog)
-	  ("https://planet.lisp.org/rss20.xml" planet lisp common-lisp blog)
-	  ("https://planet.scheme.org/atom.xml" planet lisp scheme blog)
-	  ("https://planet.emacslife.com/atom.xml" planet emacs blog)
-	  ("https://www.kernel.org/feeds/all.atom.xml" news linux kernel)
-	  ("https://www.kernel.org/feeds/kdist.xml" news linux kernel)
-	  ("https://rss.slashdot.org/Slashdot/slashdotLinux" news linux slashdot)))
+	  ("https://planet.kernel.org/rss20.xml" plinux blog)
+	  ("https://planet.lisp.org/rss20.xml" lisp common-lisp blog)
+	  ("https://planet.scheme.org/atom.xml" lisp scheme blog)
+	  ("https://planet.emacslife.com/atom.xml" emacs blog)
+	  ("https://www.kernel.org/feeds/all.atom.xml" changelog linux)
+	  ("https://www.kernel.org/feeds/kdist.xml" changelog linux)
+	  ("https://rss.slashdot.org/Slashdot/slashdotLinux" news linux)
+	  ("https://lxer.com/module/newswire/headlines.rss" news linux)))
   (add-hook 'elfeed-new-entry-hook (progn
 				     (elfeed-make-tagger :feed-url "lwn\\.net"                  :add 'lwn)
 				     (elfeed-make-tagger :feed-url "phoronix\\.com"             :add 'phoronix)
 				     (elfeed-make-tagger :feed-url "kernel\\.org/feeds/all.+"   :add 'kernel-archives)
 				     (elfeed-make-tagger :feed-url "kernel\\.org/feeds/kdist.+" :add 'kernel-release)
-				     (elfeed-make-tagger :feed-url "slashdot\\.org"             :add 'slashdot))))
+				     (elfeed-make-tagger :feed-url "slashdot\\.org"             :add 'slashdot)
+				     (elfeed-make-tagger :feed-url "lxer\\.com"                 :add 'lxer)
+				     (elfeed-make-tagger :feed-url "planet\\..+"                :add 'planet))))
 
 ;;;; powershell.el
 (use-package powershell)
@@ -534,6 +537,9 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
   ;; setting is useful beyond Corfu.
   (setq read-extended-command-predicate #'command-completion-default-include-p))
+
+;;;; csv-mode
+(use-package csv-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           End Packages                                     ;;

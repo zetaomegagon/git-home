@@ -1,0 +1,5 @@
+# -*- mode: bash-ts -*-
+
+cs() { spectre -tx cloudshare.com; }
+bw() { spectre -tx bitwarden.com; }
+ga() { spectre -tx gnome-authenticator; }

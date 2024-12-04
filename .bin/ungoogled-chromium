@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S bash -x
 
 ##################################################################################
 # Launch instances of ungoogled-chromium separated by HOME directories		 #
@@ -27,23 +27,51 @@ ungoogled-chromium() {
     local tdir="ungoogled-chromium-${sdir}"
     local home
     local flatpak="$(flatpak list --columns=application | grep -iE '^.*ungoogled.?chromium$')"
-    local downloads="$HOME/downloads"
+
+    if [[ "$sdir" == unsafe ]]; then
+	local downloads="$pdir/$sdir/.ungoogled-chromium-downloads"
+    else
+	local downloads="$HOME/downloads"
+    fi
+
     # limit the $PATH so we don't call this wrapper, and get path to binary
     local rpm="PATH='/usr/bin:/usr/local/bin' $(which ungoogled-chromium)"
+
     # chrome flags and switches
     # see:
-    #  - https://chromium.googlesource.com/chromium/src/+/HEAD/chrome/browser/flag_descriptions.cc
+    #  - https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/flag_descriptions.cc
     #  - https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
-    
-    local enable_flag_privacy=(
-	'FingerprintingCanvasImageDataNoise,'
-	'FingerprintingCanvasMeasuretextNoise,'
-	'FingerprintingClientRectsNoise,'
-	'ForcePunycodeHostnames,'
-	'DisableGreaseTLS,'
-	'HttpAcceptHeader,'
-	'NoPings,'
-    )
+
+    if [[ "$sdir" == unsafe ]]; then
+	local enable_flag_privacy=(
+	    'FingerprintingCanvasImageDataNoise,'
+	    'FingerprintingCanvasMeasuretextNoise,'
+	    'FingerprintingClientRectsNoise,'
+	    'ForcePunycodeHostnames,'
+	    'DisableGreaseTLS,'
+	    'HttpAcceptHeader,'
+	    'NoPings,'
+	    #'NoCrossOriginReferrers,'
+	    'ReducedSystemInfo,'
+	    'RemoveClientHints,'
+	)
+    elif [[ "$sdir" == dmz ]]; then
+	unset -v enable_flag_privacy
+    else	
+	local enable_flag_privacy=(
+	    'FingerprintingCanvasImageDataNoise,'
+	    'FingerprintingCanvasMeasuretextNoise,'
+	    'FingerprintingClientRectsNoise,'
+	    'ForcePunycodeHostnames,'
+	    'DisableGreaseTLS,'
+	    'HttpAcceptHeader,'
+	    'NoPings,'
+	    'NoCrossOriginReferrers,'
+	    'ReducedSystemInfo,'
+	    'RemoveClientHints,'
+	)
+    fi
+
 
     local enable_flag_privacy_experimental=(
 	'PartitionedCookies,'
@@ -119,6 +147,12 @@ ungoogled-chromium() {
 	set +x
     }
 
+    _create-download-dir() {
+	if [[ ! -d "$downloads" ]]; then
+	    mkdir -p "$downloads"
+	fi
+    }
+
     _ungoogled-chromium() {
 	set -x
 	local input=( $@ )
@@ -139,11 +173,14 @@ ungoogled-chromium() {
 	set -x
 	_set-home
 	_populate-home
+	_create-download-dir
 	case "$sdir" in
-	    incognito)
+	    incognito|dmz)
 		_ungoogled-chromium --incognito ${args[@]} ;;
+	    work|personal|unsafe)
+		_ungoogled-chromium ${args[@]} ;;
 	    *)
-		_ungoogled-chromium ${args[@]}
+		echo "Not a valid profile!" && exit 1
 	esac
 	set +x
     }

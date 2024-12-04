@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+command gpaste-client -i "$@" 2> /dev/null || command gpaste-client "$@"

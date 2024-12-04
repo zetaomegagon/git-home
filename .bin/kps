@@ -1,14 +1,21 @@
 #!/usr/bin/env -S bash
 
-input=( $@ )
+kill-proc() {
+    xargs -I {} kill -9 {}
+}
+
+message() {
+    echo "Killing ${1}"
+}
+
+readarray input <<< $@
 
 for proc_name in ${input[@]}; do
     if [[ "$proc_name" = schildichat* ]]; then
-	echo "Killing $proc_name" >&2
-	pgrep -xf "/opt/SchildiChat/schildichat-desktop"
+	message "$proc_name"
+	kill-proc < <(pgrep -xf "/opt/SchildiChat/schildichat-desktop")
     else
-	echo "Killing $proc_name" >&2
-	{ pgrep -x "$proc_name" || pgrep -xf "$proc_name"; }
-    fi >/dev/null 2>&1 &
-done | xargs -I {} kill -9 {}
-
+	message "$proc_name"
+	kill-proc < <({ pgrep -x "$proc_name" || pgrep -xf "$proc_name" || pgrep "$proc_name"; })
+    fi
+done
