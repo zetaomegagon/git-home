@@ -51,7 +51,6 @@ ungoogled-chromium() {
 	    'DisableGreaseTLS,'
 	    'HttpAcceptHeader,'
 	    'NoPings,'
-	    #'NoCrossOriginReferrers,'
 	    'ReducedSystemInfo,'
 	    'RemoveClientHints,'
 	)
@@ -84,7 +83,11 @@ ungoogled-chromium() {
 	'WebAssemblyTrapHandler,'
     )
 
-    if lspci -k | grep -qi 'kernel driver in use: radeon'; then
+    # can't use GPU accel with AMD GPU due to AMD JPEG image decode acceleration
+    # returning multiple buffer objects when chrome only supports one
+    #
+    # see: https://issues.chromium.org/issues/40632250
+    if lspci -k | grep -qiE 'kernel driver in use: (radeon|amdgpu)'; then
 	local switches=(
 	    --disable-features="$(printf "%s" "${disable_flags[@]}" $'\n')"
 	    --enable-features="$(printf "%s" "${enable_flag_privacy[@]}${enable_flag_privacy_experimental[@]}" $'\n')"
@@ -94,8 +97,7 @@ ungoogled-chromium() {
 	    --disable-accelerated-video-decode
 	)
     else
-	# can't use GPU accel with AMD GPU
-	# see: https://issues.chromium.org/issues/40632250
+        # intel is okay though
 	local enable_flag_gpu=(
 	    'GpuRasterization,'
 	    'CanvasOopRasterization,'
