@@ -25,7 +25,7 @@ git() {
     local first="${args[0]}"
     local rest=( "${args[@]:1:${#args[@]}}" )
 
-    if [[ $PWD = $HOME ]]; then
+    if [[ ${PWD%/var} = $HOME ]]; then
 	case "$first" in
 	    init)
 		cd || exit
