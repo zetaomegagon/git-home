@@ -17,12 +17,11 @@ emacsctl() {
 }
 
 emacs-dead-p() {
-    systemctl --user --quiet is-active emacs || return 0
+    systemctl --user --quiet is-active emacs && return 1 || return 0
 }
 
 emacs-running-p() {
-    # looks better to explicitly return 0
-    systemctl --user --quiet is-active emacs && return 0
+    systemctl --user --quiet is-active emacs && return 0 || return 1
 }
 
 ## vterm
@@ -51,12 +50,11 @@ fi
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }"'echo -ne "\033]0;${HOSTNAME}:${PWD}\007"'
 
 # https://github.com/akermu/emacs-libvterm#directory-tracking-and-prompt-tracking
-# vterm_prompt_end(){
-#     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
-# }
+vterm_prompt_end(){
+    vterm_printf "51;A${USER}@${HOSTNAME}:${PWD}"
+}
 
-# PS1=$PS1'\[$(vterm_prompt_end)\]'
-
+PS1=$PS1'\[$(vterm_prompt_end)\]'
 
 # https://github.com/akermu/emacs-libvterm#message-passing
 vterm_cmd() {

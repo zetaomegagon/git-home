@@ -68,3 +68,4 @@
 .bin/spectre
 .bin/bashlib
 .bin/racket
+.history/

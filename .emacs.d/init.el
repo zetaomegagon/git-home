@@ -17,7 +17,7 @@
   "toggle frame alpha value between 85 and 95"
   (interactive nil)
   (cond ((equal (frame-parameter nil 'alpha-background) 95)
-	 (set-frame-parameter nil 'alpha-background 80))
+	 (set-frame-parameter nil 'alpha-background 30))
 	(t (set-frame-parameter nil 'alpha-background 95))))
 
 (keymap-global-set "<f1>" 'eb-toggle-frame-transparency)
@@ -241,7 +241,8 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   ;; https://github.com/akermu/emacs-libvterm?tab=readme-ov-file#customization
   (setq vterm-kill-buffer-on-exit t
 	vterm-copy-exclude-prompt t
-	vterm-max-scrollback 100000)
+	vterm-max-scrollback 100000
+	vterm-buffer-name-string "vterm: %s")
   :bind
   ("C-'" . vterm-send-next-key)
   :hook

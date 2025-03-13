@@ -1,0 +1,21 @@
+#!/usr/bin/env -S bash
+
+profile_dir="$HOME/.librewolf"
+
+case $1 in
+    student)
+	(command librewolf --profile ${profile_dir}/*.cloudshare-${1} >/dev/null 2>&1 &) ;;
+    cloudshare)     
+	(command librewolf --profile ${profile_dir}/*.${1} >/dev/null 2>&1 &) ;;
+    unsafe)
+	(command librewolf --profile ${profile_dir}/*.${1} >/dev/null 2>&1 &) ;;
+    personal)
+	(command librewolf --profile ${profile_dir}/*.${1} >/dev/null 2>&1 &) ;;
+    *)
+	echo
+	echo "Profiles are: 'student', 'cloudshare', 'unsafe'."
+	echo
+	exit 1
+esac
+
+	  

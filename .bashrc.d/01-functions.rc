@@ -25,6 +25,8 @@ git() {
     local first="${args[0]}"
     local rest=( "${args[@]:1:${#args[@]}}" )
 
+    # Silverblue uses `/var/home/<user-name>` for $PWD but $HOME still
+    # uses `/home/<user_name>`, so we need to strip `/var`
     if [[ ${PWD%/var} = $HOME ]]; then
 	case "$first" in
 	    init)
@@ -81,7 +83,7 @@ date() {
     if (( ${#@} == 0 )); then
         command date +'%a %b %e %R %Z %Y';
     else
-        command date "$@";
+        command date "$@"
     fi
 }
 

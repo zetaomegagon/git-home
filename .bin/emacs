@@ -10,7 +10,7 @@ is-term-p() {
 emacs() {
     set -x
     # shellcheck disable=SC1091
-    source "$HOME/.bashrc.d/12-emacs.rc"
+    source "$HOME/.bashrc.d/999-emacs.rc"
 
     local finput
     local -a flags

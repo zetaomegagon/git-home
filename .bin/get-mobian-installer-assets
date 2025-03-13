@@ -29,7 +29,6 @@ exec-get-mobian-installer-assets() {
 	    if [[ ! -e "$ASSET" ]]; then
 		wget \
 		    --quiet \
-		    --show-progress \
 		    "${MOBIAN_INSTALLER_URL}${ASSET}"
 	    fi
 	done

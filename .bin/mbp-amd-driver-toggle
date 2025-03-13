@@ -29,16 +29,22 @@ toggle-gpu-on-or-off() {
 
     toggle-dgpu-on() {
 	sudo grubby \
-	     --remove-args="radeon.si_support=1 amdgpu.si_support=0" \
-	     --args="radeon.si_support=0 amdgpu.si_support=1" \
-	     --update-kernel=ALL || exit
+	     --remove-args="radeon.si_support=1" \
+	     --remove-args="amdgpu.si_support=0" \
+	     --args="radeon.si_support=0" \
+	     --args="amdgpu.si_support=1" \
+	     --args="acpi_backlight=native" \
+	     --update-kernel=ALL || exit 1
     }
 
     toggle-dgpu-off() {
 	sudo grubby \
-	     --remove-args="radeon.si_support=0 amdgpu.si_support=1" \
-	     --args="radeon.si_support=1 amdgpu.si_support=0" \
-	     --update-kernel=ALL || exit
+	     --remove-args="acpi_backlight=native" \
+	     --remove-args="radeon.si_support=0" \
+	     --remove-args="amdgpu.si_support=1" \
+	     --args="radeon.si_support=1" \
+	     --args="amdgpu.si_support=0" \
+	     --update-kernel=ALL || exit 1
     }
     
     if is-gpu-radeon; then
@@ -51,11 +57,11 @@ toggle-gpu-on-or-off() {
 }
 
 usage-msg() {
-    echo "Usage: ${0##*/} [--toggle|--current]"
+    echo "Usage: ${0##*/} [--toggle|--swtich|--current]"
 }
 
 case "$input" in
-    current) get-current-gpu --interactive ;;
-     toggle) toggle-gpu-on-or-off ;;
-          *) usage-msg
+    toggle|switch) toggle-gpu-on-or-off ;;
+          current) get-current-gpu --interactive ;;
+                *) usage-msg
 esac
