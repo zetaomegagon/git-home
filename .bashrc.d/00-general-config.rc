@@ -1,7 +1,9 @@
 # -*- mode: bash-ts -*-
 
 # --------------------------------------------------------------------------------------------------
-# path
+# path                            NOTE: we only care that these directories are
+#                                       are at the beginning of $PATH for fast
+#                                       lookup
 # --------------------------------------------------------------------------------------------------
 PATHS=(
     projects/repositories/cloudshare

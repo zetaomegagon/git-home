@@ -1,8 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S bash -x
 
 declare -r VIAL_REPO='https://github.com/vial-kb/vial-gui.git'
 
 get-current-version() {
+    set -x
     git -c 'versionsort.suffix=-' \
 	ls-remote --tags --sort='v:refname' "${VIAL_REPO}" \
 	| tail -n1 \
@@ -14,23 +15,37 @@ declare -ra VIAL_VARS=(
     VIAL_APPIMAGE
     VIAL_DOWNLOAD_LINK
     VIAL_BIN_PATH
-    VIAL_BIN_DIR
+    VIAL_HOME
     VIAL_BIN
     VIAL_VERSION_FILE
     VIAL_START_MSG
+    VIAL_DESKTOP
+    VIAL_DESKTOP_FILE
+    XDG_DESKTOP_DIR
 )
 
 download-and-run-vial() {
+    set -x
     local "${VIAL_VARS[@]}"
     VIAL_CURRENT_VERSION="$(get-current-version)"
-    VIAL_BIN_PATH="$HOME/.bin/vial/vial-bin"
-    VIAL_BIN_DIR="${VIAL_BIN_PATH%/*}"
-    VIAL_VERSION_FILE="${VIAL_BIN_DIR}/vial-current-version"
+    VIAL_HOME="$HOME/.bin/vial"
+    VIAL_BIN="vial-bin"
+    VIAL_BIN_PATH="${VIAL_HOME}/${VIAL_BIN}"
+    VIAL_VERSION_FILE="${VIAL_HOME}/vial-current-version"
     VIAL_APPIMAGE="Vial-${VIAL_CURRENT_VERSION}-x86_64.AppImage"
     VIAL_DOWNLOAD_LINK="${VIAL_REPO%.*}/releases/download/${VIAL_CURRENT_VERSION}/${VIAL_APPIMAGE}"
-    VIAL_BIN="${VIAL_BIN_PATH##*/}"
+    VIAL_DESKTOP_FILE="vial.desktop"
+    VIAL_DESKTOP_PATH="${VIAL_HOME}/${VIAL_DESKTOP_FILE}"
+    XDG_DESKTOP_DIR="$HOME/.local/share/applications"
     VIAL_START_MSG="Starting Vial..."
 
+    install-vial-desktop-file() {
+	set -x
+	if [[ ! -f "${XDG_DESKTOP_DIR}/${VIAL_DESKTOP_FILE}" ]]; then
+	    cp "$VIAL_DESKTOP_PATH" "$XDG_DESKTOP_DIR"
+	fi
+    }
+    
     exec-vial() {
 	printf "%s\n" "$VIAL_START_MSG"
 	(
@@ -38,13 +53,15 @@ download-and-run-vial() {
 	)
     }
 
-    cd "$VIAL_BIN_DIR" || { echo "Cannot change to: $VIAL_BIN_DIR" && exit; } >&2
+    cd "$VIAL_HOME" || { echo "Cannot change to: $VIAL_HOME" && exit; } >&2
 
     if eval "file --mime $VIAL_BIN_PATH | grep -qE x-executable" && [[ "$VIAL_CURRENT_VERSION" == "$(cat "$VIAL_VERSION_FILE")" ]]; then
+	install-vial-desktop-file
 	exec-vial
     else
 	wget -qO "$VIAL_BIN" "$VIAL_DOWNLOAD_LINK" || { echo "Not a valid URL: $VIAL_DOWNLOAD_LINK" && exit; } >&2
 	chmod +x "$VIAL_BIN_PATH"
+	install-vial-desktop-file
 	exec-vial
 	printf "%s" "$VIAL_CURRENT_VERSION" > "$VIAL_VERSION_FILE"
     fi

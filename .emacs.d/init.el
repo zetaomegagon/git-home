@@ -418,7 +418,9 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 ;;;; vundo
 (use-package vundo
   :config
-  (setq vundo-glyph-alist vundo-unicode-symbols))
+  (setq vundo-glyph-alist vundo-unicode-symbols)
+  :bind
+  ("C-x z" . vundo))
 
 ;;;; hyperbole
 (use-package hyperbole

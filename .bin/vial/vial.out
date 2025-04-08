@@ -1,0 +1,35 @@
++ declare -r VIAL_REPO=https://github.com/vial-kb/vial-gui.git
++ VIAL_VARS=('VIAL_CURRENT_VERSION' 'VIAL_APPIMAGE' 'VIAL_DOWNLOAD_LINK' 'VIAL_BIN_PATH' 'VIAL_HOME' 'VIAL_BIN' 'VIAL_VERSION_FILE' 'VIAL_START_MSG' 'VIAL_DESKTOP' 'VIAL_DESKTOP_FILE' 'XDG_DESKTOP_DIR')
++ declare -ra VIAL_VARS
++ download-and-run-vial
++ set -x
++ local VIAL_CURRENT_VERSION VIAL_APPIMAGE VIAL_DOWNLOAD_LINK VIAL_BIN_PATH VIAL_HOME VIAL_BIN VIAL_VERSION_FILE VIAL_START_MSG VIAL_DESKTOP VIAL_DESKTOP_FILE XDG_DESKTOP_DIR
+++ get-current-version
+++ set -x
+++ git -c versionsort.suffix=- ls-remote --tags --sort=v:refname https://github.com/vial-kb/vial-gui.git
+++ tail -n1
+++ cut -d/ -f3
++ VIAL_CURRENT_VERSION=v0.7.1
++ VIAL_HOME=/home/ebeale/.bin/vial
++ VIAL_BIN=vial-bin
++ VIAL_BIN_PATH=/home/ebeale/.bin/vial/vial-bin
++ VIAL_VERSION_FILE=/home/ebeale/.bin/vial/vial-current-version
++ VIAL_APPIMAGE=Vial-v0.7.1-x86_64.AppImage
++ VIAL_DOWNLOAD_LINK=https://github.com/vial-kb/vial-gui/releases/download/v0.7.1/Vial-v0.7.1-x86_64.AppImage
++ VIAL_DESKTOP_FILE=vial.desktop
++ VIAL_DESKTOP_PATH=/home/ebeale/.bin/vial/vial.desktop
++ XDG_DESKTOP_DIR=/home/ebeale/.local/share/applications
++ VIAL_START_MSG='Starting Vial...'
++ cd /home/ebeale/.bin/vial
++ eval 'file --mime /home/ebeale/.bin/vial/vial-bin | grep -qE x-executable'
+++ file --mime /home/ebeale/.bin/vial/vial-bin
+++ grep -qE x-executable
+++ cat /home/ebeale/.bin/vial/vial-current-version
++ [[ v0.7.1 == \v\0\.\7\.\1 ]]
++ install-vial-desktop-file
++ set -x
++ [[ ! -f /home/ebeale/.local/share/applications/vial.desktop ]]
++ exec-vial
++ printf '%s\n' 'Starting Vial...'
+Starting Vial...
++ /home/ebeale/.bin/vial/vial-bin

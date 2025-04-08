@@ -1,0 +1,1805 @@
+#!/usr/bin/env bash
+
+args=( "$@" )
+first="${args[0]}"
+rest=( "${args[@]:1:${#args[@]}}" )
+
+case "$first" in
+    abidjan)
+	TZ="Africa/Abidjan" date "${rest[@]}"
+	;;
+    accra)
+	TZ="Africa/Accra" date "${rest[@]}"
+	;;
+    addis-ababa)
+	TZ="Africa/Addis_Ababa" date "${rest[@]}"
+	;;
+    algiers)
+	TZ="Africa/Algiers" date "${rest[@]}"
+	;;
+    asmara)
+	TZ="Africa/Asmara" date "${rest[@]}"
+	;;
+    asmera)
+	TZ="Africa/Asmera" date "${rest[@]}"
+	;;
+    bamako)
+	TZ="Africa/Bamako" date "${rest[@]}"
+	;;
+    bangui)
+	TZ="Africa/Bangui" date "${rest[@]}"
+	;;
+    banjul)
+	TZ="Africa/Banjul" date "${rest[@]}"
+	;;
+    bissau)
+	TZ="Africa/Bissau" date "${rest[@]}"
+	;;
+    blantyre)
+	TZ="Africa/Blantyre" date "${rest[@]}"
+	;;
+    brazzaville)
+	TZ="Africa/Brazzaville" date "${rest[@]}"
+	;;
+    bujumbura)
+	TZ="Africa/Bujumbura" date "${rest[@]}"
+	;;
+    cairo)
+	TZ="Africa/Cairo" date "${rest[@]}"
+	;;
+    casablanca)
+	TZ="Africa/Casablanca" date "${rest[@]}"
+	;;
+    ceuta)
+	TZ="Africa/Ceuta" date "${rest[@]}"
+	;;
+    conakry)
+	TZ="Africa/Conakry" date "${rest[@]}"
+	;;
+    dakar)
+	TZ="Africa/Dakar" date "${rest[@]}"
+	;;
+    dar-es-salaam)
+	TZ="Africa/Dar_es_Salaam" date "${rest[@]}"
+	;;
+    djibouti)
+	TZ="Africa/Djibouti" date "${rest[@]}"
+	;;
+    douala)
+	TZ="Africa/Douala" date "${rest[@]}"
+	;;
+    el-aaiun)
+	TZ="Africa/El_Aaiun" date "${rest[@]}"
+	;;
+    freetown)
+	TZ="Africa/Freetown" date "${rest[@]}"
+	;;
+    gaborone)
+	TZ="Africa/Gaborone" date "${rest[@]}"
+	;;
+    harare)
+	TZ="Africa/Harare" date "${rest[@]}"
+	;;
+    johannesburg)
+	TZ="Africa/Johannesburg" date "${rest[@]}"
+	;;
+    juba)
+	TZ="Africa/Juba" date "${rest[@]}"
+	;;
+    kampala)
+	TZ="Africa/Kampala" date "${rest[@]}"
+	;;
+    khartoum)
+	TZ="Africa/Khartoum" date "${rest[@]}"
+	;;
+    kigali)
+	TZ="Africa/Kigali" date "${rest[@]}"
+	;;
+    kinshasa)
+	TZ="Africa/Kinshasa" date "${rest[@]}"
+	;;
+    lagos)
+	TZ="Africa/Lagos" date "${rest[@]}"
+	;;
+    libreville)
+	TZ="Africa/Libreville" date "${rest[@]}"
+	;;
+    lome)
+	TZ="Africa/Lome" date "${rest[@]}"
+	;;
+    luanda)
+	TZ="Africa/Luanda" date "${rest[@]}"
+	;;
+    lubumbashi)
+	TZ="Africa/Lubumbashi" date "${rest[@]}"
+	;;
+    lusaka)
+	TZ="Africa/Lusaka" date "${rest[@]}"
+	;;
+    malabo)
+	TZ="Africa/Malabo" date "${rest[@]}"
+	;;
+    maputo)
+	TZ="Africa/Maputo" date "${rest[@]}"
+	;;
+    maseru)
+	TZ="Africa/Maseru" date "${rest[@]}"
+	;;
+    mbabane)
+	TZ="Africa/Mbabane" date "${rest[@]}"
+	;;
+    mogadishu)
+	TZ="Africa/Mogadishu" date "${rest[@]}"
+	;;
+    monrovia)
+	TZ="Africa/Monrovia" date "${rest[@]}"
+	;;
+    nairobi)
+	TZ="Africa/Nairobi" date "${rest[@]}"
+	;;
+    ndjamena)
+	TZ="Africa/Ndjamena" date "${rest[@]}"
+	;;
+    niamey)
+	TZ="Africa/Niamey" date "${rest[@]}"
+	;;
+    nouakchott)
+	TZ="Africa/Nouakchott" date "${rest[@]}"
+	;;
+    ouagadougou)
+	TZ="Africa/Ouagadougou" date "${rest[@]}"
+	;;
+    porto-novo)
+	TZ="Africa/Porto-Novo" date "${rest[@]}"
+	;;
+    sao-tome)
+	TZ="Africa/Sao_Tome" date "${rest[@]}"
+	;;
+    timbuktu)
+	TZ="Africa/Timbuktu" date "${rest[@]}"
+	;;
+    tripoli)
+	TZ="Africa/Tripoli" date "${rest[@]}"
+	;;
+    tunis)
+	TZ="Africa/Tunis" date "${rest[@]}"
+	;;
+    windhoek)
+	TZ="Africa/Windhoek" date "${rest[@]}"
+	;;
+    adak)
+	TZ="America/Adak" date "${rest[@]}"
+	;;
+    anchorage)
+	TZ="America/Anchorage" date "${rest[@]}"
+	;;
+    anguilla)
+	TZ="America/Anguilla" date "${rest[@]}"
+	;;
+    antigua)
+	TZ="America/Antigua" date "${rest[@]}"
+	;;
+    araguaina)
+	TZ="America/Araguaina" date "${rest[@]}"
+	;;
+    buenos-aires)
+	TZ="America/Argentina/Buenos_Aires" date "${rest[@]}"
+	;;
+    catamarca)
+	TZ="America/Argentina/Catamarca" date "${rest[@]}"
+	;;
+    comodrivadavia)
+	TZ="America/Argentina/ComodRivadavia" date "${rest[@]}"
+	;;
+    cordoba)
+	TZ="America/Argentina/Cordoba" date "${rest[@]}"
+	;;
+    jujuy)
+	TZ="America/Argentina/Jujuy" date "${rest[@]}"
+	;;
+    la-rioja)
+	TZ="America/Argentina/La_Rioja" date "${rest[@]}"
+	;;
+    mendoza)
+	TZ="America/Argentina/Mendoza" date "${rest[@]}"
+	;;
+    rio-gallegos)
+	TZ="America/Argentina/Rio_Gallegos" date "${rest[@]}"
+	;;
+    salta)
+	TZ="America/Argentina/Salta" date "${rest[@]}"
+	;;
+    san-juan)
+	TZ="America/Argentina/San_Juan" date "${rest[@]}"
+	;;
+    san-luis)
+	TZ="America/Argentina/San_Luis" date "${rest[@]}"
+	;;
+    tucuman)
+	TZ="America/Argentina/Tucuman" date "${rest[@]}"
+	;;
+    ushuaia)
+	TZ="America/Argentina/Ushuaia" date "${rest[@]}"
+	;;
+    aruba)
+	TZ="America/Aruba" date "${rest[@]}"
+	;;
+    asuncion)
+	TZ="America/Asuncion" date "${rest[@]}"
+	;;
+    atikokan)
+	TZ="America/Atikokan" date "${rest[@]}"
+	;;
+    atka)
+	TZ="America/Atka" date "${rest[@]}"
+	;;
+    bahia)
+	TZ="America/Bahia" date "${rest[@]}"
+	;;
+    bahia-banderas)
+	TZ="America/Bahia_Banderas" date "${rest[@]}"
+	;;
+    barbados)
+	TZ="America/Barbados" date "${rest[@]}"
+	;;
+    belem)
+	TZ="America/Belem" date "${rest[@]}"
+	;;
+    belize)
+	TZ="America/Belize" date "${rest[@]}"
+	;;
+    blanc-sablon)
+	TZ="America/Blanc-Sablon" date "${rest[@]}"
+	;;
+    boa-vista)
+	TZ="America/Boa_Vista" date "${rest[@]}"
+	;;
+    bogota)
+	TZ="America/Bogota" date "${rest[@]}"
+	;;
+    boise)
+	TZ="America/Boise" date "${rest[@]}"
+	;;
+    buenos-aires)
+	TZ="America/Buenos_Aires" date "${rest[@]}"
+	;;
+    cambridge-bay)
+	TZ="America/Cambridge_Bay" date "${rest[@]}"
+	;;
+    campo-grande)
+	TZ="America/Campo_Grande" date "${rest[@]}"
+	;;
+    cancun)
+	TZ="America/Cancun" date "${rest[@]}"
+	;;
+    caracas)
+	TZ="America/Caracas" date "${rest[@]}"
+	;;
+    catamarca)
+	TZ="America/Catamarca" date "${rest[@]}"
+	;;
+    cayenne)
+	TZ="America/Cayenne" date "${rest[@]}"
+	;;
+    cayman)
+	TZ="America/Cayman" date "${rest[@]}"
+	;;
+    chicago)
+	TZ="America/Chicago" date "${rest[@]}"
+	;;
+    chihuahua)
+	TZ="America/Chihuahua" date "${rest[@]}"
+	;;
+    ciudad-juarez)
+	TZ="America/Ciudad_Juarez" date "${rest[@]}"
+	;;
+    coral-harbour)
+	TZ="America/Coral_Harbour" date "${rest[@]}"
+	;;
+    cordoba)
+	TZ="America/Cordoba" date "${rest[@]}"
+	;;
+    costa-rica)
+	TZ="America/Costa_Rica" date "${rest[@]}"
+	;;
+    creston)
+	TZ="America/Creston" date "${rest[@]}"
+	;;
+    cuiaba)
+	TZ="America/Cuiaba" date "${rest[@]}"
+	;;
+    curacao)
+	TZ="America/Curacao" date "${rest[@]}"
+	;;
+    danmarkshavn)
+	TZ="America/Danmarkshavn" date "${rest[@]}"
+	;;
+    dawson)
+	TZ="America/Dawson" date "${rest[@]}"
+	;;
+    dawson-creek)
+	TZ="America/Dawson_Creek" date "${rest[@]}"
+	;;
+    denver)
+	TZ="America/Denver" date "${rest[@]}"
+	;;
+    detroit)
+	TZ="America/Detroit" date "${rest[@]}"
+	;;
+    dominica)
+	TZ="America/Dominica" date "${rest[@]}"
+	;;
+    edmonton)
+	TZ="America/Edmonton" date "${rest[@]}"
+	;;
+    eirunepe)
+	TZ="America/Eirunepe" date "${rest[@]}"
+	;;
+    el-salvador)
+	TZ="America/El_Salvador" date "${rest[@]}"
+	;;
+    ensenada)
+	TZ="America/Ensenada" date "${rest[@]}"
+	;;
+    fort-nelson)
+	TZ="America/Fort_Nelson" date "${rest[@]}"
+	;;
+    fort-wayne)
+	TZ="America/Fort_Wayne" date "${rest[@]}"
+	;;
+    fortaleza)
+	TZ="America/Fortaleza" date "${rest[@]}"
+	;;
+    glace-bay)
+	TZ="America/Glace_Bay" date "${rest[@]}"
+	;;
+    godthab)
+	TZ="America/Godthab" date "${rest[@]}"
+	;;
+    goose-bay)
+	TZ="America/Goose_Bay" date "${rest[@]}"
+	;;
+    grand-turk)
+	TZ="America/Grand_Turk" date "${rest[@]}"
+	;;
+    grenada)
+	TZ="America/Grenada" date "${rest[@]}"
+	;;
+    guadeloupe)
+	TZ="America/Guadeloupe" date "${rest[@]}"
+	;;
+    guatemala)
+	TZ="America/Guatemala" date "${rest[@]}"
+	;;
+    guayaquil)
+	TZ="America/Guayaquil" date "${rest[@]}"
+	;;
+    guyana)
+	TZ="America/Guyana" date "${rest[@]}"
+	;;
+    halifax)
+	TZ="America/Halifax" date "${rest[@]}"
+	;;
+    havana)
+	TZ="America/Havana" date "${rest[@]}"
+	;;
+    hermosillo)
+	TZ="America/Hermosillo" date "${rest[@]}"
+	;;
+    indianapolis)
+	TZ="America/Indiana/Indianapolis" date "${rest[@]}"
+	;;
+    knox)
+	TZ="America/Indiana/Knox" date "${rest[@]}"
+	;;
+    marengo)
+	TZ="America/Indiana/Marengo" date "${rest[@]}"
+	;;
+    petersburg)
+	TZ="America/Indiana/Petersburg" date "${rest[@]}"
+	;;
+    tell-city)
+	TZ="America/Indiana/Tell_City" date "${rest[@]}"
+	;;
+    vevay)
+	TZ="America/Indiana/Vevay" date "${rest[@]}"
+	;;
+    vincennes)
+	TZ="America/Indiana/Vincennes" date "${rest[@]}"
+	;;
+    winamac)
+	TZ="America/Indiana/Winamac" date "${rest[@]}"
+	;;
+    indianapolis)
+	TZ="America/Indianapolis" date "${rest[@]}"
+	;;
+    inuvik)
+	TZ="America/Inuvik" date "${rest[@]}"
+	;;
+    iqaluit)
+	TZ="America/Iqaluit" date "${rest[@]}"
+	;;
+    jamaica)
+	TZ="America/Jamaica" date "${rest[@]}"
+	;;
+    jujuy)
+	TZ="America/Jujuy" date "${rest[@]}"
+	;;
+    juneau)
+	TZ="America/Juneau" date "${rest[@]}"
+	;;
+    louisville)
+	TZ="America/Kentucky/Louisville" date "${rest[@]}"
+	;;
+    monticello)
+	TZ="America/Kentucky/Monticello" date "${rest[@]}"
+	;;
+    knox-in)
+	TZ="America/Knox_IN" date "${rest[@]}"
+	;;
+    kralendijk)
+	TZ="America/Kralendijk" date "${rest[@]}"
+	;;
+    la-paz)
+	TZ="America/La_Paz" date "${rest[@]}"
+	;;
+    lima)
+	TZ="America/Lima" date "${rest[@]}"
+	;;
+    los-angeles)
+	TZ="America/Los_Angeles" date "${rest[@]}"
+	;;
+    louisville)
+	TZ="America/Louisville" date "${rest[@]}"
+	;;
+    lower-princes)
+	TZ="America/Lower_Princes" date "${rest[@]}"
+	;;
+    maceio)
+	TZ="America/Maceio" date "${rest[@]}"
+	;;
+    managua)
+	TZ="America/Managua" date "${rest[@]}"
+	;;
+    manaus)
+	TZ="America/Manaus" date "${rest[@]}"
+	;;
+    marigot)
+	TZ="America/Marigot" date "${rest[@]}"
+	;;
+    martinique)
+	TZ="America/Martinique" date "${rest[@]}"
+	;;
+    matamoros)
+	TZ="America/Matamoros" date "${rest[@]}"
+	;;
+    mazatlan)
+	TZ="America/Mazatlan" date "${rest[@]}"
+	;;
+    mendoza)
+	TZ="America/Mendoza" date "${rest[@]}"
+	;;
+    menominee)
+	TZ="America/Menominee" date "${rest[@]}"
+	;;
+    merida)
+	TZ="America/Merida" date "${rest[@]}"
+	;;
+    metlakatla)
+	TZ="America/Metlakatla" date "${rest[@]}"
+	;;
+    mexico-city)
+	TZ="America/Mexico_City" date "${rest[@]}"
+	;;
+    miquelon)
+	TZ="America/Miquelon" date "${rest[@]}"
+	;;
+    moncton)
+	TZ="America/Moncton" date "${rest[@]}"
+	;;
+    monterrey)
+	TZ="America/Monterrey" date "${rest[@]}"
+	;;
+    montevideo)
+	TZ="America/Montevideo" date "${rest[@]}"
+	;;
+    montreal)
+	TZ="America/Montreal" date "${rest[@]}"
+	;;
+    montserrat)
+	TZ="America/Montserrat" date "${rest[@]}"
+	;;
+    nassau)
+	TZ="America/Nassau" date "${rest[@]}"
+	;;
+    new-york)
+	TZ="America/New_York" date "${rest[@]}"
+	;;
+    nipigon)
+	TZ="America/Nipigon" date "${rest[@]}"
+	;;
+    nome)
+	TZ="America/Nome" date "${rest[@]}"
+	;;
+    noronha)
+	TZ="America/Noronha" date "${rest[@]}"
+	;;
+    beulah)
+	TZ="America/North_Dakota/Beulah" date "${rest[@]}"
+	;;
+    center)
+	TZ="America/North_Dakota/Center" date "${rest[@]}"
+	;;
+    new-salem)
+	TZ="America/North_Dakota/New_Salem" date "${rest[@]}"
+	;;
+    nuuk)
+	TZ="America/Nuuk" date "${rest[@]}"
+	;;
+    ojinaga)
+	TZ="America/Ojinaga" date "${rest[@]}"
+	;;
+    panama)
+	TZ="America/Panama" date "${rest[@]}"
+	;;
+    pangnirtung)
+	TZ="America/Pangnirtung" date "${rest[@]}"
+	;;
+    paramaribo)
+	TZ="America/Paramaribo" date "${rest[@]}"
+	;;
+    phoenix)
+	TZ="America/Phoenix" date "${rest[@]}"
+	;;
+    port-au-prince)
+	TZ="America/Port-au-Prince" date "${rest[@]}"
+	;;
+    port-of-spain)
+	TZ="America/Port_of_Spain" date "${rest[@]}"
+	;;
+    porto-acre)
+	TZ="America/Porto_Acre" date "${rest[@]}"
+	;;
+    porto-velho)
+	TZ="America/Porto_Velho" date "${rest[@]}"
+	;;
+    puerto-rico)
+	TZ="America/Puerto_Rico" date "${rest[@]}"
+	;;
+    punta-arenas)
+	TZ="America/Punta_Arenas" date "${rest[@]}"
+	;;
+    rainy-river)
+	TZ="America/Rainy_River" date "${rest[@]}"
+	;;
+    rankin-inlet)
+	TZ="America/Rankin_Inlet" date "${rest[@]}"
+	;;
+    recife)
+	TZ="America/Recife" date "${rest[@]}"
+	;;
+    regina)
+	TZ="America/Regina" date "${rest[@]}"
+	;;
+    resolute)
+	TZ="America/Resolute" date "${rest[@]}"
+	;;
+    rio-branco)
+	TZ="America/Rio_Branco" date "${rest[@]}"
+	;;
+    rosario)
+	TZ="America/Rosario" date "${rest[@]}"
+	;;
+    santa-isabel)
+	TZ="America/Santa_Isabel" date "${rest[@]}"
+	;;
+    santarem)
+	TZ="America/Santarem" date "${rest[@]}"
+	;;
+    santiago)
+	TZ="America/Santiago" date "${rest[@]}"
+	;;
+    santo-domingo)
+	TZ="America/Santo_Domingo" date "${rest[@]}"
+	;;
+    sao-paulo)
+	TZ="America/Sao_Paulo" date "${rest[@]}"
+	;;
+    scoresbysund)
+	TZ="America/Scoresbysund" date "${rest[@]}"
+	;;
+    shiprock)
+	TZ="America/Shiprock" date "${rest[@]}"
+	;;
+    sitka)
+	TZ="America/Sitka" date "${rest[@]}"
+	;;
+    st-barthelemy)
+	TZ="America/St_Barthelemy" date "${rest[@]}"
+	;;
+    st-johns)
+	TZ="America/St_Johns" date "${rest[@]}"
+	;;
+    st-kitts)
+	TZ="America/St_Kitts" date "${rest[@]}"
+	;;
+    st-lucia)
+	TZ="America/St_Lucia" date "${rest[@]}"
+	;;
+    st-thomas)
+	TZ="America/St_Thomas" date "${rest[@]}"
+	;;
+    st-vincent)
+	TZ="America/St_Vincent" date "${rest[@]}"
+	;;
+    swift-current)
+	TZ="America/Swift_Current" date "${rest[@]}"
+	;;
+    tegucigalpa)
+	TZ="America/Tegucigalpa" date "${rest[@]}"
+	;;
+    thule)
+	TZ="America/Thule" date "${rest[@]}"
+	;;
+    thunder-bay)
+	TZ="America/Thunder_Bay" date "${rest[@]}"
+	;;
+    tijuana)
+	TZ="America/Tijuana" date "${rest[@]}"
+	;;
+    toronto)
+	TZ="America/Toronto" date "${rest[@]}"
+	;;
+    tortola)
+	TZ="America/Tortola" date "${rest[@]}"
+	;;
+    vancouver)
+	TZ="America/Vancouver" date "${rest[@]}"
+	;;
+    virgin)
+	TZ="America/Virgin" date "${rest[@]}"
+	;;
+    whitehorse)
+	TZ="America/Whitehorse" date "${rest[@]}"
+	;;
+    winnipeg)
+	TZ="America/Winnipeg" date "${rest[@]}"
+	;;
+    yakutat)
+	TZ="America/Yakutat" date "${rest[@]}"
+	;;
+    yellowknife)
+	TZ="America/Yellowknife" date "${rest[@]}"
+	;;
+    casey)
+	TZ="Antarctica/Casey" date "${rest[@]}"
+	;;
+    davis)
+	TZ="Antarctica/Davis" date "${rest[@]}"
+	;;
+    dumontdurville)
+	TZ="Antarctica/DumontDUrville" date "${rest[@]}"
+	;;
+    macquarie)
+	TZ="Antarctica/Macquarie" date "${rest[@]}"
+	;;
+    mawson)
+	TZ="Antarctica/Mawson" date "${rest[@]}"
+	;;
+    mcmurdo)
+	TZ="Antarctica/McMurdo" date "${rest[@]}"
+	;;
+    palmer)
+	TZ="Antarctica/Palmer" date "${rest[@]}"
+	;;
+    rothera)
+	TZ="Antarctica/Rothera" date "${rest[@]}"
+	;;
+    south-pole)
+	TZ="Antarctica/South_Pole" date "${rest[@]}"
+	;;
+    syowa)
+	TZ="Antarctica/Syowa" date "${rest[@]}"
+	;;
+    troll)
+	TZ="Antarctica/Troll" date "${rest[@]}"
+	;;
+    vostok)
+	TZ="Antarctica/Vostok" date "${rest[@]}"
+	;;
+    longyearbyen)
+	TZ="Arctic/Longyearbyen" date "${rest[@]}"
+	;;
+    aden)
+	TZ="Asia/Aden" date "${rest[@]}"
+	;;
+    almaty)
+	TZ="Asia/Almaty" date "${rest[@]}"
+	;;
+    amman)
+	TZ="Asia/Amman" date "${rest[@]}"
+	;;
+    anadyr)
+	TZ="Asia/Anadyr" date "${rest[@]}"
+	;;
+    aqtau)
+	TZ="Asia/Aqtau" date "${rest[@]}"
+	;;
+    aqtobe)
+	TZ="Asia/Aqtobe" date "${rest[@]}"
+	;;
+    ashgabat)
+	TZ="Asia/Ashgabat" date "${rest[@]}"
+	;;
+    ashkhabad)
+	TZ="Asia/Ashkhabad" date "${rest[@]}"
+	;;
+    atyrau)
+	TZ="Asia/Atyrau" date "${rest[@]}"
+	;;
+    baghdad)
+	TZ="Asia/Baghdad" date "${rest[@]}"
+	;;
+    bahrain)
+	TZ="Asia/Bahrain" date "${rest[@]}"
+	;;
+    baku)
+	TZ="Asia/Baku" date "${rest[@]}"
+	;;
+    bangkok)
+	TZ="Asia/Bangkok" date "${rest[@]}"
+	;;
+    barnaul)
+	TZ="Asia/Barnaul" date "${rest[@]}"
+	;;
+    beirut)
+	TZ="Asia/Beirut" date "${rest[@]}"
+	;;
+    bishkek)
+	TZ="Asia/Bishkek" date "${rest[@]}"
+	;;
+    brunei)
+	TZ="Asia/Brunei" date "${rest[@]}"
+	;;
+    calcutta)
+	TZ="Asia/Calcutta" date "${rest[@]}"
+	;;
+    chita)
+	TZ="Asia/Chita" date "${rest[@]}"
+	;;
+    choibalsan)
+	TZ="Asia/Choibalsan" date "${rest[@]}"
+	;;
+    chongqing)
+	TZ="Asia/Chongqing" date "${rest[@]}"
+	;;
+    chungking)
+	TZ="Asia/Chungking" date "${rest[@]}"
+	;;
+    colombo)
+	TZ="Asia/Colombo" date "${rest[@]}"
+	;;
+    dacca)
+	TZ="Asia/Dacca" date "${rest[@]}"
+	;;
+    damascus)
+	TZ="Asia/Damascus" date "${rest[@]}"
+	;;
+    dhaka)
+	TZ="Asia/Dhaka" date "${rest[@]}"
+	;;
+    dili)
+	TZ="Asia/Dili" date "${rest[@]}"
+	;;
+    dubai)
+	TZ="Asia/Dubai" date "${rest[@]}"
+	;;
+    dushanbe)
+	TZ="Asia/Dushanbe" date "${rest[@]}"
+	;;
+    famagusta)
+	TZ="Asia/Famagusta" date "${rest[@]}"
+	;;
+    gaza)
+	TZ="Asia/Gaza" date "${rest[@]}"
+	;;
+    harbin)
+	TZ="Asia/Harbin" date "${rest[@]}"
+	;;
+    hebron)
+	TZ="Asia/Hebron" date "${rest[@]}"
+	;;
+    ho-chi-minh)
+	TZ="Asia/Ho_Chi_Minh" date "${rest[@]}"
+	;;
+    hong-kong)
+	TZ="Asia/Hong_Kong" date "${rest[@]}"
+	;;
+    hovd)
+	TZ="Asia/Hovd" date "${rest[@]}"
+	;;
+    irkutsk)
+	TZ="Asia/Irkutsk" date "${rest[@]}"
+	;;
+    istanbul)
+	TZ="Asia/Istanbul" date "${rest[@]}"
+	;;
+    jakarta)
+	TZ="Asia/Jakarta" date "${rest[@]}"
+	;;
+    jayapura)
+	TZ="Asia/Jayapura" date "${rest[@]}"
+	;;
+    jerusalem)
+	TZ="Asia/Jerusalem" date "${rest[@]}"
+	;;
+    kabul)
+	TZ="Asia/Kabul" date "${rest[@]}"
+	;;
+    kamchatka)
+	TZ="Asia/Kamchatka" date "${rest[@]}"
+	;;
+    karachi)
+	TZ="Asia/Karachi" date "${rest[@]}"
+	;;
+    kashgar)
+	TZ="Asia/Kashgar" date "${rest[@]}"
+	;;
+    kathmandu)
+	TZ="Asia/Kathmandu" date "${rest[@]}"
+	;;
+    katmandu)
+	TZ="Asia/Katmandu" date "${rest[@]}"
+	;;
+    khandyga)
+	TZ="Asia/Khandyga" date "${rest[@]}"
+	;;
+    kolkata)
+	TZ="Asia/Kolkata" date "${rest[@]}"
+	;;
+    krasnoyarsk)
+	TZ="Asia/Krasnoyarsk" date "${rest[@]}"
+	;;
+    kuala-lumpur)
+	TZ="Asia/Kuala_Lumpur" date "${rest[@]}"
+	;;
+    kuching)
+	TZ="Asia/Kuching" date "${rest[@]}"
+	;;
+    kuwait)
+	TZ="Asia/Kuwait" date "${rest[@]}"
+	;;
+    macao)
+	TZ="Asia/Macao" date "${rest[@]}"
+	;;
+    macau)
+	TZ="Asia/Macau" date "${rest[@]}"
+	;;
+    magadan)
+	TZ="Asia/Magadan" date "${rest[@]}"
+	;;
+    makassar)
+	TZ="Asia/Makassar" date "${rest[@]}"
+	;;
+    manila)
+	TZ="Asia/Manila" date "${rest[@]}"
+	;;
+    muscat)
+	TZ="Asia/Muscat" date "${rest[@]}"
+	;;
+    nicosia)
+	TZ="Asia/Nicosia" date "${rest[@]}"
+	;;
+    novokuznetsk)
+	TZ="Asia/Novokuznetsk" date "${rest[@]}"
+	;;
+    novosibirsk)
+	TZ="Asia/Novosibirsk" date "${rest[@]}"
+	;;
+    omsk)
+	TZ="Asia/Omsk" date "${rest[@]}"
+	;;
+    oral)
+	TZ="Asia/Oral" date "${rest[@]}"
+	;;
+    phnom-penh)
+	TZ="Asia/Phnom_Penh" date "${rest[@]}"
+	;;
+    pontianak)
+	TZ="Asia/Pontianak" date "${rest[@]}"
+	;;
+    pyongyang)
+	TZ="Asia/Pyongyang" date "${rest[@]}"
+	;;
+    qatar)
+	TZ="Asia/Qatar" date "${rest[@]}"
+	;;
+    qostanay)
+	TZ="Asia/Qostanay" date "${rest[@]}"
+	;;
+    qyzylorda)
+	TZ="Asia/Qyzylorda" date "${rest[@]}"
+	;;
+    rangoon)
+	TZ="Asia/Rangoon" date "${rest[@]}"
+	;;
+    riyadh)
+	TZ="Asia/Riyadh" date "${rest[@]}"
+	;;
+    saigon)
+	TZ="Asia/Saigon" date "${rest[@]}"
+	;;
+    sakhalin)
+	TZ="Asia/Sakhalin" date "${rest[@]}"
+	;;
+    samarkand)
+	TZ="Asia/Samarkand" date "${rest[@]}"
+	;;
+    seoul)
+	TZ="Asia/Seoul" date "${rest[@]}"
+	;;
+    shanghai)
+	TZ="Asia/Shanghai" date "${rest[@]}"
+	;;
+    singapore)
+	TZ="Asia/Singapore" date "${rest[@]}"
+	;;
+    srednekolymsk)
+	TZ="Asia/Srednekolymsk" date "${rest[@]}"
+	;;
+    taipei)
+	TZ="Asia/Taipei" date "${rest[@]}"
+	;;
+    tashkent)
+	TZ="Asia/Tashkent" date "${rest[@]}"
+	;;
+    tbilisi)
+	TZ="Asia/Tbilisi" date "${rest[@]}"
+	;;
+    tehran)
+	TZ="Asia/Tehran" date "${rest[@]}"
+	;;
+    tel-aviv)
+	TZ="Asia/Tel_Aviv" date "${rest[@]}"
+	;;
+    thimbu)
+	TZ="Asia/Thimbu" date "${rest[@]}"
+	;;
+    thimphu)
+	TZ="Asia/Thimphu" date "${rest[@]}"
+	;;
+    tokyo)
+	TZ="Asia/Tokyo" date "${rest[@]}"
+	;;
+    tomsk)
+	TZ="Asia/Tomsk" date "${rest[@]}"
+	;;
+    ujung-pandang)
+	TZ="Asia/Ujung_Pandang" date "${rest[@]}"
+	;;
+    ulaanbaatar)
+	TZ="Asia/Ulaanbaatar" date "${rest[@]}"
+	;;
+    ulan-bator)
+	TZ="Asia/Ulan_Bator" date "${rest[@]}"
+	;;
+    urumqi)
+	TZ="Asia/Urumqi" date "${rest[@]}"
+	;;
+    ust-nera)
+	TZ="Asia/Ust-Nera" date "${rest[@]}"
+	;;
+    vientiane)
+	TZ="Asia/Vientiane" date "${rest[@]}"
+	;;
+    vladivostok)
+	TZ="Asia/Vladivostok" date "${rest[@]}"
+	;;
+    yakutsk)
+	TZ="Asia/Yakutsk" date "${rest[@]}"
+	;;
+    yangon)
+	TZ="Asia/Yangon" date "${rest[@]}"
+	;;
+    yekaterinburg)
+	TZ="Asia/Yekaterinburg" date "${rest[@]}"
+	;;
+    yerevan)
+	TZ="Asia/Yerevan" date "${rest[@]}"
+	;;
+    azores)
+	TZ="Atlantic/Azores" date "${rest[@]}"
+	;;
+    bermuda)
+	TZ="Atlantic/Bermuda" date "${rest[@]}"
+	;;
+    canary)
+	TZ="Atlantic/Canary" date "${rest[@]}"
+	;;
+    cape-verde)
+	TZ="Atlantic/Cape_Verde" date "${rest[@]}"
+	;;
+    faeroe)
+	TZ="Atlantic/Faeroe" date "${rest[@]}"
+	;;
+    faroe)
+	TZ="Atlantic/Faroe" date "${rest[@]}"
+	;;
+    jan-mayen)
+	TZ="Atlantic/Jan_Mayen" date "${rest[@]}"
+	;;
+    madeira)
+	TZ="Atlantic/Madeira" date "${rest[@]}"
+	;;
+    reykjavik)
+	TZ="Atlantic/Reykjavik" date "${rest[@]}"
+	;;
+    south-georgia)
+	TZ="Atlantic/South_Georgia" date "${rest[@]}"
+	;;
+    st-helena)
+	TZ="Atlantic/St_Helena" date "${rest[@]}"
+	;;
+    stanley)
+	TZ="Atlantic/Stanley" date "${rest[@]}"
+	;;
+    act)
+	TZ="Australia/ACT" date "${rest[@]}"
+	;;
+    adelaide)
+	TZ="Australia/Adelaide" date "${rest[@]}"
+	;;
+    brisbane)
+	TZ="Australia/Brisbane" date "${rest[@]}"
+	;;
+    broken-hill)
+	TZ="Australia/Broken_Hill" date "${rest[@]}"
+	;;
+    canberra)
+	TZ="Australia/Canberra" date "${rest[@]}"
+	;;
+    currie)
+	TZ="Australia/Currie" date "${rest[@]}"
+	;;
+    darwin)
+	TZ="Australia/Darwin" date "${rest[@]}"
+	;;
+    eucla)
+	TZ="Australia/Eucla" date "${rest[@]}"
+	;;
+    hobart)
+	TZ="Australia/Hobart" date "${rest[@]}"
+	;;
+    lhi)
+	TZ="Australia/LHI" date "${rest[@]}"
+	;;
+    lindeman)
+	TZ="Australia/Lindeman" date "${rest[@]}"
+	;;
+    lord-howe)
+	TZ="Australia/Lord_Howe" date "${rest[@]}"
+	;;
+    melbourne)
+	TZ="Australia/Melbourne" date "${rest[@]}"
+	;;
+    nsw)
+	TZ="Australia/NSW" date "${rest[@]}"
+	;;
+    north)
+	TZ="Australia/North" date "${rest[@]}"
+	;;
+    perth)
+	TZ="Australia/Perth" date "${rest[@]}"
+	;;
+    queensland)
+	TZ="Australia/Queensland" date "${rest[@]}"
+	;;
+    south)
+	TZ="Australia/South" date "${rest[@]}"
+	;;
+    sydney)
+	TZ="Australia/Sydney" date "${rest[@]}"
+	;;
+    tasmania)
+	TZ="Australia/Tasmania" date "${rest[@]}"
+	;;
+    victoria)
+	TZ="Australia/Victoria" date "${rest[@]}"
+	;;
+    west)
+	TZ="Australia/West" date "${rest[@]}"
+	;;
+    yancowinna)
+	TZ="Australia/Yancowinna" date "${rest[@]}"
+	;;
+    acre)
+	TZ="Brazil/Acre" date "${rest[@]}"
+	;;
+    denoronha)
+	TZ="Brazil/DeNoronha" date "${rest[@]}"
+	;;
+    east)
+	TZ="Brazil/East" date "${rest[@]}"
+	;;
+    west)
+	TZ="Brazil/West" date "${rest[@]}"
+	;;
+    cet)
+	TZ="CET" date "${rest[@]}"
+	;;
+    cst6cdt)
+	TZ="CST6CDT" date "${rest[@]}"
+	;;
+    atlantic)
+	TZ="Canada/Atlantic" date "${rest[@]}"
+	;;
+    central)
+	TZ="Canada/Central" date "${rest[@]}"
+	;;
+    eastern)
+	TZ="Canada/Eastern" date "${rest[@]}"
+	;;
+    mountain)
+	TZ="Canada/Mountain" date "${rest[@]}"
+	;;
+    newfoundland)
+	TZ="Canada/Newfoundland" date "${rest[@]}"
+	;;
+    pacific)
+	TZ="Canada/Pacific" date "${rest[@]}"
+	;;
+    saskatchewan)
+	TZ="Canada/Saskatchewan" date "${rest[@]}"
+	;;
+    yukon)
+	TZ="Canada/Yukon" date "${rest[@]}"
+	;;
+    continental)
+	TZ="Chile/Continental" date "${rest[@]}"
+	;;
+    easterisland)
+	TZ="Chile/EasterIsland" date "${rest[@]}"
+	;;
+    cuba)
+	TZ="Cuba" date "${rest[@]}"
+	;;
+    eet)
+	TZ="EET" date "${rest[@]}"
+	;;
+    est)
+	TZ="EST" date "${rest[@]}"
+	;;
+    est5edt)
+	TZ="EST5EDT" date "${rest[@]}"
+	;;
+    egypt)
+	TZ="Egypt" date "${rest[@]}"
+	;;
+    eire)
+	TZ="Eire" date "${rest[@]}"
+	;;
+    gmt)
+	TZ="Etc/GMT" date "${rest[@]}"
+	;;
+    gmt+0)
+	TZ="Etc/GMT+0" date "${rest[@]}"
+	;;
+    gmt+1)
+	TZ="Etc/GMT+1" date "${rest[@]}"
+	;;
+    gmt+10)
+	TZ="Etc/GMT+10" date "${rest[@]}"
+	;;
+    gmt+11)
+	TZ="Etc/GMT+11" date "${rest[@]}"
+	;;
+    gmt+12)
+	TZ="Etc/GMT+12" date "${rest[@]}"
+	;;
+    gmt+2)
+	TZ="Etc/GMT+2" date "${rest[@]}"
+	;;
+    gmt+3)
+	TZ="Etc/GMT+3" date "${rest[@]}"
+	;;
+    gmt+4)
+	TZ="Etc/GMT+4" date "${rest[@]}"
+	;;
+    gmt+5)
+	TZ="Etc/GMT+5" date "${rest[@]}"
+	;;
+    gmt+6)
+	TZ="Etc/GMT+6" date "${rest[@]}"
+	;;
+    gmt+7)
+	TZ="Etc/GMT+7" date "${rest[@]}"
+	;;
+    gmt+8)
+	TZ="Etc/GMT+8" date "${rest[@]}"
+	;;
+    gmt+9)
+	TZ="Etc/GMT+9" date "${rest[@]}"
+	;;
+    gmt-0)
+	TZ="Etc/GMT-0" date "${rest[@]}"
+	;;
+    gmt-1)
+	TZ="Etc/GMT-1" date "${rest[@]}"
+	;;
+    gmt-10)
+	TZ="Etc/GMT-10" date "${rest[@]}"
+	;;
+    gmt-11)
+	TZ="Etc/GMT-11" date "${rest[@]}"
+	;;
+    gmt-12)
+	TZ="Etc/GMT-12" date "${rest[@]}"
+	;;
+    gmt-13)
+	TZ="Etc/GMT-13" date "${rest[@]}"
+	;;
+    gmt-14)
+	TZ="Etc/GMT-14" date "${rest[@]}"
+	;;
+    gmt-2)
+	TZ="Etc/GMT-2" date "${rest[@]}"
+	;;
+    gmt-3)
+	TZ="Etc/GMT-3" date "${rest[@]}"
+	;;
+    gmt-4)
+	TZ="Etc/GMT-4" date "${rest[@]}"
+	;;
+    gmt-5)
+	TZ="Etc/GMT-5" date "${rest[@]}"
+	;;
+    gmt-6)
+	TZ="Etc/GMT-6" date "${rest[@]}"
+	;;
+    gmt-7)
+	TZ="Etc/GMT-7" date "${rest[@]}"
+	;;
+    gmt-8)
+	TZ="Etc/GMT-8" date "${rest[@]}"
+	;;
+    gmt-9)
+	TZ="Etc/GMT-9" date "${rest[@]}"
+	;;
+    gmt0)
+	TZ="Etc/GMT0" date "${rest[@]}"
+	;;
+    greenwich)
+	TZ="Etc/Greenwich" date "${rest[@]}"
+	;;
+    uct)
+	TZ="Etc/UCT" date "${rest[@]}"
+	;;
+    utc)
+	TZ="Etc/UTC" date "${rest[@]}"
+	;;
+    universal)
+	TZ="Etc/Universal" date "${rest[@]}"
+	;;
+    zulu)
+	TZ="Etc/Zulu" date "${rest[@]}"
+	;;
+    amsterdam)
+	TZ="Europe/Amsterdam" date "${rest[@]}"
+	;;
+    andorra)
+	TZ="Europe/Andorra" date "${rest[@]}"
+	;;
+    astrakhan)
+	TZ="Europe/Astrakhan" date "${rest[@]}"
+	;;
+    athens)
+	TZ="Europe/Athens" date "${rest[@]}"
+	;;
+    belfast)
+	TZ="Europe/Belfast" date "${rest[@]}"
+	;;
+    belgrade)
+	TZ="Europe/Belgrade" date "${rest[@]}"
+	;;
+    berlin)
+	TZ="Europe/Berlin" date "${rest[@]}"
+	;;
+    bratislava)
+	TZ="Europe/Bratislava" date "${rest[@]}"
+	;;
+    brussels)
+	TZ="Europe/Brussels" date "${rest[@]}"
+	;;
+    bucharest)
+	TZ="Europe/Bucharest" date "${rest[@]}"
+	;;
+    budapest)
+	TZ="Europe/Budapest" date "${rest[@]}"
+	;;
+    busingen)
+	TZ="Europe/Busingen" date "${rest[@]}"
+	;;
+    chisinau)
+	TZ="Europe/Chisinau" date "${rest[@]}"
+	;;
+    copenhagen)
+	TZ="Europe/Copenhagen" date "${rest[@]}"
+	;;
+    dublin)
+	TZ="Europe/Dublin" date "${rest[@]}"
+	;;
+    gibraltar)
+	TZ="Europe/Gibraltar" date "${rest[@]}"
+	;;
+    guernsey)
+	TZ="Europe/Guernsey" date "${rest[@]}"
+	;;
+    helsinki)
+	TZ="Europe/Helsinki" date "${rest[@]}"
+	;;
+    isle-of-man)
+	TZ="Europe/Isle_of_Man" date "${rest[@]}"
+	;;
+    istanbul)
+	TZ="Europe/Istanbul" date "${rest[@]}"
+	;;
+    jersey)
+	TZ="Europe/Jersey" date "${rest[@]}"
+	;;
+    kaliningrad)
+	TZ="Europe/Kaliningrad" date "${rest[@]}"
+	;;
+    kiev)
+	TZ="Europe/Kiev" date "${rest[@]}"
+	;;
+    kirov)
+	TZ="Europe/Kirov" date "${rest[@]}"
+	;;
+    kyiv)
+	TZ="Europe/Kyiv" date "${rest[@]}"
+	;;
+    lisbon)
+	TZ="Europe/Lisbon" date "${rest[@]}"
+	;;
+    ljubljana)
+	TZ="Europe/Ljubljana" date "${rest[@]}"
+	;;
+    london)
+	TZ="Europe/London" date "${rest[@]}"
+	;;
+    luxembourg)
+	TZ="Europe/Luxembourg" date "${rest[@]}"
+	;;
+    madrid)
+	TZ="Europe/Madrid" date "${rest[@]}"
+	;;
+    malta)
+	TZ="Europe/Malta" date "${rest[@]}"
+	;;
+    mariehamn)
+	TZ="Europe/Mariehamn" date "${rest[@]}"
+	;;
+    minsk)
+	TZ="Europe/Minsk" date "${rest[@]}"
+	;;
+    monaco)
+	TZ="Europe/Monaco" date "${rest[@]}"
+	;;
+    moscow)
+	TZ="Europe/Moscow" date "${rest[@]}"
+	;;
+    nicosia)
+	TZ="Europe/Nicosia" date "${rest[@]}"
+	;;
+    oslo)
+	TZ="Europe/Oslo" date "${rest[@]}"
+	;;
+    paris)
+	TZ="Europe/Paris" date "${rest[@]}"
+	;;
+    podgorica)
+	TZ="Europe/Podgorica" date "${rest[@]}"
+	;;
+    prague)
+	TZ="Europe/Prague" date "${rest[@]}"
+	;;
+    riga)
+	TZ="Europe/Riga" date "${rest[@]}"
+	;;
+    rome)
+	TZ="Europe/Rome" date "${rest[@]}"
+	;;
+    samara)
+	TZ="Europe/Samara" date "${rest[@]}"
+	;;
+    san-marino)
+	TZ="Europe/San_Marino" date "${rest[@]}"
+	;;
+    sarajevo)
+	TZ="Europe/Sarajevo" date "${rest[@]}"
+	;;
+    saratov)
+	TZ="Europe/Saratov" date "${rest[@]}"
+	;;
+    simferopol)
+	TZ="Europe/Simferopol" date "${rest[@]}"
+	;;
+    skopje)
+	TZ="Europe/Skopje" date "${rest[@]}"
+	;;
+    sofia)
+	TZ="Europe/Sofia" date "${rest[@]}"
+	;;
+    stockholm)
+	TZ="Europe/Stockholm" date "${rest[@]}"
+	;;
+    tallinn)
+	TZ="Europe/Tallinn" date "${rest[@]}"
+	;;
+    tirane)
+	TZ="Europe/Tirane" date "${rest[@]}"
+	;;
+    tiraspol)
+	TZ="Europe/Tiraspol" date "${rest[@]}"
+	;;
+    ulyanovsk)
+	TZ="Europe/Ulyanovsk" date "${rest[@]}"
+	;;
+    uzhgorod)
+	TZ="Europe/Uzhgorod" date "${rest[@]}"
+	;;
+    vaduz)
+	TZ="Europe/Vaduz" date "${rest[@]}"
+	;;
+    vatican)
+	TZ="Europe/Vatican" date "${rest[@]}"
+	;;
+    vienna)
+	TZ="Europe/Vienna" date "${rest[@]}"
+	;;
+    vilnius)
+	TZ="Europe/Vilnius" date "${rest[@]}"
+	;;
+    volgograd)
+	TZ="Europe/Volgograd" date "${rest[@]}"
+	;;
+    warsaw)
+	TZ="Europe/Warsaw" date "${rest[@]}"
+	;;
+    zagreb)
+	TZ="Europe/Zagreb" date "${rest[@]}"
+	;;
+    zaporozhye)
+	TZ="Europe/Zaporozhye" date "${rest[@]}"
+	;;
+    zurich)
+	TZ="Europe/Zurich" date "${rest[@]}"
+	;;
+    factory)
+	TZ="Factory" date "${rest[@]}"
+	;;
+    gb)
+	TZ="GB" date "${rest[@]}"
+	;;
+    gb-eire)
+	TZ="GB-Eire" date "${rest[@]}"
+	;;
+    gmt)
+	TZ="GMT" date "${rest[@]}"
+	;;
+    gmt+0)
+	TZ="GMT+0" date "${rest[@]}"
+	;;
+    gmt-0)
+	TZ="GMT-0" date "${rest[@]}"
+	;;
+    gmt0)
+	TZ="GMT0" date "${rest[@]}"
+	;;
+    greenwich)
+	TZ="Greenwich" date "${rest[@]}"
+	;;
+    hst)
+	TZ="HST" date "${rest[@]}"
+	;;
+    hongkong)
+	TZ="Hongkong" date "${rest[@]}"
+	;;
+    iceland)
+	TZ="Iceland" date "${rest[@]}"
+	;;
+    antananarivo)
+	TZ="Indian/Antananarivo" date "${rest[@]}"
+	;;
+    chagos)
+	TZ="Indian/Chagos" date "${rest[@]}"
+	;;
+    christmas)
+	TZ="Indian/Christmas" date "${rest[@]}"
+	;;
+    cocos)
+	TZ="Indian/Cocos" date "${rest[@]}"
+	;;
+    comoro)
+	TZ="Indian/Comoro" date "${rest[@]}"
+	;;
+    kerguelen)
+	TZ="Indian/Kerguelen" date "${rest[@]}"
+	;;
+    mahe)
+	TZ="Indian/Mahe" date "${rest[@]}"
+	;;
+    maldives)
+	TZ="Indian/Maldives" date "${rest[@]}"
+	;;
+    mauritius)
+	TZ="Indian/Mauritius" date "${rest[@]}"
+	;;
+    mayotte)
+	TZ="Indian/Mayotte" date "${rest[@]}"
+	;;
+    reunion)
+	TZ="Indian/Reunion" date "${rest[@]}"
+	;;
+    iran)
+	TZ="Iran" date "${rest[@]}"
+	;;
+    israel)
+	TZ="Israel" date "${rest[@]}"
+	;;
+    jamaica)
+	TZ="Jamaica" date "${rest[@]}"
+	;;
+    japan)
+	TZ="Japan" date "${rest[@]}"
+	;;
+    kwajalein)
+	TZ="Kwajalein" date "${rest[@]}"
+	;;
+    libya)
+	TZ="Libya" date "${rest[@]}"
+	;;
+    met)
+	TZ="MET" date "${rest[@]}"
+	;;
+    mst)
+	TZ="MST" date "${rest[@]}"
+	;;
+    mst7mdt)
+	TZ="MST7MDT" date "${rest[@]}"
+	;;
+    bajanorte)
+	TZ="Mexico/BajaNorte" date "${rest[@]}"
+	;;
+    bajasur)
+	TZ="Mexico/BajaSur" date "${rest[@]}"
+	;;
+    general)
+	TZ="Mexico/General" date "${rest[@]}"
+	;;
+    nz)
+	TZ="NZ" date "${rest[@]}"
+	;;
+    nz-chat)
+	TZ="NZ-CHAT" date "${rest[@]}"
+	;;
+    navajo)
+	TZ="Navajo" date "${rest[@]}"
+	;;
+    prc)
+	TZ="PRC" date "${rest[@]}"
+	;;
+    pst8pdt)
+	TZ="PST8PDT" date "${rest[@]}"
+	;;
+    apia)
+	TZ="Pacific/Apia" date "${rest[@]}"
+	;;
+    auckland)
+	TZ="Pacific/Auckland" date "${rest[@]}"
+	;;
+    bougainville)
+	TZ="Pacific/Bougainville" date "${rest[@]}"
+	;;
+    chatham)
+	TZ="Pacific/Chatham" date "${rest[@]}"
+	;;
+    chuuk)
+	TZ="Pacific/Chuuk" date "${rest[@]}"
+	;;
+    easter)
+	TZ="Pacific/Easter" date "${rest[@]}"
+	;;
+    efate)
+	TZ="Pacific/Efate" date "${rest[@]}"
+	;;
+    enderbury)
+	TZ="Pacific/Enderbury" date "${rest[@]}"
+	;;
+    fakaofo)
+	TZ="Pacific/Fakaofo" date "${rest[@]}"
+	;;
+    fiji)
+	TZ="Pacific/Fiji" date "${rest[@]}"
+	;;
+    funafuti)
+	TZ="Pacific/Funafuti" date "${rest[@]}"
+	;;
+    galapagos)
+	TZ="Pacific/Galapagos" date "${rest[@]}"
+	;;
+    gambier)
+	TZ="Pacific/Gambier" date "${rest[@]}"
+	;;
+    guadalcanal)
+	TZ="Pacific/Guadalcanal" date "${rest[@]}"
+	;;
+    guam)
+	TZ="Pacific/Guam" date "${rest[@]}"
+	;;
+    honolulu)
+	TZ="Pacific/Honolulu" date "${rest[@]}"
+	;;
+    johnston)
+	TZ="Pacific/Johnston" date "${rest[@]}"
+	;;
+    kanton)
+	TZ="Pacific/Kanton" date "${rest[@]}"
+	;;
+    kiritimati)
+	TZ="Pacific/Kiritimati" date "${rest[@]}"
+	;;
+    kosrae)
+	TZ="Pacific/Kosrae" date "${rest[@]}"
+	;;
+    kwajalein)
+	TZ="Pacific/Kwajalein" date "${rest[@]}"
+	;;
+    majuro)
+	TZ="Pacific/Majuro" date "${rest[@]}"
+	;;
+    marquesas)
+	TZ="Pacific/Marquesas" date "${rest[@]}"
+	;;
+    midway)
+	TZ="Pacific/Midway" date "${rest[@]}"
+	;;
+    nauru)
+	TZ="Pacific/Nauru" date "${rest[@]}"
+	;;
+    niue)
+	TZ="Pacific/Niue" date "${rest[@]}"
+	;;
+    norfolk)
+	TZ="Pacific/Norfolk" date "${rest[@]}"
+	;;
+    noumea)
+	TZ="Pacific/Noumea" date "${rest[@]}"
+	;;
+    pago-pago)
+	TZ="Pacific/Pago_Pago" date "${rest[@]}"
+	;;
+    palau)
+	TZ="Pacific/Palau" date "${rest[@]}"
+	;;
+    pitcairn)
+	TZ="Pacific/Pitcairn" date "${rest[@]}"
+	;;
+    pohnpei)
+	TZ="Pacific/Pohnpei" date "${rest[@]}"
+	;;
+    ponape)
+	TZ="Pacific/Ponape" date "${rest[@]}"
+	;;
+    port-moresby)
+	TZ="Pacific/Port_Moresby" date "${rest[@]}"
+	;;
+    rarotonga)
+	TZ="Pacific/Rarotonga" date "${rest[@]}"
+	;;
+    saipan)
+	TZ="Pacific/Saipan" date "${rest[@]}"
+	;;
+    samoa)
+	TZ="Pacific/Samoa" date "${rest[@]}"
+	;;
+    tahiti)
+	TZ="Pacific/Tahiti" date "${rest[@]}"
+	;;
+    tarawa)
+	TZ="Pacific/Tarawa" date "${rest[@]}"
+	;;
+    tongatapu)
+	TZ="Pacific/Tongatapu" date "${rest[@]}"
+	;;
+    truk)
+	TZ="Pacific/Truk" date "${rest[@]}"
+	;;
+    wake)
+	TZ="Pacific/Wake" date "${rest[@]}"
+	;;
+    wallis)
+	TZ="Pacific/Wallis" date "${rest[@]}"
+	;;
+    yap)
+	TZ="Pacific/Yap" date "${rest[@]}"
+	;;
+    poland)
+	TZ="Poland" date "${rest[@]}"
+	;;
+    portugal)
+	TZ="Portugal" date "${rest[@]}"
+	;;
+    roc)
+	TZ="ROC" date "${rest[@]}"
+	;;
+    rok)
+	TZ="ROK" date "${rest[@]}"
+	;;
+    singapore)
+	TZ="Singapore" date "${rest[@]}"
+	;;
+    turkey)
+	TZ="Turkey" date "${rest[@]}"
+	;;
+    uct)
+	TZ="UCT" date "${rest[@]}"
+	;;
+    alaska)
+	TZ="US/Alaska" date "${rest[@]}"
+	;;
+    aleutian)
+	TZ="US/Aleutian" date "${rest[@]}"
+	;;
+    arizona)
+	TZ="US/Arizona" date "${rest[@]}"
+	;;
+    central)
+	TZ="US/Central" date "${rest[@]}"
+	;;
+    east-indiana)
+	TZ="US/East-Indiana" date "${rest[@]}"
+	;;
+    eastern)
+	TZ="US/Eastern" date "${rest[@]}"
+	;;
+    hawaii)
+	TZ="US/Hawaii" date "${rest[@]}"
+	;;
+    indiana-starke)
+	TZ="US/Indiana-Starke" date "${rest[@]}"
+	;;
+    michigan)
+	TZ="US/Michigan" date "${rest[@]}"
+	;;
+    mountain)
+	TZ="US/Mountain" date "${rest[@]}"
+	;;
+    pacific)
+	TZ="US/Pacific" date "${rest[@]}"
+	;;
+    samoa)
+	TZ="US/Samoa" date "${rest[@]}"
+	;;
+    utc)
+	TZ="UTC" date "${rest[@]}"
+	;;
+    universal)
+	TZ="Universal" date "${rest[@]}"
+	;;
+    w-su)
+	TZ="W-SU" date "${rest[@]}"
+	;;
+    wet)
+	TZ="WET" date "${rest[@]}"
+	;;
+    zulu)
+	TZ="Zulu" date "${rest[@]}"
+	;;
+    *)
+	if (( ${#@} == 0 )); then
+	    command date +'%a %b %e %R %Z %Y'
+	else
+	    command date "$@"
+	fi
+esac

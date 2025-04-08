@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Vial
+# Only KDE 4 seems to use GenericName, so we reuse the KDE strings.
+# From Ubuntu's language-pack-kde-XX-base packages, version 9.04-20090413.
+GenericName=Vial
+# Gnome and KDE 3 uses Comment.
+Comment=Configure Your Keyboard
+Exec=$HOME/.bin/vial
+Terminal=false
+Type=Application
+
+
+

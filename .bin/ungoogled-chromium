@@ -83,31 +83,31 @@ ungoogled-chromium() {
 	'WebAssemblyTrapHandler,'
     )
 
-    # can't use GPU accel with AMD GPU due to AMD JPEG image decode acceleration
+    # can't use VAAPI with AMDGPU due to AMD JPEG image decode acceleration
     # returning multiple buffer objects when chrome only supports one
     #
     # see: https://issues.chromium.org/issues/40632250
+    #      https://bbs.archlinux.org/viewtopic.php?pid=2080653#p2080653
+    #      https://gist.github.com/thubble/235806c4c64b159653de879173d24d9f/
     if lspci -k | grep -qiE 'kernel driver in use: (radeon|amdgpu)'; then
 	local switches=(
 	    --disable-features="$(printf "%s" "${disable_flags[@]}" $'\n')"
 	    --enable-features="$(printf "%s" "${enable_flag_privacy[@]}${enable_flag_privacy_experimental[@]}" $'\n')"
 	    --omnibox-autocomplete-filtering=search-bookmarks-chrome
+	    --omnibox-autocomplete-filtering=search-bookmarks-chrome
 	    --extension-mime-request-handling=always-prompt-for-install
 	    --disable-search-engine-collection
-	    --disable-accelerated-video-decode
 	)
     else
-        # intel is okay though
 	local enable_flag_gpu=(
-	    'GpuRasterization,'
-	    'CanvasOopRasterization,'
 	    'IgnoreGpuBlockList,'
 	    'ZeroCopy,'
-	    'VaapiVideoEncoder,'
-	    'RawDraw,'
 	)
 
 	local enable_flag_gpu_extra=(
+	    'RawDraw,'
+	    'GpuRasterization,'
+	    'CanvasOopRasterization,'
 	    'Accelerated2dCanvas,'
 	    'UIEnableSharedImageCacheForGpu,'
 	    'UseGpuSchedulerDfs,'
@@ -118,6 +118,11 @@ ungoogled-chromium() {
 	    'VaapiWebPImageDecodeAcceleration,'
 	    'GainmapHdrImages,'
 	    'EnablePixelCanvasRecording,'
+	    'AcceleratedVideoDecodeLinuxGL,'
+	    'AcceleratedVideoEncoder,'
+	    'VaapiVideoEncoder,'
+	    'VaapiVideoDecoder,'
+	    'VaapiIgnoreDriverChecks,'
 	)
 
 	local switches=(
